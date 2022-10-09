@@ -1,10 +1,10 @@
 'use strict';
 
 
-// Load the Server-Kit Library.
+// Load the ServerKit Library.
 const LIB_PATH = require( 'path' );
-// const SERVER_KIT = require( '@liquicode/lib-server-kit' );
-const SERVER_KIT = require( LIB_PATH.resolve( __dirname, '..', '..', '..', 'lib-server-kit.git', 'src', 'lib-server-kit.js' ) );
+// const ServerKit = require( '@liquicode/serverkit' );
+const ServerKit = require( LIB_PATH.resolve( __dirname, '..', '..', 'src', 'lib-server-kit.js' ) );
 
 
 // Server-Kit Initialization Options.
@@ -24,7 +24,7 @@ let server_options = {
 };
 
 // Create a new server.
-const Server = SERVER_KIT.NewServer( 'TestConfig', __dirname, server_options );
+const Server = ServerKit.NewServer( 'TestConfig', __dirname, server_options );
 
 // Run the server.
 ( async function ()

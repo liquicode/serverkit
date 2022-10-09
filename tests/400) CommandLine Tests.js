@@ -11,7 +11,7 @@ describe( `400) Command Line Tests`,
 	function ()
 	{
 
-		const ServerKitCommand = 'node ' + LIB_PATH.resolve( __dirname, '..', 'src', 'server-kit.js' ) + ' --name TestServer ';
+		const ServerKitCommand = 'node ' + LIB_PATH.resolve( __dirname, '..', 'src', 'serverkit.js' ) + ' --name TestServer ';
 		const StartFolder = LIB_PATH.join( __dirname, '~temp' );
 
 		//---------------------------------------------------------------------

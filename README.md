@@ -2,26 +2,30 @@
 ***(v0.0.25)***
 
 
+> Quick Link: [ServerKit Documentation](http://serverkit.net)
+
+
 A Different Kind of Web Framework
 ---------------------------------------------------------------------
 
-This purpose of this library is to facilitate the development of API and Application servers built on NodeJS.
-ServerKit handles all of the plumbing to get your services online and usable.
+ServerKit facilitate the development of API and Application servers built on NodeJS.
+It handles all of the plumbing to get your services online and usable.
 
 ServerKit is easy to use, provides a simple way to get started with a new web project,
-and has many features to assist you in developing and debugging your services.
+and has many features to assist you in the development and debugging of your services.
 
 
 Why Another Framework?
 ---------------------------------------------------------------------
 
-When starting a new web project, I had this big ball of code that I would start with.
+When starting a new web project, I had this big ball of code that I would use to start with.
 Then, I would spend time and energy doing search/replaces within the code,
 removing stuff I didn't need, adding stuff I did need, etc.
 It was either that, or start from scratch, or use someone else's big ball of code generated from their tools.
 I found that this time and energy often overwhelmed much of the motivation or curiosity
 which inspired the original idea in the first place.
 Unable to find an easier way to get started, I built ServerKit.
+I hope that you also find ServerKit to be a valuable starting point for your projects as well.
 
 
 How It Works
@@ -39,12 +43,14 @@ Your service functions are transport-agnostic.
 
 ***Dynamic Configuration System***
 
-ServerKit has a vast number of features which are all controlled through ServerKit's configuration system.
-Configuration settings can be supplied in code and/or a set of confgiuration files.
-All configuration settings have sensible defaults which means that you need only to
-customize the settings of features that you are using.
+ServerKit uses a number of well known and established libraries (such as [Express](https://expressjs.com/))
+and has a vast number of features which are all controlled through ServerKit's configuration system.
+Configuration settings can be supplied within code and/or configuration files.
+All configuration settings have sensible defaults which means that you need only
+customize the settings and features that you are using in your project.
 All other ServerKit features will work just fine using their defaults.
-You can provide configuration blocks and defaults for services that you write.
+When you write your own services, you will provide a configuration block that contains the configuration options for your service.
+These options are included in ServerKit's configuration, allowing you to keep all configuration settings in one place.
 
 ***Conventions Used***
 
@@ -59,17 +65,37 @@ All of these generated files will also be written under the ApplicationFolder.
 Getting Started
 ---------------------------------------------------------------------
 
+There are several ways to get started with ServerKit.
+You can use it as a NodeJS library or you can run it from the command line.
+
+***ServerKit as a Library***
+
+You can run ServerKit as a library to have complete control over server's lifecycle.
+
 Install via NPM:
 ```bash
-npm install @liquicode/lib-server-kit
+npm install @liquicode/serverkit
 ```
 
 ```javascript
 // Include the library in your source code
-const SERVER_KIT = require( '@liquicode/lib-server-kit' );
+const ServerKit = require( '@liquicode/serverkit' );
 
-// Create a new server by supplying the Server's name and its root folder.
-let server = SERVER_KIT.NewServer( 'MyServer', __dirname );
+// Set some configuration options.
+let server_options = {
+	AppInfo: {
+		environment: "development"
+	},
+	Transports: {
+		Web: {
+			ServerAddress: {
+				port: 4200
+			}
+		}
+};
+
+// Create a new server by supplying the Server's name, the Application Folder, and some settings.
+let server = ServerKit.NewServer( 'MyServer', __dirname, server_options );
 // - The server is created.
 // - Configuration Defaults and Settings have been calculated.
 // - No Services or Transports have been initialized.
@@ -90,70 +116,143 @@ await server.Startup();
 await server.Shutdown();
 ```
 
+***ServerKit as an Application***
+
+You can run ServerKit as an application to publish your custom services.
+Your service and configuration files will exist within the Application Folder:
+
+~~~
+~/MathsServer                           <-- Application Folder
+	MathsServer.options.json            <-- Server Options (js or json)
+	MathsService.js                     <-- Custom Service
+~~~
+
+Run using NPX:
+```bash
+npm install @liquicode/serverkit
+npx serverkit --name MathsServer --folder ~/MathsServer --options MathsServer.options.js
+```
+
+Run without Installation:
+```bash
+npx @liquicode/serverkit --name MathsServer --folder ~/MathsServer --options MathsServer.options.js
+```
+
+Run as a Docker Container:
+```bash
+docker run --mount type=bind,source=~/MathsServer,target=/server agbowlin/serverkit --name MathsServer --folder /server
+#                  ^ use the ~/MathsServer folder               ^ image name        ^ serverkit arguments
+```
+
+> See Also: [ServerKit Samples](https://github.com/liquicode/serverkit/tree/main/samples).
+
 
 ServerKit Features
 ---------------------------------------------------------------------
 
-***Server Functions***
+***Server Features***
 
 - Create a new working server in minutes.
 - The Server lifecycle is controlled entirely by your application.
-- Ships with the Authentication service to handle user logins and sessions.
-- Ships with the ServerAccounts service to manage user accounts.
+- Ships with the `Authentication` service to handle user logins and sessions.
+- Ships with the `ServerAccounts` service to manage user accounts.
 - Authorize user access (via user roles) on a per-function basis.
-- Ships with the Web transport for http based communication.
-- The Web transport enables service Views which are like callable html pages.
-- Support for popular view engines (pug, jade, ejs).
-- Views have access to user info and application variables within the view templates.
-- Ships with the Amqp transport for communication utilizing a message queue.
-- Supports various storage mechanisms available to fit different scenarios.
-- Mongo based storage and querying for user-owned data in any storage service.
-- Full CLI support allows your services to be used from the command line.
+- Ships with the `Web` transport for http based communication.
+- The `Web` transport has Service Views which are like paramterized web pages.
+- Support for popular templating view engines (pug, jade, ejs).
+- Service Views can access user and application info from within the template.
+- Ships with the `WebSocket` transport for communication utilizing web sockets.
+- Ships with the `Amqp` transport for communication utilizing a message queue.
+- Storage Services offer a user-based storage system that handles data ownership and sharing for you.
+- Supports various storage mechanisms available to fit different scenarios (memory, local, remote).
+- Full CLI support allows your services to be usable from the command line.
 - ... virtually every aspect of ServerKit is controlled by configuration settings.
 - ... all with copious and verbose logging (also configurable).
 
 ***Development Features***
 
+Reusability
+
+Once a ServerKit service authored, it can be used anywhere.
+
 - Develop your application services as reusable components and let ServerKit handle the rest.
-- Each service defines which user roles can call it.
-- Each service defines which transport "verbs" it will be callable from (e.g. http-get, socket-call, etc.).
+- Services are self-contained js files that can be managed seperately from the core server code (i.e. ServerKit).
+- Once a service is written, it can be used with any transport (Text, Web, etc.) and in any scenario.
+- A service can easily be copied to and used by another ServerKit project.
+
+Security
+
+ServerKit has a system of users and user roles which control access to service calls.
+
+- Each service endpoint defines which user roles can call it.
+- Each service endpoint defines which transport "verbs" it will be callable from (e.g. http-get, socket-call, etc.).
 - Removes most, if not all, of the overhead concerning user management, authentication, etc.
-- Predefined user roles `admin`, `super`, `public`, and `anon`.
+- Predefined user roles `admin`, `super`, `user`, and `anon`.
+
+Versatility
+
+ServerKit ships with transports that allow your services to be called from various platforms.
+
 - Use the `Text` transport to debug and test your services from the command line.
 - Use the `Text` transport to develop a CLI for your services.
-- Use the `StorageService` base class to handle CRUD operations for user-owned data.
-	- Every data item is owned by a user so its like each user has their own database.
-	- Users can share data items they own with other users.
-	- Use MongoDB-like query criteria to access and manipulate user data.
-	- Multiple storage providers available for memory, file, and MongoDB storage.
-- Flexible and hierarchical configuration system
-	- Store your configuration settings in configuration files and/or modify them in code.
-	- All configuration settings have sensible defaults, change only what you need.
-- Develop an `ApplicationService` to expose functions to your clients.
-	- Service functions are callable via any transport.
-	- Function definitions and parameters are fully configurable.
-	- Web pages look like functions that can be rendered with parameters sent from the client.
+- Use the `Web` transport to develop http-based API servers.
+- Use the `Web` and `WebSocket` transports to develop dynamic websites.
+- Use the `Amqp` transport to invoke long running tasks (e.g. data backup).
+
+Storage
+
+The `StorageService` base class handles CRUD operations for user-owned data.
+
+- Every data item is owned by a user so its like each user has their own database.
+- End users can share data items to other users.
+- Use MongoDB-like query criteria to access and manipulate user data.
+- Storage providers are available for memory, local, and remote storage.
+
+Configuration
+
+ServerKit has a flexible and hierarchical configuration system.
+
+- Store your configuration settings in configuration files and/or modify them in code.
+- All configuration settings have sensible defaults, change only what you need.
+- Configuration files can be independently managed for different environments (development, production, etc.).
+- Configuration can also be modified in code.
+
+User Interface
+
+The ServerKit `Web` transport has a View Core feature to give you a fully functioning user interface for your services.
+
+- Login and Signup pages
+- Generic List and Item pages to perform all CRUD for a `StorageService` based service.
+- An API Explorer page to inspect and ad-hoc test all of your service functions.
+- Generation of client API files to call your services from the browser.
 - 100% client framework agnostic; build your web pages however you want.
-- Generation of client API files that can call your services from the client.
-- The `Web` transport has a "view core" feature which generates a fully functioning web site for you.
-	- Login and Signup pages
-	- Generic List and Item pages to perform all CRUD for a `StorageService`.
-	- An API Explorer page to inspect and test all of your service functions.
-- Verbose and meaningful (and configurable) logging.
-- 
+- Extend or replace any portion of it, it's just a starting point.
+- Web pages can take parameters, making them look like a function call and providing dynamic content.
+
+Logging
+
+ServerKit has a built in logging mechanism.
+
+- Every process within ServerKit is logged.
+- All service calls and parameters are logged so that you can see what's going on outside of your service.
+- Configure log output to view trace and debug information or just warnings and errors.
+- Log to the console and/or files.
 
 
 Project Links
 ---------------------------------------------------------------------
 
-- [Library NPM Page](https://www.npmjs.com/package/@liquicode/lib-server-kit)
-- [Library Source Code](https://github.com/liquicode/lib-server-kit)
+Code and Samples
+
+- [ServerKit NPM Page](https://www.npmjs.com/package/@liquicode/serverkit)
+- [ServerKit Source Code](https://github.com/liquicode/serverkit)
+- [ServerKit Samples](https://github.com/liquicode/serverkit/tree/main/samples)
+- [ServerKit Docker Image]()
 
 Support
 
-- [Samples](https://github.com/liquicode/lib-server-kit-samples)
-- [Documentation](http://lib-server-kit.liquicode.com)
-- [Support Forum](http://guilded.gg/liquicode)
+- [ServerKit Documentation](http://serverkit.net)
+- [ServerKit Support Forum](http://guilded.gg/liquicode)
 
 
 Dependencies

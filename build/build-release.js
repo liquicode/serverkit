@@ -8,7 +8,7 @@ const Liquicode = require( '@liquicode/liquicodejs' );
 const Builder = require( './builder-2022-09-14.js' );
 
 const TIMESTAMP = ( new Date() ).toISOString();
-const AWS_BUCKET = 'lib-server-kit.liquicode.com';
+const AWS_BUCKET = 'serverkit.net';
 const AWS_PROFILE = 'admin';
 
 

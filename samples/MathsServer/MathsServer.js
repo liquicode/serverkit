@@ -1,7 +1,8 @@
 'use strict';
 
 // Load the ServerKit Library and Options.
-const ServerKit = require( '@liquicode/lib-server-kit' );
+// const ServerKit = require( '@liquicode/serverkit' );
+const ServerKit = require( LIB_PATH.resolve( __dirname, '..', '..', 'src', 'lib-server-kit.js' ) );
 const ServerOptions = require( './MathsServer.options.js' );
 
 // Create a new server in this folder.
