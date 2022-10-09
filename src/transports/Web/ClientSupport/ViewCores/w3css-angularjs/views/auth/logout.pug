@@ -1,0 +1,25 @@
+extends ../index.pug
+
+block content
+
+	.w3-container.w3-blue-grey.w3-xlarge= Logout
+
+	.w3-container
+
+		.w3-row.w3-margin
+
+			.w3-col.s1.w3-container
+
+			.w3-col.s10.w3-card-4.w3-white.w3-border.w3-round-large
+
+				form(
+					method="POST"
+					action=server_logout_url
+				)
+					table.w3-table
+						tr 
+							th( colspan=2 ).w3-center
+								input.w3-btn.w3-green.w3-border.w3-round-large(
+									type="submit"
+									value="Logout"
+								)

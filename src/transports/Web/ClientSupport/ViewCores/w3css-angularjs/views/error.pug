@@ -1,0 +1,22 @@
+extends index.pug
+
+block content
+
+	.w3-container.w3-blue-grey.w3-xlarge= `Error`
+
+	.w3-container
+
+		.w3-row.w3-margin
+
+			.w3-col.s1.w3-container
+
+			.w3-col.s10.w3-card-4.w3-white.w3-border.w3-round-large
+
+				if ( (locals.User.user_role === 'admin') || (locals.User.user_role === 'super') )
+					h5.w3-text-red= `${locals.Error.message}`
+				else 
+					h5.w3-text-red An internal error occured.
+
+			.w3-col.s1.w3-container
+
+		//- pre= JSON.stringify( locals.User, null, '    ' )

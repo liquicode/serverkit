@@ -1,0 +1,254 @@
+extends ../index.pug
+
+block content
+
+	script( type='text/javascript' src=include_storage_item_js_url )
+
+	div( ng-controller='StorageItem_Controller' )
+
+		script
+			!= `window.SERVER_DATA = {};\n`
+			!= `window.SERVER_DATA.User = ${JSON.stringify( locals.User )};\n`
+			!= `window.SERVER_DATA.Service = ${JSON.stringify( locals.Service )};\n`
+			!= `window.SERVER_DATA.Origin = ${JSON.stringify( locals.Origin )};\n`
+			!= `window.SERVER_DATA.Parameters = ${JSON.stringify( locals.Parameters )};\n`
+
+
+		//-=====================================================================
+		//-=====================================================================
+		//- 
+		//- 	Page Header
+		//- 
+		//-=====================================================================
+		//-=====================================================================
+
+
+		.w3-container.w3-blue-grey
+			h2
+				i
+					span( ng-show="Page.PageOp === 'Create'" ) New {{Page.Service.Item.title}}
+					span( ng-show="Page.PageOp === 'Read'" ) View {{Page.Service.Item.title}}
+					span( ng-show="Page.PageOp === 'Update'" ) Update {{Page.Service.Item.title}}
+					span( ng-show="Page.PageOp === 'Delete'" ) Delete {{Page.Service.Item.title}}
+
+
+		.w3-container
+
+
+			//-=====================================================================
+			//-=====================================================================
+			//- 
+			//- 	Navigate Up to Storage List
+			//- 
+			//-=====================================================================
+			//-=====================================================================
+
+
+			.w3-section
+				a.w3-btn.w3-white.w3-border.w3-small.w3-padding-small(
+					ng-href=`${web_transport.ServerPath()}{{Page.Service.name}}/List`
+					ng-show="[ 'admin', 'super' ].includes( Page.User.user_role )" 
+				)
+					i.fa.fa-angle-double-left.w3-padding-small
+					span {{ Page.Service.Item.titles }}
+
+				br
+				//- .w3-panel.w3-sand.w3-margin-small
+
+
+			//-=====================================================================
+			//-=====================================================================
+			//- 
+			//- 	Collapsable Item Metadata
+			//- 
+			//-=====================================================================
+			//-=====================================================================
+
+
+			.w3-section
+				div(
+					ng-click="Page.object_info_visible = !Page.object_info_visible"
+				).w3-btn.w3-tag.w3-small.w3-white.w3-border.w3-round-large Metadata
+
+				div(
+					ng-show="Page.object_info_visible"
+				).w3-container.w3-white.w3-border.w3-round-large
+					pre {{Page.ItemInfo()}}
+
+
+			//-=====================================================================
+			//-=====================================================================
+			//- 
+			//- 	Top Page Buttons
+			//- 
+			//-=====================================================================
+			//-=====================================================================
+
+
+			.w3-section
+				a.w3-btn.w3-green.w3-border.w3-small.w3-padding-small(
+					ng-click="Page.CreateItem()"
+					ng-show="Page.PageOp === 'Create'"
+				) Create This {{ Page.Service.Item.title }}
+				a.w3-btn.w3-blue.w3-border.w3-small.w3-padding-small(
+					ng-click="Page.WriteItem()"
+					ng-show="Page.PageOp === 'Update'"
+				) Update This {{ Page.Service.Item.title }}
+				a.w3-btn.w3-red.w3-border.w3-small.w3-padding-small(
+					ng-click="Page.DeleteItem()"
+					ng-show="Page.PageOp === 'Delete'"
+				) Delete This {{ Page.Service.Item.title }}
+				.w3-container.w3-margin
+
+
+			//-=====================================================================
+			//-=====================================================================
+			//- 
+			//- 	Storage Item Detail
+			//- 
+			//-=====================================================================
+			//-=====================================================================
+
+			.w3-section
+				.w3-border.w3-round-large.w3-white
+
+					each field in locals.Service.Item.Fields
+						.w3-row
+
+							.w3-quarter.w3-padding-small
+								h5.w3-center #{field.title} :
+
+							.w3-threequarter.w3-padding-small
+
+								.w3-row
+									.w3-small #{field.description} :
+
+								.w3-row
+
+									span( ng-show="!Page.IsFieldEditable( " + JSON.stringify(field) + ")" )
+										.w3-text-blue( ng-bind="Page.Item." + field.name + "" )
+
+									span( ng-show="Page.IsFieldEditable( " + JSON.stringify(field) + ")" )
+
+										if( !field.schema || !field.schema.type )
+											input.w3-input.w3-sand.w3-round-large.w3-text-blue(
+												type="text"
+												ng-model="Page.Item." + field.name
+											)
+										else if( field.schema.type === 'boolean' )
+											input.w3-input.w3-sand.w3-round-large.w3-text-blue(
+												type="text"
+												ng-model="Page.Item." + field.name
+											)
+										else if( field.schema.type === 'integer' )
+											input.w3-input.w3-sand.w3-round-large.w3-text-blue(
+												type="text"
+												ng-model="Page.Item." + field.name
+											)
+										else if( field.schema.type === 'number' )
+											input.w3-input.w3-sand.w3-round-large.w3-text-blue(
+												type="text"
+												ng-model="Page.Item." + field.name
+											)
+										else if( field.schema.type === 'string' )
+											if( !field.schema.type )
+												input.w3-input.w3-sand.w3-round-large.w3-text-blue(
+													type="text"
+													ng-model="Page.Item." + field.name
+												)
+											else if( field.schema.type === 'text' )
+												input.w3-input.w3-sand.w3-round-large.w3-text-blue(
+													type="text"
+													ng-model="Page.Item." + field.name
+												)
+											else if( field.schema.type === 'date' )
+												input.w3-input.w3-sand.w3-round-large.w3-text-blue(
+													type="text"
+													ng-model="Page.Item." + field.name
+												)
+											else if( field.schema.type === 'time' )
+												input.w3-input.w3-sand.w3-round-large.w3-text-blue(
+													type="text"
+													ng-model="Page.Item." + field.name
+												)
+											else if( field.schema.type === 'datetime' )
+												input.w3-input.w3-sand.w3-round-large.w3-text-blue(
+													type="text"
+													ng-model="Page.Item." + field.name
+												)
+											else if( field.schema.type === 'email' )
+												input.w3-input.w3-sand.w3-round-large.w3-text-blue(
+													type="text"
+													ng-model="Page.Item." + field.name
+												)
+											else if( field.schema.type === 'password' )
+												input.w3-input.w3-sand.w3-round-large.w3-text-blue(
+													type="text"
+													ng-model="Page.Item." + field.name
+												)
+											else if( field.schema.type === 'base64' )
+												input.w3-input.w3-sand.w3-round-large.w3-text-blue(
+													type="text"
+													ng-model="Page.Item." + field.name
+												)
+											else if( field.schema.type === 'url' )
+												input.w3-input.w3-sand.w3-round-large.w3-text-blue(
+													type="text"
+													ng-model="Page.Item." + field.name
+												)
+											else if( field.schema.type === 'image_url' )
+												input.w3-input.w3-sand.w3-round-large.w3-text-blue(
+													type="text"
+													ng-model="Page.Item." + field.name
+												)
+											else
+												input.w3-input.w3-sand.w3-round-large.w3-text-blue(
+													type="text"
+													ng-model="Page.Item." + field.name
+												)
+										else if( field.schema.type === 'array' )
+											input.w3-input.w3-sand.w3-round-large.w3-text-blue(
+												type="text"
+												ng-model="Page.Item." + field.name
+											)
+										else if( field.schema.type === 'object' )
+											input.w3-input.w3-sand.w3-round-large.w3-text-blue(
+												type="text"
+												ng-model="Page.Item." + field.name
+											)
+										else
+											input.w3-input.w3-sand.w3-round-large.w3-text-blue(
+												type="text"
+												ng-model="Page.Item." + field.name
+											)
+
+
+			//-=====================================================================
+			//-=====================================================================
+			//- 
+			//- 	Bottom Page Buttons
+			//- 
+			//-=====================================================================
+			//-=====================================================================
+
+
+			.w3-section
+				.w3-container.w3-margin
+				a.w3-btn.w3-green.w3-border.w3-small.w3-padding-small(
+					ng-click="Page.CreateItem()"
+					ng-show="Page.PageOp === 'Create'"
+				) Create This {{ Page.Service.Item.title }}
+				a.w3-btn.w3-blue.w3-border.w3-small.w3-padding-small(
+					ng-click="Page.WriteItem()"
+					ng-show="Page.PageOp === 'Update'"
+				) Update This {{ Page.Service.Item.title }}
+				a.w3-btn.w3-yellow.w3-border.w3-small.w3-padding-small(
+					ng-href="{{Page.ItemSharingUrl()}}"
+					ng-show="Page.PageOp === 'Update' && Page.Service.Item.shareable"
+				) Share This {{ Page.Service.Item.title }}
+				a.w3-btn.w3-red.w3-border.w3-small.w3-padding-small(
+					ng-click="Page.DeleteItem()"
+					ng-show="Page.PageOp === 'Delete'"
+				) Delete This {{ Page.Service.Item.title }}
+
+

@@ -1,0 +1,186 @@
+extends ../index.pug
+
+block content
+
+	-var include_explorer_js_url = server_public_url + 'explorer/explorer.js'
+
+	script( type='text/javascript' src=include_explorer_js_url )
+
+	div( ng-controller='Explorer_Controller' )
+
+		script
+			!= `window.SERVER_DATA = {};\n`
+			!= `window.SERVER_DATA.User = ${JSON.stringify( locals.User )};\n`
+			!= `window.SERVER_DATA.Service = ${JSON.stringify( locals.Service )};\n`
+			!= `window.SERVER_DATA.Origin = ${JSON.stringify( locals.Origin )};\n`
+			!= `window.SERVER_DATA.Parameters = ${JSON.stringify( locals.Parameters )};\n`
+
+		include partials/invoke-modal.pug
+
+		-var Settings = locals.Server.Settings 
+
+		.w3-container.w3-blue-grey
+			h2
+				i= `${Settings.AppInfo.name} Explorer`
+
+		br
+
+		.w3-container
+
+			each service in locals.Server.Services
+				-var service_def = service.Definition;
+				-var item_def = service.Definition.Item;
+
+				.w3-section
+				.w3-container
+					-var content_id = 'service-' + service_def.name
+
+					//- Service Title
+					.w3-container.w3-padding.w3-border.w3-round-large.w3-sand
+						a( href="#" ng-click=`Page.ToggleContentVisible( "${content_id}" )` ).w3-button.w3-round-xxlarge
+							span( ng-show=`!Page.IsContentVisible( "${content_id}" )` ).w3-xlarge.fa.fa-caret-right &nbsp; &nbsp;
+							span( ng-show=`Page.IsContentVisible( "${content_id}" )` ).w3-xlarge.fa.fa-caret-down &nbsp; &nbsp;
+							span.w3-xlarge= `${service_def.name} Service`
+
+					//- Service Details
+					.w3-container.w3-border.w3-round-large.w3-padding( id=content_id ng-show=`Page.IsContentVisible( "${content_id}" )` )
+
+						//- Service Item
+						.w3-section
+							.w3-large= `The ${service_def.name} Item:`
+							.w3-container
+
+								if( item_def )
+									//- Item Title
+									span.w3-large= item_def.name
+									if( item_def.shareable )
+										span.w3-small &nbsp; (Shareable)
+									else
+										span.w3-small &nbsp; (Not Shareable)
+									//- Item Fields
+									include partials/item-fields.pug
+								else 
+									h5
+										i No Service Item
+
+						//- Service Origins
+						.w3-section
+
+							//- Section Title
+							span.w3-large= `${service_def.name} Origins:`
+
+							.w3-container 
+
+								//- Service Origins
+								if( Object.keys( service.Origins ).length === 0 )
+									h5
+										i No Service Origins
+								else 
+									each origin in service.Origins 
+
+										.w3-section
+										-var content_id = service_def.name + '-origin-' + origin.name
+
+										//- Function Signature
+										-var parameter_names = origin.Fields.map( p => p.name )
+										.w3-container.w3-padding.w3-round-large.w3-blue.w3-text-white
+											a( href="#" ng-click=`Page.ToggleContentVisible( "${content_id}" )` ).w3-button.w3-round-xxlarge
+												span( ng-show=`!Page.IsContentVisible( "${content_id}" )` ).w3-large.fa.fa-caret-right &nbsp; &nbsp;
+												span( ng-show=`Page.IsContentVisible( "${content_id}" )` ).w3-large.fa.fa-caret-down &nbsp; &nbsp;
+												span.w3-large= `${origin.name}( ${parameter_names.join( ', ' )} )`
+
+										//- Function Details
+										.w3-container.w3-round-large.w3-padding( id=content_id ng-show=`Page.IsContentVisible( "${content_id}" )` )
+
+											//- Allowed Roles and Login
+											.w3-container 
+												include partials/origin-description.pug 
+
+											//- Parameters Table
+											include partials/origin-parameters.pug 
+
+											//- Function Verbs
+											if( origin.verbs.length === 0 )
+												h5
+													i No Verbs Defined
+											else
+												.w3-row
+													.w3-cell
+														h5 Verbs: 
+													.w3-cell
+														if( origin.verbs.includes( 'socket-call' ) || origin.verbs.includes( '*' ) )
+															a.w3-button.w3-small.w3-round-large.w3-margin.w3-green(
+																href="#"
+																ng-click=`Page.ShowInvokeModal( "Socket-Call", "${service_def.name}", "${origin.name}", "${origin.description}", ${JSON.stringify( origin.Fields )} )`
+															) Socket-Call
+														if( origin.verbs.includes( 'http-get' ) || origin.verbs.includes( '*' ) )
+															a.w3-button.w3-small.w3-round-large.w3-margin.w3-green(
+																href="#"
+																ng-click=`Page.ShowInvokeModal( "Http-Get", "${service_def.name}", "${origin.name}", "${origin.description}", ${JSON.stringify( origin.Fields )} )`
+															) Http-Get
+														if( origin.verbs.includes( 'http-put' ) || origin.verbs.includes( '*' ) )
+															a.w3-button.w3-small.w3-round-large.w3-margin.w3-green(
+																href="#"
+																ng-click=`Page.ShowInvokeModal( "Http-Put", "${service_def.name}", "${origin.name}", "${origin.description}", ${JSON.stringify( origin.Fields )} )`
+															) Http-Put
+														if( origin.verbs.includes( 'http-post' ) || origin.verbs.includes( '*' ) )
+															a.w3-button.w3-small.w3-round-large.w3-margin.w3-green(
+																href="#"
+																ng-click=`Page.ShowInvokeModal( "Http-Post", "${service_def.name}", "${origin.name}", "${origin.description}", ${JSON.stringify( origin.Fields )} )`
+															) Http-Post
+														if( origin.verbs.includes( 'http-delete' ) || origin.verbs.includes( '*' ) )
+															a.w3-button.w3-small.w3-round-large.w3-margin.w3-green(
+																href="#"
+																ng-click=`Page.ShowInvokeModal( "Http-Delete", "${service_def.name}", "${origin.name}", "${origin.description}", ${JSON.stringify( origin.Fields )} )`
+															) Http-Delete
+												.w3-row.w3-border
+
+
+						//- Service Views
+						.w3-section
+
+							//- Section Title
+							span.w3-large= `${service_def.name} Views:`
+
+							.w3-container 
+
+								//- Service Views
+								if( Object.keys( service.Views ).length === 0 )
+									h5
+										i No Service Views
+								else 
+									each origin in service.Views 
+
+										.w3-section
+										-var content_id = service_def.name + '-page-' + origin.name
+
+										//- View Signature
+										-var parameter_names = origin.Fields.map( p => p.name ).join( ', ' )
+										.w3-container.w3-padding.w3-round-large.w3-green.w3-text-white
+											a( href="#" ng-click=`Page.ToggleContentVisible( "${content_id}" )` ).w3-button.w3-round-xxlarge
+												span( ng-show=`!Page.IsContentVisible( "${content_id}" )` ).w3-large.fa.fa-caret-right &nbsp; &nbsp;
+												span( ng-show=`Page.IsContentVisible( "${content_id}" )` ).w3-large.fa.fa-caret-down &nbsp; &nbsp;
+												span.w3-large= `${origin.name}( ${parameter_names} )`
+
+										//- Page Details
+										.w3-container.w3-round-large.w3-padding( id=content_id ng-show=`Page.IsContentVisible( "${content_id}" )` )
+
+											//- Allowed Roles and Login
+											.w3-container 
+												include partials/origin-description.pug 
+
+											//- Parameters Table
+											include partials/origin-parameters.pug 
+
+											//- Function Verbs
+											.w3-row
+												.w3-cell
+													h5 Verbs: 
+												.w3-cell
+													if( origin.verbs.includes( 'http-visit' ) || origin.verbs.includes( '*' ) )
+														a.w3-button.w3-small.w3-round-large.w3-margin.w3-green(
+															href="#"
+															ng-click=`Page.ShowInvokeModal( "Http-Visit", "${service_def.name}", "${origin.name}", "${origin.description}", ${JSON.stringify( origin.Fields )} )`
+														) Http-Visit
+											.w3-row.w3-border
+

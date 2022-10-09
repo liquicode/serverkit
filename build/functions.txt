@@ -1,0 +1,1027 @@
+Code	Object	Category	Roles	Type	Name	Link	Signature	Summary	Docs Date																				
+																													
+1000	Core	Section				1000-Core.md		Core library objects and functions.	2022-09-04																				
+																													
+1001	ServerKit	Object				1001-ServerKit-Object.md		ServerKit Library																					
+1002	ServerKit	General	n/a	Sync	NewServer	1002-ServerKit.NewServer.md	( ApplicationName, ApplicationPath, ServerOptions )	Returns a new Server object.	2022-09-04																				
+																													
+1100	Utility	Object				1100-Utility-Object.md		Internally used utitlity functions.																					
+																													
+1200	Log	Object				1200-Log-Object.md		Logging functions.																					
+																													
+1300	ServerModule	Object				1300-ServerModule-Object.md		A "base class" for developing server modules.																					
+1310	ServerModule	Module Control	n/a	Sync	InitializeModule	1310-ServerModule-InitializeModule.md	( )	Perform any one-time initialization for the module.																					
+1311	ServerModule	Module Control	n/a	Sync	StartupModule	1311-ServerModule-StartupModule.md	( )	Start the module.																					
+1312	ServerModule	Module Control	n/a	Sync	ShutdownModule	1312-ServerModule-ShutdownModule.md	( )	Shut down the module.																					
+																													
+1400	ApplicationService	Object				1400-ApplicationService-Object.md		A "base class" for developing application services.																					
+1410	ApplicationService	Module Control	n/a	Sync	InitializeModule	1410-ApplicationService-InitializeModule.md	( )	Perform any one-time initialization for the module.																					
+1411	ApplicationService	Module Control	n/a	Sync	StartupModule	1411-ApplicationService-StartupModule.md	( )	Start the module.																					
+1412	ApplicationService	Module Control	n/a	Sync	ShutdownModule	1412-ApplicationService-ShutdownModule.md	( )	Shut down the module.																					
+																													
+1500	StorageService	Object				1500-StorageService-Object.md		A "base class" for developing user storage services.																					
+1511	StorageService	Module Control	n/a	Sync	InitializeModule	1511-StorageService-InitializeModule.md	( )	Perform any one-time initialization for the module.																					
+1512	StorageService	Module Control	n/a	Sync	StartupModule	1512-StorageService-StartupModule.md	( )	Start the module.																					
+1513	StorageService	Module Control	n/a	Sync	ShutdownModule	1513-StorageService-ShutdownModule.md	( )	Shut down the module.																					
+1514	StorageService	Storage Control	n/a	Sync	InitializeStorage	1514-StorageService-InitializeStorage.md	( )	Perform any one-time initialization for the storage. Must be called by InitializeModule.																					
+1515	StorageService	Storage Control	n/a	Sync	StartupStorage	1515-StorageService-StartupStorage.md	( )	Start the storage. Must be called by StartupModule.																					
+1516	StorageService	Storage Control	n/a	Sync	ShutdownStorage	1516-StorageService-ShutdownStorage.md	( )	Shut down the storage. Must be called by ShutdownModule.																					
+1520	StorageService	Internal	n/a	Async	NewStorageItem	1520-StorageService-NewStorageItem.md	( User, Prototype )	Initializes a new data item based upon the service's Item definition.																					
+1521	StorageService	Service Call	admin, super, user	Async	StorageCount	1521-StorageService-StorageCount.md	( User, Criteria )	Returns the number of objects that match the Criteria.																					
+1522	StorageService	Service Call	admin, super, user	Async	StorageFindOne	1522-StorageService-StorageFindOne.md	( User, Criteria )	Returns the first object that matches the Criteria.																					
+1523	StorageService	Service Call	admin, super, user	Async	StorageFindMany	1523-StorageService-StorageFindMany.md	( User, Criteria )	Returns all objects that match the Criteria.																					
+1524	StorageService	Service Call	admin, super, user	Async	StorageCreateOne	1524-StorageService-StorageCreateOne.md	( User, Prototype )	Create and store a new object for the User.																					
+1525	StorageService	Service Call	admin, super, user	Async	StorageWriteOne	1525-StorageService-StorageWriteOne.md	( User, Criteria, DataObject )	Update an existing object that matches the Criteria.																					
+1526	StorageService	Service Call	admin, super, user	Async	StorageDeleteOne	1526-StorageService-StorageDeleteOne.md	( User, Criteria )	Deletes the first object that matches the Criteria.																					
+1527	StorageService	Service Call	admin, super, user	Async	StorageDeleteMany	1527-StorageService-StorageDeleteMany.md	( User, Criteria )	Deletes all objects that match the Criteria.																					
+1528	StorageService	Service Call	admin, super, user	Async	StorageShare	1528-StorageService-StorageShare.md	( User, Criteria, Readers, Writers, MakePublic )	Shares all objects that match the Criteria with other users.																					
+1529	StorageService	Service Call	admin, super, user	Async	StorageUnshare	1529-StorageService-StorageUnshare.md	( User, Criteria, NotReaders, NotWriters, MakeNotPublic )	Unshares all objects that match the Criteria with other users.																					
+1530	StorageService	Service View	admin, super, user	Async	List	1530-StorageService-List.md	( User, Criteria )	Returns an html page that lists all objects.																					
+1531	StorageService	Service View	admin, super, user	Async	Item	1531-StorageService-Item.md	( User, ItemID, PageOp )	Returns an html page that can view, edit, delete, or add a single object.																					
+1532	StorageService	Service View	admin, super, user	Async	Share	1532-StorageService-Share.md	( User, ItemID )	Returns an html page that can share and unshare a single object.																					
+																													
+1600	Server	Object				1600-Server-Object.md		An object representing an instance of a ServerKit server.	2022-09-04																				
+1610	Server	Server Control	n/a	Async	Initialize	1610-Server-Initialize.md	( )	Initializes the Server, Services, and Transports.	2022-09-04																				
+1611	Server	Server Control	n/a	Async	Startup	1611-Server-Startup.md	( )	Starts the server. Starts Services and Transports.	2022-09-04																				
+1612	Server	Server Control	n/a	Async	Shutdown	1612-Server-Shutdown.md	( )	Shuts down the server. Also shuts down all Services and Transports.	2022-09-04																				
+1613	Server	Server Control	n/a	Sync	InstallAutoShutdown	1613-Server-InstallAutoShutdown.md	( )	Intercept SIGHUP, SIGINT, SIGTERM and gracefully shut down when process exits.																					
+1620	Server	Application	n/a	Sync	NewServerModule	1620-Server-NewServerModule.md	( Definition, Defaults )	Creates a new blank ServerModule.																					
+1621	Server	Application	n/a	Sync	NewApplicationService	1621-Server-NewApplicationService.md	( Definition, Defaults )	Creates a new blank ApplicationService.																					
+1622	Server	Application	n/a	Sync	NewStorageService	1622-Server-NewStorageService.md	( Definition, Defaults )	Creates a new blank StorageService.																					
+1623	Server	Application	n/a	Sync	MakeSafeName	1623-Server-MakeSafeName.md	( Name )	Ensures that a name is safe for use with the server: _-~[a-z][A-Z][0-9]																					
+1624	Server	Internal	n/a	Sync	ValidateModule	1624-Server-ValidateModule.md	( Module )	Called for each service and transport during Server.Initialize().																					
+1625	Server	Service	n/a	Sync	ResolveApplicationPath	1625-Server-ResolveApplicationPath.md	( Path )	Resolves and returns the given Path, relative to the Application Folder.																					
+1630	Server	Service	n/a	Sync	NewOriginDefinition	1630-Server-NewOriginDefinition.md	( Definition, OriginFunction )	Create a new Origin definition.																					
+1631	Server	Service	n/a	Sync	NewFieldDefinition	1631-Server-NewFieldDefinition.md	( Definition )	Create a new field definition to describe a Service Item or Origin Parameter.																					
+1632	Server	Service	n/a	Async	VisitOrigins	1632-Server-VisitOrigins.md	( Callback )	Iterates through all origins in all services and calls Callback for each.																					
+1633	Server	Service	n/a	Async	VisitViews	1633-Server-VisitViews.md	( Callback )	Iterates through all views in all services and calls Callback for each.																					
+1640	Server	Transport	n/a	Sync	ValidateFieldValues	1640-Server-ValidateFieldValues.md	( FieldDefinitions, FieldValues )	Validate a set of values against a given definition.																					
+1641	Server	Transport	n/a	Sync	AuthorizeOriginAccess	1641-Server-AuthorizeOriginAccess.md	( User, Origin )	Tests if User has access to a specific Origin.																					
+1642	Server	Transport	n/a	Sync	InvocationTracer	1642-Server-InvocationTracer.md	( UserName, TransportName, RouteName, Parameters )	Helper middleware to trace Origin invocations.																					
+																													
+2000	Services	Section				2000-Services.md		Internal services that ship with ServerKit.																					
+																													
+2100	ServerAccounts	Object				2100-ServerAccounts-Object.md		Manages user accounts for the server.																					
+2111	ServerAccounts	Module Control	n/a	Sync	InitializeModule	2111-ServerAccounts-InitializeModule.md	( )	Perform any one-time initialization for the module.																					
+2112	ServerAccounts	Module Control	n/a	Sync	StartupModule	2112-ServerAccounts-StartupModule.md	( )	Start the module.																					
+2113	ServerAccounts	Module Control	n/a	Sync	ShutdownModule	2113-ServerAccounts-ShutdownModule.md	( )	Shut down the module.																					
+2114	ServerAccounts	Storage Control	n/a	Sync	InitializeStorage	2114-ServerAccounts-InitializeStorage.md	( )	Perform any one-time initialization for the storage. Must be called by InitializeModule.																					
+2115	ServerAccounts	Storage Control	n/a	Sync	StartupStorage	2115-ServerAccounts-StartupStorage.md	( )	Start the storage. Must be called by StartupModule.																					
+2116	ServerAccounts	Storage Control	n/a	Sync	ShutdownStorage	2116-ServerAccounts-ShutdownStorage.md	( )	Shut down the storage. Must be called by ShutdownModule.																					
+2120	ServerAccounts	Internal	n/a	Async	FindOrCreateUser	2120-ServerAccounts-FindOrCreateUser.md	( UserInfo )	Finds or creates a User in the accounts storage.																					
+2130	ServerAccounts	Internal	n/a	Async	NewStorageItem	2130-ServerAccounts-NewStorageItem.md	( User, Prototype )	Initializes a new data item based upon the service's Item definition.																					
+2131	ServerAccounts	Service Call	admin, super, user	Async	StorageCount	2131-ServerAccounts-StorageCount.md	( User, Criteria )	Returns the number of objects that match the Criteria.																					
+2132	ServerAccounts	Service Call	admin, super, user	Async	StorageFindOne	2132-ServerAccounts-StorageFindOne.md	( User, Criteria )	Returns the first object that matches the Criteria.																					
+2133	ServerAccounts	Service Call	admin, super	Async	StorageFindMany	2133-ServerAccounts-StorageFindMany.md	( User, Criteria )	Returns all objects that match the Criteria.																					
+2134	ServerAccounts	Service Call	admin, super	Async	StorageCreateOne	2134-ServerAccounts-StorageCreateOne.md	( User, Prototype )	Create and store a new object for the User.																					
+2135	ServerAccounts	Service Call	admin, super, user	Async	StorageWriteOne	2135-ServerAccounts-StorageWriteOne.md	( User, Criteria, DataObject )	Update an existing object that matches the Criteria.																					
+2136	ServerAccounts	Service Call	admin, super	Async	StorageDeleteOne	2136-ServerAccounts-StorageDeleteOne.md	( User, Criteria )	Deletes the first object that matches the Criteria.																					
+2137	ServerAccounts	Service Call	admin, super	Async	StorageDeleteMany	2137-ServerAccounts-StorageDeleteMany.md	( User, Criteria )	Deletes all objects that match the Criteria.																					
+																													
+2200	Authentication	Object				2200-Authentication-Object.md		Manages user credentials and authenticates users for the server.																					
+2211	Authentication	Module Control	n/a	Sync	InitializeModule	2211-Authentication-InitializeModule.md	( )	Perform any one-time initialization for the module.																					
+2212	Authentication	Module Control	n/a	Sync	StartupModule	2212-Authentication-StartupModule.md	( )	Start the module.																					
+2213	Authentication	Module Control	n/a	Sync	ShutdownModule	2213-Authentication-ShutdownModule.md	( )	Shut down the module.																					
+2220	Authentication	Internal	n/a	Async	ConnectSession	2220-Authentication-ConnectSession.md	( SessionToken )	Allows transports to recover and reuse sessions.																					
+2230	Authentication	Service Call	*	Async	Signup	2230-Authentication-Signup.md	( User, UserEmail, Password, UserName )	Creates a new server account for the user.																					
+2231	Authentication	Service Call	*	Async	Login	2231-Authentication-Login.md	( User, UserEmail, Password )	Logs a user in and creates a new session.																					
+2232	Authentication	Service Call	*	Async	Logout	2232-Authentication-Logout.md	( User, UserEmail )	Logs a user out and destroys the session.																					
+																													
+2300	ServerManagement	Object				2300-ServerManagement-Object.md		Server management.																					
+2310	ServerManagement	Module Control	n/a	Sync	InitializeModule	2310-ServerManagement-InitializeModule.md	( )	Perform any one-time initialization for the module.																					
+2311	ServerManagement	Module Control	n/a	Sync	StartupModule	2311-ServerManagement-StartupModule.md	( )	Start the module.																					
+2312	ServerManagement	Module Control	n/a	Sync	ShutdownModule	2312-ServerManagement-ShutdownModule.md	( )	Shut down the module.																					
+2320	ServerManagement	Service Call	admin, super	Async	Diagnostics	2320-ServerManagement-Diagnostics.md	( User )	Returns diagnostic information, including cpu and memory usage.																					
+2321	ServerManagement	Service Call	admin, super	Async	RestartServer	2321-ServerManagement-RestartServer.md	( User )	Restarts the server.																					
+2322	ServerManagement	Service Call	admin, super	Async	StopServer	2322-ServerManagement-StopServer.md	( User )	Stops the server.																					
+2323	ServerManagement	Service View	admin, super, user	Async	Explorer	2323-ServerManagement-Explorer.md	( )	A view to explore and invoke service origins.																					
+																													
+3000	Transports	Section				3000-Transports.md																							
+																													
+3100	Text	Object				3100-Text-Object.md		A command line text transport.																					
+3110	Text	Module Control	n/a	Sync	InitializeModule	3110-Text-InitializeModule.md	( )	Perform any one-time initialization for the module.																					
+3111	Text	Module Control	n/a	Sync	StartupModule	3111-Text-StartupModule.md	( )	Start the module.																					
+3112	Text	Module Control	n/a	Sync	ShutdownModule	3112-Text-ShutdownModule.md	( )	Shut down the module.																					
+3120	Text	Internal	n/a	Async	ParseCommandString	3120-Text-ParseCommandString.md	( CommandString )	Parses a string containing a command name and paramters.																					
+3121	Text	Internal	n/a	Async	InvokeCommand	3121-Text-InvokeCommand.md	( SessionToken, Command )	Invokes an Origin with the command name and paramters.																					
+3122	Text	Internal	n/a	Async	InvokeCommandString	3122-Text-InvokeCommandString.md	( SessionID, CommandString )	Parses and invokes a string containing a command name and paramters.																					
+																													
+3200	Web	Object				3200-Web-Object.md		An http web transport.																					
+3210	Web	Module Control	n/a	Sync	InitializeModule	3210-Web-InitializeModule.md	( )	Perform any one-time initialization for the module.																					
+3211	Web	Module Control	n/a	Sync	StartupModule	3211-Web-StartupModule.md	( )	Start the module.																					
+3212	Web	Module Control	n/a	Sync	ShutdownModule	3212-Web-ShutdownModule.md	( )	Shut down the module.																					
+3220	Web	Internal	n/a	Sync	ServerAddress	3220-Web-ServerAddress.md	( )	Returns the server address (e.g. "http://localhost: 42")																					
+3221	Web	Internal	n/a	Sync	ServerPath	3221-Web-ServerPath.md	( )	Returns the server's root path																					
+3222	Web	Internal	n/a	Sync	ServicesPath	3222-Web-ServicesPath.md	( )	Returns the custom path (including the server path) for service api calls.																					
+3223	Web	Internal	n/a	Sync	PublicPath	3223-Web-PublicPath.md	( )	Returns the custom path (including the server path) for public files.																					
+3224	Web	Internal	n/a	Sync	GetServerCookie	3224-Web-GetServerCookie.md	( WebRequest )	Returns the server cookie value from the request headers.																					
+3225	Web	Internal	n/a	Sync	SetServerCookie	3225-Web-SetServerCookie.md	( WebResponse, SessionToken )	Sets the server cookie value in the response headers.																					
+3226	Web	Internal	n/a	Sync	AuthenticationGate	3226-Web-AuthenticationGate.md	( Origin )	Returns an Express middleware that validates the session.																					
+3227	Web	Internal	n/a	Sync	AuthorizationGate	3227-Web-AuthorizationGate.md	( Origin )	Returns an Express middleware that authorizes the user to access an origin.																					
+3228	Web	Internal	n/a	Sync	InvocationGate	3228-Web-InvocationGate.md	( Origin, RouteName, Invocation )	Returns an Express middleware that invokes an origin an returns the result.																					
+																													
+3300	WebSocket	Object				3300-WebSocket-Object.md		A web socket transport.																					
+3310	WebSocket	Module Control	n/a	Sync	InitializeModule	3310-WebSocket-InitializeModule.md	( )	Perform any one-time initialization for the module.																					
+3311	WebSocket	Module Control	n/a	Sync	StartupModule	3311-WebSocket-StartupModule.md	( )	Start the module.																					
+3312	WebSocket	Module Control	n/a	Sync	ShutdownModule	3312-WebSocket-ShutdownModule.md	( )	Shut down the module.																					
+3320	WebSocket	Internal	n/a	Sync	ServerAddress	3320-WebSocket-ServerAddress.md	( )	Returns the server address (e.g. "http://localhost: 42")																					
+3321	WebSocket	Internal	n/a	Sync	ServerPath	3321-WebSocket-ServerPath.md	( )	Returns the server's root path																					
+3322	WebSocket	Internal	n/a	Async	NewWebSocketClient	3322-WebSocket-NewWebSocketClient.md	( SessionToken_or_UserEmail, Password )	Creates a new client and establishes a session.																					
+																													
+3350	WebSocketClient	Object				3350-WebSocketClient-Object.md		A client for invoking Origins using the WebSocket transport.																					
+3351	WebSocketClient	Internal	n/a	Async	Call	3351-WebSocketClient-Call.md	( RouteName, Parameters )	Calls an origin on the server.																					
+3352	WebSocketClient	Internal	n/a	Async	Close	3352-WebSocketClient-Close.md	( )	Closes the client connection to the server.																					
+																													
+3400	Amqp	Object				3400-Amqp-Object.md		A message queue transport using the amqp protocol.																					
+3410	Amqp	Module Control	n/a	Sync	InitializeModule	3410-Amqp-InitializeModule.md	( )	Perform any one-time initialization for the module.																					
+3411	Amqp	Module Control	n/a	Sync	StartupModule	3411-Amqp-StartupModule.md	( )	Start the module.																					
+3412	Amqp	Module Control	n/a	Sync	ShutdownModule	3412-Amqp-ShutdownModule.md	( )	Shut down the module.																					
+3412	Amqp	Internal	n/a	Async	NewAmqpClient	3412-Amqp-NewAmqpClient.md	( SessionToken_or_UserEmail, Password )	Creates a new client and establishes a session.																					
+																													
+3450	AmqpClient	Object				3450-AmqpClient-Object.md		A client for invoking Origins using the Amqp transport.																					
+3451	AmqpClient	Internal	n/a	Async	Call	3451-AmqpClient-Call.md	( RouteName, Parameters )	Calls an origin on the server.																					
+3452	AmqpClient	Internal	n/a	Async	Close	3452-AmqpClient-Close.md	( )	Closes the client connection to the server.																					
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													
+																													

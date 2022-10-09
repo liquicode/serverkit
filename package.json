@@ -1,0 +1,95 @@
+{
+	"name": "@liquicode/serverkit",
+	"version": "0.0.25",
+	"description": "A different kind of web framework.",
+	"homepage": "http://serverkit.liquicode.com",
+	"license": "MIT",
+	"public": true,
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/liquicode/serverkit"
+	},
+	"authors": [
+		{
+			"name": "Andre' G. Bowlin",
+			"email": "agbowlin@gmail.com",
+			"homepage": "http://liquicode.com"
+		}
+	],
+	"main": "src/lib-server-kit.js",
+	"files": [
+		"readme.md",
+		"license.md",
+		"VERSION",
+		"dist/*",
+		"docs/*",
+		"samples/*",
+		"src/*",
+		"tests/*"
+	],
+	"ignore": [
+		".*",
+		"~*",
+		"bower_components",
+		"node_modules",
+		"build"
+	],
+	"keywords": [
+		"javascript",
+		"js",
+		"nodejs",
+		"node",
+		"express",
+		"socketio",
+		"mongo",
+		"mongodb",
+		"authentication"
+	],
+	"engines": {
+		"node": ">=12.22.3"
+	},
+	"dependencies": {
+		"@liquicode/lib-json": "0.x",
+		"@liquicode/lib-logger": "0.x",
+		"@liquicode/liquicodejs": "0.x",
+		"amqplib": "0.x",
+		"axios": "1.x",
+		"babel-polyfill": "6.x",
+		"better-sqlite3": "7.x",
+		"cors": "2.x",
+		"ejs": "3.x",
+		"express": "4.x",
+		"express-fileupload": "1.x",
+		"helmet": "5.x",
+		"jose": "4.x",
+		"json-criteria": "2.x",
+		"merge-config": "2.x",
+		"mongodb": "4.x",
+		"passport": "0.x",
+		"passport-auth0": "1.x",
+		"passport-http": "0.x",
+		"passport-local": "1.x",
+		"proper-lockfile": "4.x",
+		"pug": "3.x",
+		"socket.io": "4.x",
+		"socket.io-client": "4.x",
+		"uid-safe": "2.x",
+		"uuid": "9.x"
+	},
+	"devDependencies": {
+		"@vivaxy/here": "3.x",
+		"mocha": "9.x",
+		"pug-cli": "0.x",
+		"webpack": "5.x",
+		"webpack-cli": "4.x",
+		"webpack-node-externals": "3.x"
+	},
+	"bin": {
+		"serverkit": "src/serverkit.js"
+	},
+	"scripts": {
+		"serverkit": "node src/serverkit.js",
+		"test": "mocha -u bdd tests/*.js --timeout 0 --slow 10 --colors",
+		"run-docs-web-server": "npx here --directory docs --port 4200 --watch 1 --silent"
+	}
+}

@@ -1,0 +1,171 @@
+extends ../index.pug
+
+block content
+
+	script( type='text/javascript' src='/public/storage/share.js' )
+
+	div( ng-controller='StorageItemShare_Controller' )
+
+		script
+			!= `window.SERVER_DATA = {};\n`
+			!= `window.SERVER_DATA.User = ${JSON.stringify( locals.User )};\n`
+			!= `window.SERVER_DATA.Service = ${JSON.stringify( locals.Service )};\n`
+			!= `window.SERVER_DATA.Origin = ${JSON.stringify( locals.Origin )};\n`
+			!= `window.SERVER_DATA.Parameters = ${JSON.stringify( locals.Parameters )};\n`
+
+
+		//-=====================================================================
+		//-=====================================================================
+		//- 
+		//- 	Page Header
+		//- 
+		//-=====================================================================
+		//-=====================================================================
+
+
+		.w3-container.w3-blue-grey
+			h2
+				i
+					span Share {{Page.Service.Item.title}}
+
+
+		.w3-container
+
+
+			//-=====================================================================
+			//-=====================================================================
+			//- 
+			//- 	Item Navigation
+			//- 
+			//-=====================================================================
+			//-=====================================================================
+
+
+			//- .w3-section
+			//- 	a.w3-btn.w3-white.w3-border.w3-small.w3-padding-small(
+			//- 		ng-href="/ui/{{Page.ServiceDefinition.name}}/List"
+			//- 		ng-show="[ 'admin', 'super' ].includes( Page.User.user_role )" 
+			//- 	)
+			//- 		i.fa.fa-angle-double-left.w3-padding-small
+			//- 		span {{ Page.Service.Item.titles }}
+			//- 	br
+
+
+			//-=====================================================================
+			//-=====================================================================
+			//- 
+			//- 	Object Info
+			//- 
+			//-=====================================================================
+			//-=====================================================================
+
+
+			.w3-section
+
+				div(
+					ng-click="Page.object_info_visible = !Page.object_info_visible"
+				).w3-btn.w3-tag.w3-small.w3-white.w3-border.w3-round-large Metadata
+
+				div(
+					ng-show="Page.object_info_visible"
+				).w3-container.w3-white.w3-border.w3-round-large
+					pre {{Page.ItemInfo()}}
+
+
+			//-=====================================================================
+			//-=====================================================================
+			//- 
+			//- 	Page Buttons
+			//- 
+			//-=====================================================================
+			//-=====================================================================
+
+
+			//- .w3-section
+			//- 	a.w3-btn.w3-green.w3-border.w3-small.w3-padding-small(
+			//- 		ng-click="Page.CreateItem()"
+			//- 		ng-show="Page.PageOp === 'Create'"
+			//- 	) Create This {{ Page.Service.Item.title }}
+			//- 	a.w3-btn.w3-blue.w3-border.w3-small.w3-padding-small(
+			//- 		ng-click="Page.WriteItem()"
+			//- 		ng-show="Page.PageOp === 'Update'"
+			//- 	) Update This {{ Page.Service.Item.title }}
+			//- 	a.w3-btn.w3-red.w3-border.w3-small.w3-padding-small(
+			//- 		ng-click="Page.DeleteItem()"
+			//- 		ng-show="Page.PageOp === 'Delete'"
+			//- 	) Delete This {{ Page.Service.Item.title }}
+			//- 	.w3-container.w3-margin
+
+
+			//-=====================================================================
+			//-=====================================================================
+			//- 
+			//- 	Storage Item
+			//- 
+			//-=====================================================================
+			//-=====================================================================
+
+
+			.w3-section
+				.w3-border.w3-round-large.w3-white
+
+					.w3-row
+						.w3-quarter.w3-padding-small
+							h5.w3-center Owner :
+						.w3-threequarter.w3-padding-small
+							.w3-row
+								.w3-small {{ Page.Item.__.owner_id }}
+
+					.w3-row
+						.w3-quarter.w3-padding-small
+							h5.w3-center Readers :
+						.w3-threequarter.w3-padding-small
+							.w3-row(
+								ng-repeat="user_id in Page.Item.__.readers"
+							)
+								.w3-small {{ user_id }}
+
+					.w3-row
+						.w3-quarter.w3-padding-small
+							h5.w3-center Writers :
+						.w3-threequarter.w3-padding-small
+							.w3-row(
+								ng-repeat="user_id in Page.Item.__.writers"
+							)
+								.w3-small {{ user_id }}
+
+					.w3-row
+						.w3-quarter.w3-padding-small
+							h5.w3-center Public :
+						.w3-threequarter.w3-padding-small
+							.w3-row( ng-show="Page.Item.__.public" )
+								.w3-small Yes
+							.w3-row( ng-show="!Page.Item.__.public" )
+								.w3-small No
+
+
+			//-=====================================================================
+			//-=====================================================================
+			//- 
+			//- 	Page Buttons
+			//- 
+			//-=====================================================================
+			//-=====================================================================
+
+
+			//- .w3-section
+			//- 	.w3-container.w3-margin
+			//- 	a.w3-btn.w3-green.w3-border.w3-small.w3-padding-small(
+			//- 		ng-click="Page.CreateItem()"
+			//- 		ng-show="Page.PageOp === 'Create'"
+			//- 	) Create This {{ Page.Service.Item.title }}
+			//- 	a.w3-btn.w3-blue.w3-border.w3-small.w3-padding-small(
+			//- 		ng-click="Page.WriteItem()"
+			//- 		ng-show="Page.PageOp === 'Update'"
+			//- 	) Update This {{ Page.Service.Item.title }}
+			//- 	a.w3-btn.w3-red.w3-border.w3-small.w3-padding-small(
+			//- 		ng-click="Page.DeleteItem()"
+			//- 		ng-show="Page.PageOp === 'Delete'"
+			//- 	) Delete This {{ Page.Service.Item.title }}
+
+

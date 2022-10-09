@@ -1,0 +1,45 @@
+extends ../index.pug
+
+block content
+
+	.w3-container.w3-blue-grey.w3-xlarge= Login
+
+	.w3-container
+
+		.w3-row.w3-margin
+
+			.w3-col.s1.w3-container
+
+			.w3-col.s10.w3-card-4.w3-white.w3-border.w3-round-large
+
+				form(
+					method="POST"
+					action=server_login_url
+				)
+					table.w3-table
+						tr 
+							th.w3-right-align Email:
+							td
+								input.w3-input.w3-sand.w3-round-large.w3-text-blue(
+									type="email"
+									id="user_email"
+									name="user_email"
+									value="admin@server"
+								)
+
+						tr 
+							th.w3-right-align Password:
+							td
+								input.w3-input.w3-sand.w3-round-large.w3-text-blue(
+									type="password"
+									id="password"
+									name="password"
+									value="password"
+								)
+
+						tr 
+							th( colspan=2 ).w3-center
+								input.w3-btn.w3-green.w3-border.w3-round-large(
+									type="submit"
+									value="Login"
+								)

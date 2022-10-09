@@ -1,0 +1,26 @@
+extends index.pug
+
+block content
+
+	script( type='text/javascript' src='/public/home.js' )
+
+	div( ng-controller='Home_Controller' )
+
+		script
+			!= `window.SERVER_DATA = {};\n`
+			if( locals.User )
+				!= `window.SERVER_DATA.User = ${JSON.stringify( locals.User )};\n`
+
+		.w3-container.w3-margin
+
+			-var is_logged_in = ( locals.User && locals.User.user_role && ['admin','super','user'].includes( locals.User.user_role ) )
+			if( is_logged_in )
+
+				.w3-bar-item.w3-border.w3-round-large.w3-sand.w3-center
+					h3= "Welcome, " + locals.User.user_name + "!"
+
+			else
+
+				.w3-panel.w3-border.w3-round-large.w3-sand.w3-center
+					h3 Login or Signup to get started! 
+

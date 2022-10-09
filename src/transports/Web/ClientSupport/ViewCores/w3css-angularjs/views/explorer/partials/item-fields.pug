@@ -1,0 +1,29 @@
+//- Item Fields
+if( Object.keys( item_def.Fields ).length === 0 )
+	h5
+		i No Item Fields
+else 
+	table.w3-table.w3-border.w3-bordered.w3-small
+		tr.w3-light-gray
+			th Title
+			th Name
+			th Type
+			th Description 
+			th 
+		each field in item_def.Fields 
+			tr.w3-white
+				td( nowrap )= field.title
+				td
+					b= field.name
+				- var field_type = ''
+				if( field.schema && field.schema.type )
+					- field_type = field.schema.type
+				if( field.schema && field.schema.format )
+					- field_type = field_type + ' (' + field.schema.format + ')'
+				td= field_type
+				td
+					i= field.description
+				if( field.readonly )
+					td( nowrap ) read-only
+				else 
+					td

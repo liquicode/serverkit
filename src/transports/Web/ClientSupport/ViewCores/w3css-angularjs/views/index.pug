@@ -1,0 +1,136 @@
+
+//- Global variables available to pug files which include this one.
+-var web_transport = locals.Server.Transports.Web;
+-var server_root_url = web_transport.ServerPath()			// /my-server/
+-var server_services_url = web_transport.ServicesPath()		// /my-server/api/
+-var server_public_url = web_transport.PublicPath()			// /my-server/public/
+-var user_is_logged_in = ( locals.User && locals.User.user_role && [ 'admin', 'super', 'user' ].includes( locals.User.user_role ) )
+//- Urls to application pages.
+-var server_signup_url = server_root_url + web_transport.Settings.ClientSupport.Views.signup_url
+-var server_login_url = server_root_url + web_transport.Settings.ClientSupport.Views.login_url
+-var server_logout_url = server_root_url + web_transport.Settings.ClientSupport.Views.logout_url
+//- Urls to public include files.
+-var include_express_client_api_js_url = server_public_url + web_transport.Settings.ClientSupport.client_api_file
+-var include_storage_list_js_url = server_public_url + 'storage/list.js'
+-var include_storage_item_js_url = server_public_url + 'storage/item.js'
+-var include_storage_share_js_url = server_public_url + 'storage/share.js'
+
+
+doctype html
+html
+	head
+		title= locals.Server.Settings.AppInfo.name
+
+		meta( name="viewport" content="width=device-width, initial-scale=1" )
+
+		//----------------------------------------------------------------------
+		//- Fonts
+		//----------------------------------------------------------------------
+
+		//- link( rel='stylesheet' href='https://fonts.googleapis.com/css?family=Righteous|Roboto' )
+		link( rel='stylesheet' href='https://fonts.googleapis.com/css?family=Ubuntu' )
+		link( rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css' )
+
+		//----------------------------------------------------------------------
+		//- JQuery
+		//----------------------------------------------------------------------
+
+		script( type='text/javascript' src='https://code.jquery.com/jquery-3.5.1.min.js' )
+
+		//----------------------------------------------------------------------
+		//- AngularJS
+		//----------------------------------------------------------------------
+
+		script( type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js' )
+		script( type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-cookies.js' )
+		script( type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-resource.js' )
+		script( type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-sanitize.js' )
+		script( type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-touch.js' )
+
+		//----------------------------------------------------------------------
+		//- w3.csss
+		//----------------------------------------------------------------------
+
+		link( rel='stylesheet' href='https://www.w3schools.com/w3css/4/w3.css' )
+		script( type='text/javascript' src='https://www.w3schools.com/lib/w3codecolor.js' )
+
+		//----------------------------------------------------------------------
+		//- WebSocket Support
+		//----------------------------------------------------------------------
+
+		//- Needed when Transports.WebSocket.enabled = true.
+		script( src="https://cdn.socket.io/4.5.0/socket.io.min.js" integrity="sha384-7EyYLQZgWBi67fBtVxw60/OWl1kjsfrPFcaU0pp0nAh+i8FD068QogUvg85Ewy1k" crossorigin="anonymous" )
+		//- Needed when Transports.WebSocket.ClientSupport.enabled = true.
+		script( src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.1.0/uuidv4.min.js" )
+
+		//----------------------------------------------------------------------
+		//- Client API Files
+		//----------------------------------------------------------------------
+
+		script( type='text/javascript' src='/public/_web-client-api.js' )
+		script( type='text/javascript' src='/public/_websocket-client-api.js' )
+
+		//----------------------------------------------------------------------
+		//- Application Source
+		//----------------------------------------------------------------------
+
+		script( type='text/javascript' src='/public/app.js' )
+		link( rel='stylesheet' href='/public/application.css' )
+
+body
+
+	div( ng-app='Application_Module', ng-cloak )
+
+		//- Build top navigation bar.
+		nav.w3-bar.w3-border.w3-light-grey( role="navigation" )
+
+			//- Application Logo
+			img.w3-bar-item.w3-image.w3-responsive.w3-opacity( src='/public/images/logo-24x24.png' )
+			
+			//- Application Name
+			.w3-bar-item.w3-text-grey= locals.Server.Settings.AppInfo.name
+			
+			//- Application Home
+			a.w3-bar-item.w3-button.w3-mobile(
+				href=server_root_url
+			) Home
+
+			//- Application Links
+			if( user_is_logged_in )
+
+				//- User is logged in, show Service links.
+				if ( locals.User.user_role === 'admin' ) || ( locals.User.user_role === 'super' )
+					//- a.w3-bar-item.w3-button.w3-mobile( href="/explorer" ) Server Explorer
+					a.w3-bar-item.w3-button.w3-mobile( href="/ServerAccounts/List" ) Server Accounts
+
+				//- Application drop down menu.
+				.w3-dropdown-hover.w3-right.w3-mobile
+
+					//- Drop down menu button.
+					button.w3-button
+						if( locals.User.image_url )
+							img.w3-round( src=`${locals.User.image_url}` style='width:24px; height:24px' )
+						span.w3-margin= locals.User.user_name
+						i.fa.fa-caret-down
+
+					//- Drop down menu.
+					.w3-dropdown-content.w3-bar-block.w3-dark-grey
+
+						//- Logout link
+						.w3-border-bottom.w3-border-top
+							a.w3-bar-item.w3-button.w3-mobile( href="/ServerAccounts/Item?ItemID=" + locals.User.__.id + "&PageOp=Update" ) My Account
+							a.w3-bar-item.w3-button.w3-mobile( href=server_logout_url ) Log Out
+
+						//- Administrator links
+						if ( [ 'admin', 'super' ].includes( locals.User.user_role ) )
+							.w3-border-bottom.w3-border-top
+								a.w3-bar-item.w3-button.w3-mobile( href="/ServerManagement/Explorer" ) Server Explorer
+								a.w3-bar-item.w3-button.w3-mobile( href="/ServerAccounts/List" ) Server Accounts
+
+			else
+
+				//- User is not logged in, show Signup and Login links.
+				a.w3-bar-item.w3-button.w3-mobile( href=server_signup_url ) Sign Up
+				a.w3-bar-item.w3-button.w3-mobile( href=server_login_url ) Log In
+
+		block content

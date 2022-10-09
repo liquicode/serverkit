@@ -1,0 +1,227 @@
+extends ../index.pug
+
+block content
+
+	script( type='text/javascript' src=include_storage_list_js_url )
+
+	div( ng-controller='StorageList_Controller' )
+
+		script
+			!= `window.SERVER_DATA = {};\n`
+			!= `window.SERVER_DATA.User = ${JSON.stringify( locals.User )};\n`
+			!= `window.SERVER_DATA.Service = ${JSON.stringify( locals.Service )};\n`
+			!= `window.SERVER_DATA.Origin = ${JSON.stringify( locals.Origin )};\n`
+			!= `window.SERVER_DATA.Parameters = ${JSON.stringify( locals.Parameters )};\n`
+
+
+		//-=====================================================================
+		//-=====================================================================
+		//- 
+		//- 	Page Header
+		//- 
+		//-=====================================================================
+		//-=====================================================================
+
+
+		.w3-container.w3-blue-grey
+			h2
+				i
+					span {{Page.Service.Item.titles}}
+					//- span( ng-show="Page.PageFunction === 'ListAll'" ) All {{Page.Def.ServiceTitle}}
+					//- span( ng-show="Page.PageFunction === 'ListMine'" ) My {{Page.Def.ServiceTitle}}
+					//- span( ng-show="Page.PageFunction === 'DeleteMine'" ) Delete My {{Page.Def.ServiceTitle}}
+					//- span( ng-show="Page.PageFunction === 'DeleteAll'" ) Delete All {{Page.Def.ServiceTitle}}
+
+		br
+
+		.w3-container
+
+
+			//-=====================================================================
+			//-=====================================================================
+			//- 
+			//- 	Page Buttons
+			//- 
+			//-=====================================================================
+			//-=====================================================================
+
+
+			.w3-row
+				//- a.w3-btn.w3-green.w3-border.w3-small.w3-padding-small(
+				//- 	ng-click="Page.ListItems()"
+				//- ) List {{ Page.Service.Item.titles }}
+				a.w3-btn.w3-green.w3-border.w3-small.w3-padding-small(
+					ng-href="{{ Page.ItemCreateUrl() }}"
+					ng-show="Page.ShowCreateButton()"
+				) New {{ Page.Service.Item.title }}
+				//- a.w3-btn.w3-red.w3-border.w3-small.w3-padding-small(
+				//- 	ng-click=""
+				//- 	ng-show="Page.ShowDeleteButton()"
+				//- ) Delete {{ Page.Service.Item.title }}
+				.w3-container.w3-margin
+
+
+			//-=====================================================================
+			//-=====================================================================
+			//- 
+			//- 	Page Items
+			//- 
+			//-=====================================================================
+			//-=====================================================================
+
+
+			.w3-row.w3-border.w3-round-large.w3-white
+
+				table.w3-table
+					tr 
+						th.w3-rightbar.w3-padding-small.w3-center.no-line-break View Edit Delete
+						each field in locals.Service.Item.Fields
+							th= field.title
+						//- th(
+						//- 	ng-repeat="field in Page.Service.Item.Fields"
+						//- )
+						//- 	span {{ field.title }}
+
+					tr.w3-border(
+						ng-repeat="item in Page.Items"
+					)
+						td.w3-rightbar.w3-padding-small.w3-center.no-line-break
+
+							a.w3-btn.w3-sand.w3-border.w3-small.w3-padding-small(
+								ng-href="{{Page.ItemViewUrl( item )}}" 
+								ng-show="Page.UserCanDo('StorageFindOne')"
+							)
+								i.fa.fa-eye.w3-text-blue
+							a.w3-btn.w3-sand.w3-border.w3-small.w3-padding-small(
+								ng-href="{{Page.ItemEditUrl( item )}}" 
+								ng-show="Page.UserCanDo('StorageWriteOne')"
+							)
+								i.fa.fa-edit.w3-text-green
+							a.w3-btn.w3-sand.w3-border.w3-small.w3-padding-small(
+								ng-href="{{Page.ItemDeleteUrl( item )}}" 
+								ng-show="Page.UserCanDo('StorageDeleteOne')"
+							)
+								i.fa.fa-trash-alt.w3-text-red
+
+						if( '|ListAll|DeleteAll|'.indexOf( locals.PageFunction ) > 0 )
+							td {{ item.__.owner_id }}
+
+						each field in locals.Service.Item.Fields
+							td 
+								if( !field.schema || !field.schema.type )
+									span= `{{ item.${field.name} }}`
+								else if( field.schema.type === 'boolean' )
+									span= `{{ item.${field.name} }}`
+								else if( field.schema.type === 'integer' )
+									span= `{{ item.${field.name} }}`
+								else if( field.schema.type === 'number' )
+									span= `{{ item.${field.name} }}`
+								else if( field.schema.type === 'string' )
+									if( !field.schema.type )
+										span= `{{ item.${field.name} }}`
+									else if( field.schema.type === 'text' )
+										span= `{{ item.${field.name} }}`
+									else if( field.schema.type === 'date' )
+										span= `{{ item.${field.name} }}`
+									else if( field.schema.type === 'time' )
+										span= `{{ item.${field.name} }}`
+									else if( field.schema.type === 'datetime' )
+										span= `{{ item.${field.name} }}`
+									else if( field.schema.type === 'email' )
+										span= `{{ item.${field.name} }}`
+									else if( field.schema.type === 'password' )
+										span *******
+									else if( field.schema.type === 'base64' )
+										span= `{{ item.${field.name} }}`
+									else if( field.schema.type === 'url' )
+										span= `a( ng-show="item.${field.name}" ng-href="{{ item.${field.name} }}" ) link`
+									else if( field.schema.type === 'image_url' )
+										span= `img( ng-src="{{item.${field.name}}}" style="width:50px; height=auto;" )`
+									else
+										span= `{{ item.${field.name} }}`
+								else if( field.schema.type === 'array' )
+									span= `{{ item.${field.name}.length }} items`
+								else if( field.schema.type === 'object' )
+									span= `{{ JSON.stringify( item.${field.name} ) }}`
+								else
+									span= `{{ item.${field.name} }}`
+
+						//- td(
+						//- 	ng-repeat="field in Page.Service.Item.Fields"
+						//- )
+						//- 	span(
+						//- 		ng-if="field.schema.type === 'boolean'"
+						//- 	) {{ item[ field.name ] }}
+						//- 	span(
+						//- 		ng-if="field.schema.type === 'integer'"
+						//- 	) {{ item[ field.name ] }}
+						//- 	span(
+						//- 		ng-if="field.schema.type === 'number'"
+						//- 	) {{ item[ field.name ] }}
+						//- 	span(
+						//- 		ng-if="(field.schema.type === 'string') && (field.schema.format === 'text')"
+						//- 	) {{ item[ field.name ] }}
+						//- 	span(
+						//- 		ng-if="(field.schema.type === 'string') && (field.schema.format === 'date')"
+						//- 	) {{ item[ field.name ] }}
+						//- 	span(
+						//- 		ng-if="(field.schema.type === 'string') && (field.schema.format === 'time')"
+						//- 	) {{ item[ field.name ] }}
+						//- 	span(
+						//- 		ng-if="(field.schema.type === 'string') && (field.schema.format === 'datetime')"
+						//- 	) {{ item[ field.name ] }}
+						//- 	span(
+						//- 		ng-if="(field.schema.type === 'string') && (field.schema.format === 'email')"
+						//- 	) {{ item[ field.name ] }}
+						//- 	//- span(
+						//- 	//- 	ng-if="(field.schema.type === 'string') && (field.schema.format === 'password')"
+						//- 	//- ) {{ item[ field.name ] }}
+						//- 	span(
+						//- 		ng-if="(field.schema.type === 'string') && (field.schema.format === 'password')"
+						//- 	) *****
+						//- 	span(
+						//- 		ng-if="(field.schema.type === 'string') && (field.schema.format === 'base64')"
+						//- 	) {{ item[ field.name ] }}
+						//- 	span(
+						//- 		ng-if="(field.schema.type === 'string') && (field.schema.format === 'url')"
+						//- 	)
+						//- 		a(
+						//- 			ng-show="item[ field.name ]"
+						//- 			ng-href="{{ item[ field.name ] }}"
+						//- 		) link
+						//- 	span(
+						//- 		ng-if="(field.schema.type === 'string') && (field.schema.format === 'image_url')"
+						//- 	)
+						//- 		img(
+						//- 			ng-src="{{item[ field.name ]}}"
+						//- 			style="width:50px; height=auto;"
+						//- 		)
+						//- 	span(
+						//- 		ng-if="field.schema.type === 'array'"
+						//- 	) {{ item[ field.name ].length }} items
+						//- 	span(
+						//- 		ng-if="field.schema.type === 'object'"
+						//- 	) {{ JSON.stringify( item[ field.name ] ) }}
+
+
+			//-=====================================================================
+			//-=====================================================================
+			//- 
+			//- 	Page Buttons
+			//- 
+			//-=====================================================================
+			//-=====================================================================
+
+
+			.w3-row
+				.w3-container.w3-margin
+				a.w3-btn.w3-green.w3-border.w3-small.w3-padding-small(
+					ng-href="{{ Page.ItemCreateUrl() }}"
+					ng-show="Page.ShowCreateButton()"
+				) New {{ Page.Service.Item.title }}
+				//- a.w3-btn.w3-red.w3-border.w3-small.w3-padding-small(
+				//- 	ng-click=""
+				//- 	ng-show="Page.ShowDeleteButton()"
+				//- ) Delete {{ Page.Service.Item.title }}
+
+

@@ -1,0 +1,587 @@
+{
+	// Use IntelliSense to learn about possible attributes.
+	// Hover to view descriptions of existing attributes.
+	// For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"name": "Maths Server",
+			"type": "node",
+			"request": "launch",
+			"skipFiles": [
+				"<node_internals>/**"
+			],
+			"cwd": "${workspaceFolder}",
+			"program": "${workspaceFolder}/~samples/MathsServer/MathsServer.js",
+			"outputCapture": "std",
+			"internalConsoleOptions": "openOnSessionStart",
+		},
+		{
+			"name": "Maths Server - cli",
+			"type": "node",
+			"request": "launch",
+			"skipFiles": [
+				"<node_internals>/**"
+			],
+			"program": "${workspaceFolder}/bin/server-kit-cli.js",
+			"cwd": "${workspaceFolder}/~samples/MathsServer",
+			"args": [
+				"--name",
+				"MathsServer-cli",
+				// "--folder",
+				// "~samples/MathsServer",
+				"--options",
+				"MathsServer.options.js",
+				// "--shell",
+				"call",
+				"Maths.Add",
+				"--A",
+				"3",
+				"--B",
+				"4",
+				// "ServerAccounts.NewStorageItem",
+				// "{ user_role: 'other' }",
+				// "ServerAccounts.StorageCount",
+				// "--Criteria",
+				// "\"{ user_role: 'admin' }\"",
+				// "login",
+				// "admin@server",
+				// "password",
+				// "Administrator",
+			],
+			"outputCapture": "std",
+			"internalConsoleOptions": "openOnSessionStart",
+		},
+		{
+			"name": "------------------------------------------",
+		},
+		{
+			"name": "All Tests",
+			"type": "node",
+			"request": "launch",
+			"skipFiles": [
+				"<node_internals>/**"
+			],
+			"cwd": "${workspaceFolder}",
+			"program": "${workspaceFolder}/node_modules/mocha/bin/mocha",
+			"args": [
+				"-u",
+				"bdd",
+				"tests/*.js",
+				"--timeout",
+				"0",
+				"--slow",
+				"10",
+				"--colors",
+			],
+			"outputCapture": "std",
+			"internalConsoleOptions": "openOnSessionStart",
+		},
+		{
+			"name": "Test: 010) json-criteria Tests",
+			"type": "node",
+			"request": "launch",
+			"skipFiles": [
+				"<node_internals>/**"
+			],
+			"cwd": "${workspaceFolder}",
+			"program": "${workspaceFolder}/node_modules/mocha/bin/mocha",
+			"args": [
+				"-u",
+				"bdd",
+				"tests/010*.js",
+				"--timeout",
+				"0",
+				"--slow",
+				"10",
+				"--colors",
+			],
+			"outputCapture": "std",
+			"internalConsoleOptions": "openOnSessionStart",
+		},
+		{
+			"name": "Test: 100) Server Tests",
+			"type": "node",
+			"request": "launch",
+			"skipFiles": [
+				"<node_internals>/**"
+			],
+			"cwd": "${workspaceFolder}",
+			"program": "${workspaceFolder}/node_modules/mocha/bin/mocha",
+			"args": [
+				"-u",
+				"bdd",
+				"tests/100*.js",
+				"--timeout",
+				"0",
+				"--slow",
+				"10",
+				"--colors",
+			],
+			"outputCapture": "std",
+			"internalConsoleOptions": "openOnSessionStart",
+		},
+		{
+			"name": "Test: 101) ValidateFieldValues Tests",
+			"type": "node",
+			"request": "launch",
+			"skipFiles": [
+				"<node_internals>/**"
+			],
+			"cwd": "${workspaceFolder}",
+			"program": "${workspaceFolder}/node_modules/mocha/bin/mocha",
+			"args": [
+				"-u",
+				"bdd",
+				"tests/101*.js",
+				"--timeout",
+				"0",
+				"--slow",
+				"10",
+				"--colors",
+			],
+			"outputCapture": "std",
+			"internalConsoleOptions": "openOnSessionStart",
+		},
+		{
+			"name": "Test: 110) Utility Module Tests",
+			"type": "node",
+			"request": "launch",
+			"skipFiles": [
+				"<node_internals>/**"
+			],
+			"cwd": "${workspaceFolder}",
+			"program": "${workspaceFolder}/node_modules/mocha/bin/mocha",
+			"args": [
+				"-u",
+				"bdd",
+				"tests/110*.js",
+				"--timeout",
+				"0",
+				"--slow",
+				"10",
+				"--colors",
+			],
+			"outputCapture": "std",
+			"internalConsoleOptions": "openOnSessionStart",
+		},
+		{
+			"name": "Test: 120) Log Module Tests",
+			"type": "node",
+			"request": "launch",
+			"skipFiles": [
+				"<node_internals>/**"
+			],
+			"cwd": "${workspaceFolder}",
+			"program": "${workspaceFolder}/node_modules/mocha/bin/mocha",
+			"args": [
+				"-u",
+				"bdd",
+				"tests/120*.js",
+				"--timeout",
+				"0",
+				"--slow",
+				"10",
+				"--colors",
+			],
+			"outputCapture": "std",
+			"internalConsoleOptions": "openOnSessionStart",
+		},
+		{
+			"name": "Test: 140) StorageService Tests (All)",
+			"type": "node",
+			"request": "launch",
+			"skipFiles": [
+				"<node_internals>/**"
+			],
+			"cwd": "${workspaceFolder}",
+			"program": "${workspaceFolder}/node_modules/mocha/bin/mocha",
+			"args": [
+				"-u",
+				"bdd",
+				"tests/14*.js",
+				"--timeout",
+				"0",
+				"--slow",
+				"10",
+				"--colors",
+			],
+			"outputCapture": "std",
+			"internalConsoleOptions": "openOnSessionStart",
+		},
+		{
+			"name": "Test: 141) Storage - MemoryProvider Tests",
+			"type": "node",
+			"request": "launch",
+			"skipFiles": [
+				"<node_internals>/**"
+			],
+			"cwd": "${workspaceFolder}",
+			"program": "${workspaceFolder}/node_modules/mocha/bin/mocha",
+			"args": [
+				"-u",
+				"bdd",
+				"tests/141*.js",
+				"--timeout",
+				"0",
+				"--slow",
+				"10",
+				"--colors",
+			],
+			"outputCapture": "std",
+			"internalConsoleOptions": "openOnSessionStart",
+		},
+		{
+			"name": "Test: 142) Storage - FileProvider Tests",
+			"type": "node",
+			"request": "launch",
+			"skipFiles": [
+				"<node_internals>/**"
+			],
+			"cwd": "${workspaceFolder}",
+			"program": "${workspaceFolder}/node_modules/mocha/bin/mocha",
+			"args": [
+				"-u",
+				"bdd",
+				"tests/142*.js",
+				"--timeout",
+				"0",
+				"--slow",
+				"10",
+				"--colors",
+			],
+			"outputCapture": "std",
+			"internalConsoleOptions": "openOnSessionStart",
+		},
+		{
+			"name": "Test: 143) Storage - Sqlite3Provider Tests",
+			"type": "node",
+			"request": "launch",
+			"skipFiles": [
+				"<node_internals>/**"
+			],
+			"cwd": "${workspaceFolder}",
+			"program": "${workspaceFolder}/node_modules/mocha/bin/mocha",
+			"args": [
+				"-u",
+				"bdd",
+				"tests/143*.js",
+				"--timeout",
+				"0",
+				"--slow",
+				"10",
+				"--colors",
+			],
+			"outputCapture": "std",
+			"internalConsoleOptions": "openOnSessionStart",
+		},
+		{
+			"name": "Test: 144) Storage - MongoProvider Tests",
+			"type": "node",
+			"request": "launch",
+			"skipFiles": [
+				"<node_internals>/**"
+			],
+			"cwd": "${workspaceFolder}",
+			"program": "${workspaceFolder}/node_modules/mocha/bin/mocha",
+			"args": [
+				"-u",
+				"bdd",
+				"tests/144*.js",
+				"--timeout",
+				"0",
+				"--slow",
+				"10",
+				"--colors",
+			],
+			"outputCapture": "std",
+			"internalConsoleOptions": "openOnSessionStart",
+		},
+		{
+			"name": "Test: 200) Services Tests",
+			"type": "node",
+			"request": "launch",
+			"skipFiles": [
+				"<node_internals>/**"
+			],
+			"cwd": "${workspaceFolder}",
+			"program": "${workspaceFolder}/node_modules/mocha/bin/mocha",
+			"args": [
+				"-u",
+				"bdd",
+				"tests/200*.js",
+				"--timeout",
+				"0",
+				"--slow",
+				"10",
+				"--colors",
+			],
+			"outputCapture": "std",
+			"internalConsoleOptions": "openOnSessionStart",
+		},
+		{
+			"name": "Test: 230) ServerAccounts Service Tests",
+			"type": "node",
+			"request": "launch",
+			"skipFiles": [
+				"<node_internals>/**"
+			],
+			"cwd": "${workspaceFolder}",
+			"program": "${workspaceFolder}/node_modules/mocha/bin/mocha",
+			"args": [
+				"-u",
+				"bdd",
+				"tests/230*.js",
+				"--timeout",
+				"0",
+				"--slow",
+				"10",
+				"--colors",
+			],
+			"outputCapture": "std",
+			"internalConsoleOptions": "openOnSessionStart",
+		},
+		{
+			"name": "Test: 240) Authentication Service Tests",
+			"type": "node",
+			"request": "launch",
+			"skipFiles": [
+				"<node_internals>/**"
+			],
+			"cwd": "${workspaceFolder}",
+			"program": "${workspaceFolder}/node_modules/mocha/bin/mocha",
+			"args": [
+				"-u",
+				"bdd",
+				"tests/240*.js",
+				"--timeout",
+				"0",
+				"--slow",
+				"10",
+				"--colors",
+			],
+			"outputCapture": "std",
+			"internalConsoleOptions": "openOnSessionStart",
+		},
+		{
+			"name": "Test: 300) TestService Tests",
+			"type": "node",
+			"request": "launch",
+			"skipFiles": [
+				"<node_internals>/**"
+			],
+			"cwd": "${workspaceFolder}",
+			"program": "${workspaceFolder}/node_modules/mocha/bin/mocha",
+			"args": [
+				"-u",
+				"bdd",
+				"tests/300*.js",
+				"--timeout",
+				"0",
+				"--slow",
+				"10",
+				"--colors",
+			],
+			"outputCapture": "std",
+			"internalConsoleOptions": "openOnSessionStart",
+		},
+		{
+			"name": "Test: 310) Text Transport Tests",
+			"type": "node",
+			"request": "launch",
+			"skipFiles": [
+				"<node_internals>/**"
+			],
+			"cwd": "${workspaceFolder}",
+			"program": "${workspaceFolder}/node_modules/mocha/bin/mocha",
+			"args": [
+				"-u",
+				"bdd",
+				"tests/310*.js",
+				"--timeout",
+				"0",
+				"--slow",
+				"10",
+				"--colors",
+			],
+			"outputCapture": "std",
+			"internalConsoleOptions": "openOnSessionStart",
+		},
+		{
+			"name": "Test: 320) Web Transport Tests",
+			"type": "node",
+			"request": "launch",
+			"skipFiles": [
+				"<node_internals>/**"
+			],
+			"cwd": "${workspaceFolder}",
+			"program": "${workspaceFolder}/node_modules/mocha/bin/mocha",
+			"args": [
+				"-u",
+				"bdd",
+				"tests/320*.js",
+				"--timeout",
+				"0",
+				"--slow",
+				"10",
+				"--colors",
+			],
+			"outputCapture": "std",
+			"internalConsoleOptions": "openOnSessionStart",
+		},
+		{
+			"name": "Test: 330) WebSocket Transport Tests",
+			"type": "node",
+			"request": "launch",
+			"skipFiles": [
+				"<node_internals>/**"
+			],
+			"cwd": "${workspaceFolder}",
+			"program": "${workspaceFolder}/node_modules/mocha/bin/mocha",
+			"args": [
+				"-u",
+				"bdd",
+				"tests/330*.js",
+				"--timeout",
+				"0",
+				"--slow",
+				"10",
+				"--colors",
+			],
+			"outputCapture": "std",
+			"internalConsoleOptions": "openOnSessionStart",
+		},
+		{
+			"name": "Test: 340) Amqp Transport Tests",
+			"type": "node",
+			"request": "launch",
+			"skipFiles": [
+				"<node_internals>/**"
+			],
+			"cwd": "${workspaceFolder}",
+			"program": "${workspaceFolder}/node_modules/mocha/bin/mocha",
+			"args": [
+				"-u",
+				"bdd",
+				"tests/340*.js",
+				"--timeout",
+				"0",
+				"--slow",
+				"10",
+				"--colors",
+			],
+			"outputCapture": "std",
+			"internalConsoleOptions": "openOnSessionStart",
+		},
+		{
+			"name": "Test: 400) Command Line Tests",
+			"type": "node",
+			"request": "launch",
+			"skipFiles": [
+				"<node_internals>/**"
+			],
+			"cwd": "${workspaceFolder}",
+			"program": "${workspaceFolder}/node_modules/mocha/bin/mocha",
+			"args": [
+				"-u",
+				"bdd",
+				"tests/400*.js",
+				"--timeout",
+				"0",
+				"--slow",
+				"10",
+				"--colors",
+			],
+			"outputCapture": "std",
+			"internalConsoleOptions": "openOnSessionStart",
+		},
+		{
+			"name": "------------------------------------------",
+		},
+		{
+			"name": "Sample: Maths Server",
+			"type": "node",
+			"request": "launch",
+			"skipFiles": [
+				"<node_internals>/**"
+			],
+			"cwd": "${workspaceFolder}",
+			"program": "${workspaceFolder}/samples/MathsServer/MathsServer.js",
+			"args": [],
+			"outputCapture": "std",
+			"internalConsoleOptions": "openOnSessionStart",
+		},
+		{
+			"name": "Sample: Test Config",
+			"type": "node",
+			"request": "launch",
+			"skipFiles": [
+				"<node_internals>/**"
+			],
+			"cwd": "${workspaceFolder}",
+			"program": "${workspaceFolder}/samples/TestConfig/TestConfig.js",
+			"args": [],
+			"outputCapture": "std",
+			"internalConsoleOptions": "openOnSessionStart",
+		},
+		{
+			"name": "------------------------------------------",
+		},
+		{
+			"name": "101 Build Summary",
+			"type": "node",
+			"request": "launch",
+			"skipFiles": [
+				"<node_internals>/**"
+			],
+			"cwd": "${workspaceFolder}",
+			"program": "${workspaceFolder}/build/101-build-summary.js",
+		},
+		{
+			"name": "Build - Release",
+			"type": "node",
+			"request": "launch",
+			"skipFiles": [
+				"<node_internals>/**"
+			],
+			"cwd": "${workspaceFolder}",
+			"program": "${workspaceFolder}/build/build-release.js",
+		},
+		{
+			"name": "------------------------------------------",
+		},
+		{
+			"name": "server-kit Ad-Hoc 1",
+			"type": "node",
+			"request": "launch",
+			"skipFiles": [
+				"<node_internals>/**"
+			],
+			"cwd": "${workspaceFolder}/tests/~temp",
+			"program": "${workspaceFolder}/src/server-kit.js",
+			"args": [
+				"--name",
+				"TestServer",
+				"call",
+				"ServerManagement.Diagnostics",
+			]
+		},
+		{
+			"name": "server-kit Ad-Hoc 2",
+			"type": "node",
+			"request": "launch",
+			"skipFiles": [
+				"<node_internals>/**"
+			],
+			"cwd": "${workspaceFolder}/tests/~temp",
+			"program": "${workspaceFolder}/src/server-kit.js",
+			"args": [
+				"--name",
+				"TestServer",
+				"call",
+				"ServerAccounts.StorageFindMany",
+				"{ Criteria: { user_role: 'admin' } }",
+			]
+		},
+	]
+}

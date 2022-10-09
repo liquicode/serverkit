@@ -1,0 +1,96 @@
+.w3-modal(
+	id='invoke-modal'
+)
+	.w3-modal-content.w3-animate-zoom.w3-animate-opacity(
+		style="max-height:99%;overflow-x:auto; overflow-y:auto;"
+	)
+
+		//- Modal Title
+		header.w3-blue
+			.w3-row
+				.w3-cell
+					//- Verb
+					span.w3-tag.w3-round.w3-green.w3-padding
+						h3 {{Page.Invoke.verb}}
+				.w3-cell
+					//- Service and Origin
+					span.w3-display-topmiddle
+						h5 {{Page.Invoke.service_name}} Service
+						b {{Page.Invoke.origin_name}}
+				.w3-cell
+					//- Modal Cancel Button
+					span.w3-button.w3-display-topright.w3-xlarge.w3-round-xxlarge(
+						ng-click="Page.HideInvokeModal()"
+					) &times;
+
+		//- Modal Body
+		.w3-container.w3-whitesmoke(
+			style=""
+		)
+
+			p {{Page.Invoke.origin_description}}
+
+			.w3-section.w3-border
+
+			h4 As User:
+
+			.w3-container
+				.w3-row
+					.w3-quarter
+						h5
+					.w3-threequarter
+						h5 {{Page.Invoke.as_user}}
+
+			.w3-section.w3-border
+
+			h4 Parameters:
+
+			.w3-container
+				.w3-row(
+					ng-repeat="parameter in Page.Invoke.parameters"
+				)
+
+					.w3-quarter.w3-padding-small
+						h5.w3-center {{parameter.name}} :
+
+					.w3-threequarter.w3-padding-small
+
+						.w3-row
+							.w3-small {{parameter.description}}
+							b.w3-small Type: 
+							span.w3-small {{parameter.type}}
+							span(
+								ng-show="parameter.format"
+							).w3-small :{{parameter.format}}
+
+						.w3-row
+							input.w3-input.w3-sand.w3-round-large.w3-text-blue(
+								type="text"
+								ng-model="Page.Invoke.values[ parameter.name ]"
+							)
+
+			.w3-section.w3-border
+
+			h4 Response:
+
+			//- .w3-container.w3-border.w3-round-large
+			.w3-container
+				pre.w3-code.jsHigh.w3-small(
+					id='invoke-response'
+				)
+				//- {{Page.InvokeResponse()}}
+
+		//- Modal Footer
+		footer.w3-container.w3-blue.w3-padding.w3-margin-top
+
+			a.w3-button.w3-small.w3-round-large.w3-green(
+				href="#"
+				ng-click="Page.InvokeFunction()"
+			)
+				h5 {{Page.Invoke.verb}}
+
+			a.w3-button.w3-small.w3-round-large.w3-red.w3-right(
+				href="#"
+				ng-click="Page.HideInvokeModal()"
+			)
+				h5 Close

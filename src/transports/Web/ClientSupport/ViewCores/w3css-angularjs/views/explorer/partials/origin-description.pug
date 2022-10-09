@@ -1,0 +1,12 @@
+//- Allowed Roles and Login
+i.w3-small= `${origin.description}`
+br
+span.w3-small
+	b Allowed Roles: &nbsp
+if( origin.allowed_roles.length === 0 )
+	span.w3-small anyone
+else
+	span.w3-small= origin.allowed_roles.join( ', ' )
+if( origin.requires_login )
+	span.w3-small &nbsp (requires login)
+p
