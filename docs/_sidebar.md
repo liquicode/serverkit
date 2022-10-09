@@ -74,9 +74,11 @@
 
 <hr>
 
-- Examples
+- Samples
 
 	- [Simple Service](					examples/Simple-Application-Service.md)
+	- [Test Config](					samples/TestConfig.md)
+	- [Maths Server](					samples/MathsServer.md)
 
 
 <hr>

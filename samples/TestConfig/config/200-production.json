@@ -1,0 +1,13 @@
+{
+	"AppInfo": {
+		"environment": "production"
+	},
+	"Transports": {
+		"Web": {
+			"ServerAddress": {
+				"protocol": "https",
+				"port": 443
+			}
+		}
+	}
+}

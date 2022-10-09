@@ -1,0 +1,12 @@
+{
+	"AppInfo": {
+		"environment": "development"
+	},
+	"Transports": {
+		"Web": {
+			"ServerAddress": {
+				"port": 4200
+			}
+		}
+	}
+}

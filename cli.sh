@@ -1,2 +1,2 @@
 #!/bin/bash
-node src/server-kit-cli.js $@
+node src/serverkit.js $@
