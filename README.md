@@ -1,5 +1,5 @@
 # ServerKit
-***(v0.0.25)***
+***(v0.0.26)***
 
 
 A Different Kind of Web Framework
