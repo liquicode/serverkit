@@ -2,9 +2,6 @@
 ***(v0.0.25)***
 
 
-> Quick Link: [ServerKit Documentation](http://serverkit.net)
-
-
 A Different Kind of Web Framework
 ---------------------------------------------------------------------
 
@@ -13,6 +10,9 @@ It handles all of the plumbing to get your services online and usable.
 
 ServerKit is easy to use, provides a simple way to get started with a new web project,
 and has many features to assist you in the development and debugging of your services.
+
+
+> Quick Link: [ServerKit Documentation](http://docs.serverkit.net)
 
 
 Why Another Framework?
@@ -78,7 +78,7 @@ npm install @liquicode/serverkit
 ```
 
 ```javascript
-// Include the library in your source code
+// Include the library into your project
 const ServerKit = require( '@liquicode/serverkit' );
 
 // Set some configuration options.
@@ -144,7 +144,7 @@ docker run --mount type=bind,source=~/MathsServer,target=/server agbowlin/server
 #                  ^ use the ~/MathsServer folder               ^ image name        ^ serverkit arguments
 ```
 
-> See Also: [ServerKit Samples](https://github.com/liquicode/serverkit/tree/main/samples).
+> See Also: [ServerKit Samples](https://github.com/liquicode/serverkit-samples).
 
 
 ServerKit Features
@@ -246,12 +246,12 @@ Code and Samples
 
 - [ServerKit NPM Page](https://www.npmjs.com/package/@liquicode/serverkit)
 - [ServerKit Source Code](https://github.com/liquicode/serverkit)
-- [ServerKit Samples](https://github.com/liquicode/serverkit/tree/main/samples)
+- [ServerKit Samples](https://github.com/liquicode/serverkit-samples)
 - [ServerKit Docker Image]()
 
 Support
 
-- [ServerKit Documentation](http://serverkit.net)
+- [ServerKit Documentation](http://docs.serverkit.net)
 - [ServerKit Support Forum](http://guilded.gg/liquicode)
 
 

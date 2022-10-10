@@ -1,9 +1,9 @@
 
 # Testing Output
 
-- Project: @liquicode/lib-server-kit
-- Version: v0.0.24
-- Timestamp: 2022-10-05T18:12:08.283Z
+- Project: @liquicode/serverkit
+- Version: v0.0.25
+- Timestamp: 2022-10-10T08:53:03.247Z
 
 ~~~
 010) json-criteria Tests
@@ -110,7 +110,6 @@
       √ Should not allow readers to update documents
 
   144) Storage - MongoProvider Tests
-Starting serverkit-mongo-test.
     MongoProvider Tests (10 Objects)
       √ Should create test objects
       √ Should read and write test objects
@@ -130,7 +129,6 @@ Starting serverkit-mongo-test.
       √ Public objects should be readable by everyone
       √ Public objects should only be writable by the owner
       √ Should not allow readers to update documents
-Stopping serverkit-mongo-test.
 
   200) Services Tests
     √ should load services
@@ -229,5 +227,5 @@ Stopping serverkit-mongo-test.
     √ should find all admin accounts - syntax 2
 
 
-  154 passing (19s)
+  154 passing (16s)
 ~~~
