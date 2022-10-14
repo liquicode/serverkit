@@ -1,5 +1,0 @@
-export DOCKER_IMAGE_NAME='Docker Image Name'
-export DOCKER_REPO_URL='Docker Registry'
-export AWS_PROFILE='AWS Profile Name'
-export AWS_DOCKER_REPO_URL='AWS ECR Repository URL'
-export AWS_BUCKET='AWS Bucket Name'

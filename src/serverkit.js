@@ -231,11 +231,11 @@ else
 //---------------------------------------------------------------------
 function print_usage()
 {
-	let command_name = '@liquicode/server-kit';
+	let command_name = 'serverkit';
 	console.log( `
 === ${command_name} ===
 
-    Usage: npx ${command_name} [options] <command> <command-parameters>
+    Usage: ${command_name} [options] <command> <command-parameters>
 
 ---------------------------------------------------
 Use one of the following commands:
@@ -275,7 +275,7 @@ Examples:
 function print_debug()
 {
 	console.log( `
-=== server-kit debug output ===================
+=== serverkit debug output ===================
 === ServerKit Version : [${PACKAGE_VERSION}]
 === ServerName        : [${ServerName}]
 === ServerFolder      : [${ServerFolder}]
@@ -287,7 +287,7 @@ function print_debug()
 	{
 		console.log( `${index}: ${val}` );
 	} );
-	console.log( `=== server-kit debug output ===================` );
+	console.log( `=== serverkit debug output ===================` );
 	return;
 }
 
@@ -634,6 +634,7 @@ async function ProcessCommandLine()
 		case 'logout': return await LogoutCommand();
 		case 'list': return await ListCommand();
 		case 'call': return await CallCommand();
+		case 'run': return { keep_running: true };
 	}
 	print_usage();
 	return;
@@ -648,6 +649,7 @@ async function ProcessCommandLine()
 	Server = ServerKit.NewServer( ServerName, ServerFolder, ServerOptions );
 
 	// Server Initialize.
+	await Server.InstallAutoShutdown();
 	await Server.Initialize();
 
 	// Server Startup.
@@ -661,6 +663,10 @@ async function ProcessCommandLine()
 	}
 	else if ( typeof result === 'object' )
 	{
+		if ( result.keep_running )
+		{
+			return;
+		}
 		console.log( JSON.stringify( result, null, '    ' ) );
 	}
 	else
@@ -676,7 +682,7 @@ async function ProcessCommandLine()
 	catch ( error )
 	{
 		console.error( `ServerKit encountered an error while shutting down.` );
-		console.error( `Certain permission errors are expected when running server-kit` );
+		console.error( `Certain permission errors are expected when running serverkit` );
 		console.error( `directly from the npm registry as a non-administrator.` );
 		console.error( error.message );
 		if ( is_debugging ) { console.dump( error ); }

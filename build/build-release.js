@@ -11,6 +11,10 @@ const TIMESTAMP = ( new Date() ).toISOString();
 const AWS_BUCKET = 'docs.serverkit.net';
 const AWS_PROFILE = 'admin';
 
+let package_folder = process.cwd();
+let package_filename = LIB_PATH.join( package_folder, 'package.json' );
+let PACKAGE = require( package_filename );
+
 
 //=====================================================================
 //=====================================================================
@@ -23,13 +27,10 @@ const AWS_PROFILE = 'admin';
 
 // Initial Heading.
 Builder.LogHeading( `Build starting ...` );
-Builder.LogMuted( `Running in: ${process.cwd()}` );
+Builder.LogMuted( `Running in: ${package_folder}` );
 
 
 // Load the project's Package file.
-let package_folder = process.cwd();
-let package_filename = LIB_PATH.join( package_folder, 'package.json' );
-let PACKAGE = require( package_filename );
 Builder.LogMuted( `Loaded package.json` );
 Builder.LogMuted( `  - name = ${PACKAGE.name}` );
 Builder.LogMuted( `  - version = ${PACKAGE.version}` );
@@ -176,6 +177,19 @@ Builder.Npm_Publish();
 
 // Publish current version docs to S3.
 Builder.Aws_S3_Sync( LIB_PATH.join( package_folder, 'docs' ), AWS_BUCKET, AWS_PROFILE );
+
+
+//=====================================================================
+//=====================================================================
+//
+//		Build Docker Image
+//
+//=====================================================================
+//=====================================================================
+
+
+Builder.LogHeading( `Building Docker Image ...` );
+
 
 
 //=====================================================================
