@@ -16,6 +16,8 @@
 	- [ServerKit Concepts](					guides/010-Concepts.md)
 	- [ServerKit Features](					guides/020-Features.md)
 	- [Server Creation](					guides/030-ServerKit-NewServer.md)
+	- [Server Console/CLI](					guides/111-Server-Cli.md)
+	- [Docker Usage](						guides/320-Docker-Usage.md)
 	<!-- - [Naming Conventions](					guides/999-Naming-Conventions.md) -->
 
 <hr>
@@ -24,7 +26,6 @@
 
 	- [Server Overview](					guides/100-Server.md)
 	- [Server Startup](						guides/110-Server-Startup.md)
-	- [Server Console/CLI](					guides/111-Server-Cli.md)
 
 	- [Server Detail](						guides/130-Server-Object.md)
 	- [Server.Initialize()](				guides/131-Server-Initialize.md)

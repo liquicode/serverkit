@@ -17,7 +17,7 @@ Dynamic Usage
 ---------------------------------------------------------------------
 
 ```bash
-npx @liquicode/server-kit [--name MyServer] [--folder ~/ServerCode] [--options ~/server-options.json] <command>
+npx @liquicode/serverkit [--name MyServer] [--folder ~/ServerCode] [--options ~/server-options.json] <command>
 ```
 
 Installation is not a required step as the `npx` command will also search
@@ -28,7 +28,7 @@ Command Line Options
 ---------------------------------------------------------------------
 ~~~
 
-    Usage: npx @liquicode/server-kit [options] <command> <command-parameters>
+    Usage: npx @liquicode/serverkit [options] <command> <command-parameters>
 
 ---------------------------------------------------
 Use one of the following commands:
@@ -52,10 +52,10 @@ Any command can be preceeded by any of the following options:
 ---------------------------------------------------
 Examples:
 ---------------------------------------------------
-    > npx @liquicode/server-kit-cli signup user@server "my password" "My Name"
-    > npx @liquicode/server-kit-cli --name MyServer login user@server "my password"
-    > npx @liquicode/server-kit-cli list
-    > npx @liquicode/server-kit-cli --log list ServerAccounts
-    > npx @liquicode/server-kit-cli call ServerAccounts.StorageFindOne
+    > npx @liquicode/serverkit signup user@server "my password" "My Name"
+    > npx @liquicode/serverkit --name MyServer login user@server "my password"
+    > npx @liquicode/serverkit list
+    > npx @liquicode/serverkit --log list ServerAccounts
+    > npx @liquicode/serverkit call ServerAccounts.StorageFindOne
 ~~~
 
