@@ -36,7 +36,7 @@ let output = '';
 output = Builder.Execute( `docker build -t ${DOCKER_IMAGE_NAME}:latest . --file ${docker_filename}` );
 output = Builder.Execute( `docker image tag ${DOCKER_IMAGE_NAME}:latest ${DOCKER_REGISTRY_URL}/${DOCKER_IMAGE_NAME}:v${PACKAGE.version}` );
 output = Builder.Execute( `docker image tag ${DOCKER_IMAGE_NAME}:latest ${DOCKER_REGISTRY_URL}/${DOCKER_IMAGE_NAME}:latest` );
-output = Builder.Execute( `docker push ${DOCKER_REGISTRY_URL}/${DOCKER_IMAGE_NAME}:v${PACKAGE.version}` );
-output = Builder.Execute( `docker push ${DOCKER_REGISTRY_URL}/${DOCKER_IMAGE_NAME}:latest` );
+// output = Builder.Execute( `docker push ${DOCKER_REGISTRY_URL}/${DOCKER_IMAGE_NAME}:v${PACKAGE.version}` );
+// output = Builder.Execute( `docker push ${DOCKER_REGISTRY_URL}/${DOCKER_IMAGE_NAME}:latest` );
 
 process.exit();

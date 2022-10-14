@@ -1,4 +1,4 @@
-FROM		node:12.22
+FROM		node:14
 LABEL		name="@liquicode/serverkit"
 LABEL		description="ServerKit (v0.0.26)"
 
@@ -16,14 +16,16 @@ COPY		./readme.md			/home/serverkit/readme.md
 COPY		./license.md		/home/serverkit/license.md
 COPY		./VERSION			/home/serverkit/VERSION
 
+# NPM Install
 WORKDIR		/home/serverkit
 RUN			npm install -P
 
-# Expose Port for Web
-# EXPOSE 8080
-# Expose Port for WebSocket
-# EXPOSE 8081
+# Expose Default Port for Web
+EXPOSE 8080
+# Expose Default Port for WebSocket
+EXPOSE 8081
 
+# Set the Entrypoint
 ENTRYPOINT [ "node", "src/serverkit.js" ]
 
 # docker run -it --mount type=bind,target=/serverkit-data,source=W:\code-projects\orgs\liquicode\apps\serverkit.git\~samples\MathsServer serverkit --name MathsServer --folder /data

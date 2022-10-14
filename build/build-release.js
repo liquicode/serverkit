@@ -11,6 +11,9 @@ const TIMESTAMP = ( new Date() ).toISOString();
 const AWS_BUCKET = 'docs.serverkit.net';
 const AWS_PROFILE = 'admin';
 
+const DOCKER_IMAGE_NAME = 'serverkit';
+const DOCKER_REGISTRY_URL = 'registry.hub.docker.com/agbowlin';
+
 let package_folder = process.cwd();
 let package_filename = LIB_PATH.join( package_folder, 'package.json' );
 let PACKAGE = require( package_filename );
@@ -80,6 +83,35 @@ Liquicode.System.WithFileText(
 	{
 		return Liquicode.Text.ReplaceBetween( Text, '(v', ')', PACKAGE.version );
 	} );
+
+// Update 'build/serverkit.dockerfile'
+Liquicode.System.WithFileText(
+	LIB_PATH.join( package_folder, 'build', `${DOCKER_IMAGE_NAME}.dockerfile` ),
+	function ( Filename, Text )
+	{
+		return Liquicode.Text.ReplaceBetween( Text, '(v', ')', PACKAGE.version );
+	} );
+
+
+//=====================================================================
+//=====================================================================
+//
+//		Build Docker Image
+//
+//=====================================================================
+//=====================================================================
+
+
+Builder.LogHeading( `Building Docker Image ...` );
+{
+	let output = '';
+	let docker_filename = LIB_PATH.join( package_folder, 'build', `${DOCKER_IMAGE_NAME}.dockerfile` );
+	output = Builder.Execute( `docker build -t ${DOCKER_IMAGE_NAME}:latest . --file ${docker_filename}` );
+	output = Builder.Execute( `docker image tag ${DOCKER_IMAGE_NAME}:latest ${DOCKER_REGISTRY_URL}/${DOCKER_IMAGE_NAME}:v${PACKAGE.version}` );
+	output = Builder.Execute( `docker image tag ${DOCKER_IMAGE_NAME}:latest ${DOCKER_REGISTRY_URL}/${DOCKER_IMAGE_NAME}:latest` );
+	output = Builder.Execute( `docker push ${DOCKER_REGISTRY_URL}/${DOCKER_IMAGE_NAME}:v${PACKAGE.version}` );
+	output = Builder.Execute( `docker push ${DOCKER_REGISTRY_URL}/${DOCKER_IMAGE_NAME}:latest` );
+}
 
 
 //=====================================================================
@@ -177,19 +209,6 @@ Builder.Npm_Publish();
 
 // Publish current version docs to S3.
 Builder.Aws_S3_Sync( LIB_PATH.join( package_folder, 'docs' ), AWS_BUCKET, AWS_PROFILE );
-
-
-//=====================================================================
-//=====================================================================
-//
-//		Build Docker Image
-//
-//=====================================================================
-//=====================================================================
-
-
-Builder.LogHeading( `Building Docker Image ...` );
-
 
 
 //=====================================================================

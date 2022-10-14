@@ -31,6 +31,7 @@ exports.CreateTestServer =
 				Modules: {
 					Log: {
 						Console: { enabled: false },
+						// Console: { enabled: true },
 						Shell: { enabled: false },
 						// Shell: { enabled: true },
 					}
@@ -39,7 +40,13 @@ exports.CreateTestServer =
 		);
 
 		// Reset the test environment.
-		LIQUICODEJS.System.EmptyFolder( application_path );
+		try
+		{
+			LIQUICODEJS.System.EmptyFolder( application_path );
+		} catch ( error )
+		{
+			console.log( `Error when trying to reset the environment: ${error.message}` );
+		}
 
 		// Create the server.
 		let server = LIB_SERVER_KIT.NewServer( application_name, application_path, {
