@@ -61,6 +61,13 @@ let SessionFilename = '';
 
 
 //---------------------------------------------------------------------
+// Load any environment settings
+if ( process.env.SERVERKIT_NAME ) { ServerName = process.env.SERVERKIT_NAME; }
+if ( process.env.SERVERKIT_FOLDER ) { ServerFolder = LIB_PATH.resolve( process.env.SERVERKIT_FOLDER ); }
+if ( process.env.SERVERKIT_OPTIONS ) { ServerOptionsFilename = process.env.SERVERKIT_OPTIONS; }
+
+
+//---------------------------------------------------------------------
 // Parse command line arguments.
 let logging_mode = '';
 let is_debugging = false;
