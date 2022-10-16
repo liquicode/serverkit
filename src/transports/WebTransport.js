@@ -39,7 +39,7 @@ exports.Construct =
 				//---------------------------------------------------------------------
 				ServerAddress: {
 					protocol: 'http',
-					address: 'localhost',
+					address: '0.0.0.0',
 					port: 8080,
 				},
 

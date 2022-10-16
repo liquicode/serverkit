@@ -34,7 +34,7 @@ exports.Construct =
 				use_http_server: 'internal',	// One of: 'internal' or 'node'
 				ServerAddress: {
 					protocol: 'http',
-					address: 'localhost',
+					address: '0.0.0.0',
 					port: 8081,
 				},
 				ClientSupport: {

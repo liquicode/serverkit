@@ -288,7 +288,7 @@ function print_debug()
 === ServerFolder      : [${ServerFolder}]
 === Options File      : [${ServerOptionsFilename}]
 === Parameters        : [${Parameters.join( ' ' )}]
-=== Session File      : [${SessionFilename}]
+=== CLI Session File  : [${SessionFilename}]
 === Raw Command Line  :`);
 	process.argv.forEach( ( val, index ) =>
 	{
