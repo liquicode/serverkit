@@ -3,8 +3,8 @@
 
 const LIB_FS = require( 'fs' );
 const LIB_PATH = require( 'path' );
-const SRC_EXPRESS_CLIENT_API = require( './ClientSupport/Web.ClientSupport.ClientApiFile.js' );
-const SRC_EXPRESS_OPEN_API = require( './ClientSupport/Web.ClientSupport.OpenApiFile.js' );
+const SRC_CLIENT_SUPPORT_CLIENT_API = require( './ClientSupport/Web.ClientSupport.ClientApiFile.js' );
+const SRC_CLIENT_SUPPORT_OPEN_API = require( './ClientSupport/Web.ClientSupport.OpenApiFile.js' );
 const SRC_CLIENT_SUPPORT_AUTHENTICATOR = require( './ClientSupport/Web.ClientSupport.Authenticator.js' );
 const SRC_CLIENT_SUPPORT_VIEW_CORE = require( './ClientSupport/Web.ClientSupport.ViewCore.js' );
 
@@ -34,7 +34,7 @@ exports.ClientSupport_GenerateClientApiFile =
 			&& CTX.Transport.Settings.ClientSupport.enabled
 			&& CTX.Transport.Settings.ClientSupport.client_api_file )
 		{
-			let code = SRC_EXPRESS_CLIENT_API.Generate( CTX.Server, CTX.Transport );
+			let code = SRC_CLIENT_SUPPORT_CLIENT_API.Generate( CTX.Server, CTX.Transport );
 			// let public_folder = CTX.Server.ResolveApplicationPath( CTX.Transport.Settings.ClientSupport.public_folder );
 			// LIB_FS.mkdirSync( public_folder, { recursive: true } );
 			// let filename = LIB_PATH.join( public_folder, CTX.Transport.Settings.ClientSupport.client_api_file );
@@ -53,13 +53,13 @@ exports.ClientSupport_GenerateOpenApiFile =
 			&& CTX.Transport.Settings.ClientSupport.enabled
 			&& CTX.Transport.Settings.ClientSupport.open_api_file )
 		{
-			let code = SRC_EXPRESS_OPEN_API.Generate( CTX.Server, CTX.Transport );
+			let code = SRC_CLIENT_SUPPORT_OPEN_API.Generate( CTX.Server, CTX.Transport );
 			// let public_folder = CTX.Server.ResolveApplicationPath( CTX.Transport.Settings.ClientSupport.public_folder );
 			// LIB_FS.mkdirSync( public_folder, { recursive: true } );
 			// let filename = LIB_PATH.join( public_folder, CTX.Transport.Settings.ClientSupport.open_api_file );
 			let filename = CTX.Server.ResolveApplicationPath( CTX.Transport.Settings.ClientSupport.open_api_file );
 			LIB_FS.mkdirSync( LIB_PATH.dirname( filename ), { recursive: true } );
-			LIB_FS.writeFileSync( filename, code );
+			LIB_FS.writeFileSync( filename, JSON.stringify( code ) );
 			CTX.Server.Log.trace( `Web.ClientSupport generated open api file [${CTX.Transport.Settings.ClientSupport.open_api_file}].` );
 		}
 	};
