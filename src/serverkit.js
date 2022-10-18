@@ -255,6 +255,7 @@ Use one of the following commands:
     list <ServiceName>                             | Lists all origins in the service.
     list <ServiceName.OriginName>                  | Lists origin definition.
     call <ServiceName.OriginName> <...Fields>      | Invokes an origin.
+	run                                            | Run the server.
 ---------------------------------------------------
 Any command can be preceeded by any of the following options:
 ---------------------------------------------------
@@ -435,7 +436,7 @@ async function LoginCommand()
 async function LogoutCommand()
 {
 	// Get parameters.
-	if ( Parameters.length < 1 ) { return `Login requires one parameter: UserEmail.`; }
+	if ( Parameters.length < 1 ) { return `Logout requires one parameter: UserEmail.`; }
 	let user_email = Parameters[ 0 ];
 	Parameters = Parameters.slice( 1 );
 
