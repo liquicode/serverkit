@@ -1,5 +1,5 @@
 # ServerKit
-***(v0.0.28)***
+***(v0.0.29)***
 
 
 A Different Kind of Web Framework
@@ -241,11 +241,12 @@ Distributions
 
 - [Source](https://github.com/liquicode/serverkit): Source code hosted on github.
 - [NPM](https://www.npmjs.com/package/@liquicode/serverkit): The NodeJS npm package.
-- [Docker](https://hub.docker.com/r/agbowlin/serverkit): The docker version os serverkit.
+- [Docker](https://hub.docker.com/r/agbowlin/serverkit): The docker version of serverkit.
 
 Support
 
 - [Docs](http://docs.serverkit.net): Documentation
+- [Wiki](https://wiki.serverkit.net): Documentation
 - [Samples](https://github.com/liquicode/serverkit-samples): Sample code and projects.
 - [Forums](http://guilded.gg/liquicode): Q&A, Discussion Forums.
 
