@@ -2,7 +2,7 @@
 	"name": "@liquicode/serverkit",
 	"version": "0.0.29",
 	"description": "A different kind of web framework.",
-	"homepage": "http://serverkit.liquicode.com",
+	"homepage": "http://serverkit.net",
 	"license": "MIT",
 	"public": true,
 	"repository": {
