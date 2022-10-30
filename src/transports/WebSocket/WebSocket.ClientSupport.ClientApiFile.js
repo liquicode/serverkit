@@ -88,6 +88,7 @@ function send_socket_message( RouteName, Fields, Callback )
 	payload.callback_name = RouteName + '->' + payload.id;
 	function socket_proxy_callback( api_result )
 	{
+		var error = null;
 		if ( api_result.ok )
 		{
 			${client_log_service_calls_disabler}console.log( "WebSocket Success [" + api_result.origin + "] <-- ", api_result.result );
@@ -95,10 +96,11 @@ function send_socket_message( RouteName, Fields, Callback )
 		else
 		{
 			${client_log_errors_disabler}console.log( "WebSocket Failure [" + api_result.origin + "] <-- " + api_result.error );
+			error = api_result.error;
 		}
 		if ( Callback )
 		{
-			Callback( api_result );
+			Callback( error, api_result );
 		}
 		return;
 	}

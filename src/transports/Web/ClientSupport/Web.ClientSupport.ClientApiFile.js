@@ -66,6 +66,7 @@ ${client_style_code}
 //---------------------------------------------------------------------
 function handle_message_success( ApiResult, Callback )
 {
+	var error = null;
 	if ( ApiResult.ok )
 	{
 		${client_log_service_calls_disabler}console.log( "WebOrigins Success [" + ApiResult.origin + "] <<-- ", ApiResult.result );
@@ -73,8 +74,12 @@ function handle_message_success( ApiResult, Callback )
 	else
 	{
 		${client_log_service_calls_disabler}console.log( "WebOrigins Failure [" + ApiResult.origin + "] <<-- " + ApiResult.error );
+		error = ApiResult.error;
 	}
-	Callback( null, ApiResult );
+	if( Callback )
+	{
+		Callback( error, ApiResult );
+	}
 	return;
 };
 
@@ -82,7 +87,10 @@ function handle_message_success( ApiResult, Callback )
 function handle_message_error( ErrorMessage, Callback )
 {
 	${client_log_errors_disabler}console.error( ErrorMessage );
-	Callback( ErrorMessage, null );
+	if ( Callback )
+	{
+		Callback( ErrorMessage, null );
+	}
 	return;
 };
 

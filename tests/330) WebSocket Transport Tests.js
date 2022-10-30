@@ -18,11 +18,17 @@ describe( `330) WebSocket Transport Tests`,
 		before(
 			async function ()
 			{
-				Server = await SRC_TEST_SERVER.CreateTestServer( {
-					Transports: {
-						WebSocket: { enabled: true, },
-					},
-				} );
+				try
+				{
+					Server = await SRC_TEST_SERVER.CreateTestServer( {
+						Transports: {
+							WebSocket: { enabled: true, },
+						},
+					} );
+				} catch ( error )
+				{
+					console.error( error );
+				}
 				return;
 			}
 		);

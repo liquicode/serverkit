@@ -40,6 +40,7 @@ exports.Construct =
 				ServerAddress: {
 					protocol: 'http',
 					address: '0.0.0.0',
+					public_address: '',
 					port: 8080,
 				},
 
@@ -180,8 +181,17 @@ exports.Construct =
 		transport.ServerAddress =
 			function ServerAddress()
 			{
+				let address = transport.Settings.ServerAddress.address;
+				if ( transport.Settings.ServerAddress.public_address )
+				{
+					address = transport.Settings.ServerAddress.public_address;
+				}
+				if ( address === '0.0.0.0' )
+				{
+					address = 'localhost';
+				}
 				let url = transport.Settings.ServerAddress.protocol
-					+ '://' + transport.Settings.ServerAddress.address
+					+ '://' + address
 					+ ':' + transport.Settings.ServerAddress.port;
 				return url;
 			};

@@ -1,5 +1,20 @@
+# Version History
 
-# Version History (v0.1.0)
+
+## v0.0.30
+
+
+- Fixed inconsistent usage of client callback between `WebTransport` and `WebSocketTransport`.
+- Added `ServerAddress.public_address` field in `WebTransport` and `WebSocketTransport`.
+	This field is optional and defaults to `ServerAddress.address`.
+	This address is used when generating client api files.
+
+
+---
+
+
+## TODO for v0.1.0
+
 
 - Server
 	- **COMPLETED** Rename: `ModuleBase` to `ServerModule`
@@ -20,6 +35,7 @@
 	- **COMPLETED** Rename `Server.NewField()` to `Server.NewFieldDefinition()`.
 	- **COMPLETED** Develop a `Server.NewOriginDefinition()` function to make it easier to define Origins.
 	- **COMPLETED** Allow wildcards in `Origin.verbs`.
+	- Make a task scheduler to invoke origins.
 
 
 - Services
@@ -41,6 +57,7 @@
 	- **COMPLETED** Rename: All Origin and View Parameter names should be in PascalCase.
 	- Add: `ProxyTo` Setting which informs transports to proxy all calls for a service to a remote server.
 	- Rename configuration setting `StorageService.Defaults.Storage` to `StorageService.Defaults.UserStorage`
+	- Add Origins using their `Definition.name` field rather than the programmatic name. Or remove the `Definition.name` field.
 
 
 - `Authentication` Service
@@ -113,6 +130,9 @@
 	- **COMPLETED** Validate SessionToken and user_role.
 	- **COMPLETED** Origin must have the 'socket-call' varb.
 	- **DECLINED** Rename `WebSocketTransport` to `SocketTransport`.
+	- Add `ServerAddress.public_address` field.
+		This field is optional and defaults to `ServerAddress.address`.
+		This address is used when generating client api files.
 
 
 - `AmqpTransport`

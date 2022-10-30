@@ -53,6 +53,7 @@ exports.CreateTestServer =
 			defaults_filename: 'defaults.json',
 			settings_filename: 'settings.json',
 			services_path: LIB_PATH.resolve( __dirname, 'test-services' ),
+			// services_path: 'test-services',
 			Settings: Settings,
 		} );
 

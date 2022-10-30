@@ -2,8 +2,8 @@
 # Testing Output
 
 - Project: @liquicode/serverkit
-- Version: v0.0.29
-- Timestamp: 2022-10-19T01:07:06.925Z
+- Version: v0.0.30
+- Timestamp: 2022-10-30T02:07:27.274Z
 
 ~~~
 010) json-criteria Tests
@@ -227,5 +227,5 @@
     √ should find all admin accounts - syntax 2
 
 
-  154 passing (21s)
+  154 passing (17s)
 ~~~
