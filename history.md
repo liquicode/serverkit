@@ -1,7 +1,14 @@
 # Version History
 
 
-## v0.0.30
+v0.0.31
+------------------------------------------
+
+- Added `Server.TaskManager`.
+
+
+v0.0.30
+------------------------------------------
 
 
 - Fixed inconsistent usage of client callback between `WebTransport` and `WebSocketTransport`.
@@ -9,11 +16,11 @@
 	This field is optional and defaults to `ServerAddress.address`.
 	This address is used when generating client api files.
 
-
 ---
 
 
-## TODO for v0.1.0
+TODO for v0.1.0
+------------------------------------------
 
 
 - Server
@@ -35,7 +42,7 @@
 	- **COMPLETED** Rename `Server.NewField()` to `Server.NewFieldDefinition()`.
 	- **COMPLETED** Develop a `Server.NewOriginDefinition()` function to make it easier to define Origins.
 	- **COMPLETED** Allow wildcards in `Origin.verbs`.
-	- Make a task scheduler to invoke origins.
+	- **COMPLETED** Make a task scheduler.
 
 
 - Services

@@ -65,6 +65,7 @@
 		"json-criteria": "2.x",
 		"merge-config": "2.x",
 		"mongodb": "4.x",
+		"node-cron": "^3.0.2",
 		"passport": "0.x",
 		"passport-auth0": "1.x",
 		"passport-http": "0.x",

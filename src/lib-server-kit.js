@@ -14,6 +14,7 @@ const LIQUICODEJS = require( '@liquicode/liquicodejs' );
 const SRC_SERVER_MODULE = require( LIB_PATH.join( __dirname, 'core', 'ServerModule.js' ) );
 const SRC_APPLICATION_SERVICE = require( LIB_PATH.join( __dirname, 'core', 'ApplicationService.js' ) );
 const SRC_STORAGE_SERVICE = require( LIB_PATH.join( __dirname, 'core', 'StorageService.js' ) );
+const SRC_TASK_MANAGER = require( LIB_PATH.join( __dirname, 'core', 'TaskManager.js' ) );
 
 const MODULES_PATH = LIB_PATH.join( __dirname, 'modules' );
 const SRC_UTILTIY_MODULE = require( LIB_PATH.join( MODULES_PATH, 'Utility.js' ) );
@@ -919,6 +920,11 @@ exports.NewServer =
 					server.Log.debug( `Runtime environment set to: ${process.env.NODE_ENV}` );
 				}
 
+				// Initialize Task Manager
+				{
+					server.TaskManager = SRC_TASK_MANAGER.NewTaskManager( server );
+				}
+
 				// Initialize Modules
 				{
 					let module_keys = Object.keys( server.Modules );
@@ -1050,6 +1056,11 @@ exports.NewServer =
 		server.Shutdown =
 			async function Shutdown()
 			{
+				// Shutdown Task Manager
+				{
+					server.TaskManager.StopAllTasks();
+				}
+
 				// Shutdown Transports
 				{
 					let module_keys = Object.keys( server.Transports );
