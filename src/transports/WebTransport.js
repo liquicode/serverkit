@@ -312,6 +312,57 @@ exports.Construct =
 			};
 
 
+		//---------------------------------------------------------------------
+		// Generate a User Service View Mapping
+		//---------------------------------------------------------------------
+
+		transport.GetUserViews =
+			function GetUserViews( User, OnlyNoRequiredFields = true )
+			{
+				let user_views = {};
+				Server.VisitViewsSync(
+					function process_view( Service, Origin )
+					{
+						if (
+							Origin &&
+							(
+								!Origin.requires_login
+								|| Origin.allowed_roles.includes( '*' )
+								|| Origin.allowed_roles.includes( User.user_role )
+							)
+						)
+						{
+							// Get the number of required parameters.
+							let required_fields = 0;
+							Origin.Fields.forEach( function ( Field ) { if ( Field.required ) { required_fields++; } } );
+							if ( OnlyNoRequiredFields && required_fields ) { return; }
+
+							// Initialize this service entry if it doesn't already exist.
+							if ( user_views[ Service.Definition.name ] === undefined )
+							{
+								user_views[ Service.Definition.name ] = {
+									name: Service.Definition.name,
+									title: Service.Definition.title || Service.Definition.name,
+									Views: [],
+								};
+							}
+
+							// Initialize a new entry for this Origin.
+							let service_entry = user_views[ Service.Definition.name ];
+							service_entry.Views.push( {
+								name: Origin.name,
+								title: Origin.title || Origin.name,
+								url: Service.Definition.name + '/' + Origin.name,
+								required_fields: required_fields,
+							} );
+						}
+						return;
+					}
+				);
+				return user_views;
+			};
+
+
 		//=====================================================================
 		//=====================================================================
 		//

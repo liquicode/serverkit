@@ -104,7 +104,11 @@ exports.ClientSupport_MountRootRoute =
 				CTX.Transport.InvocationGate( null, '/',
 					async function ( request, response, next )
 					{
-						response.render( root_view, { Server: CTX.Server, User: request.user } );
+						response.render( root_view, {
+							Server: CTX.Server,
+							User: request.user,
+							UserViews: CTX.Transport.GetUserViews( request.user, true ),
+						} );
 						return "OK";
 					}
 				),

@@ -328,6 +328,32 @@ exports.NewServer =
 				};
 
 
+				server.VisitOriginsSync =
+				function VisitOriginsSync( Callback )
+				{
+					let service_keys = Object.keys( server.Services );
+					for ( let index = 0; index < service_keys.length; index++ )
+					{
+						let service_key = service_keys[ index ];
+						let service = server.Services[ service_key ];
+						// Callback
+						let callback_result = Callback( service, null );
+						if ( callback_result !== undefined ) { return callback_result; }
+						// Iterate Service Origins
+						let origin_keys = Object.keys( service.Origins );
+						for ( let origin_index = 0; origin_index < origin_keys.length; origin_index++ )
+						{
+							let origin_key = origin_keys[ origin_index ];
+							let origin = service.Origins[ origin_key ];
+							// Callback
+							callback_result = Callback( service, origin );
+							if ( callback_result !== undefined ) { return callback_result; }
+						}
+					}
+					return;
+				};
+
+
 			//---------------------------------------------------------------------
 			// VisitViews
 			//---------------------------------------------------------------------
@@ -353,6 +379,32 @@ exports.NewServer =
 							let origin = service.Views[ origin_key ];
 							// Callback
 							callback_result = await Callback( service, origin );
+							if ( callback_result !== undefined ) { return callback_result; }
+						}
+					}
+					return;
+				};
+
+
+				server.VisitViewsSync =
+				function VisitViewsSync( Callback )
+				{
+					let service_keys = Object.keys( server.Services );
+					for ( let index = 0; index < service_keys.length; index++ )
+					{
+						let service_key = service_keys[ index ];
+						let service = server.Services[ service_key ];
+						// Callback
+						let callback_result = Callback( service, null );
+						if ( callback_result !== undefined ) { return callback_result; }
+						// Iterate Service Origins
+						let origin_keys = Object.keys( service.Views );
+						for ( let origin_index = 0; origin_index < origin_keys.length; origin_index++ )
+						{
+							let origin_key = origin_keys[ origin_index ];
+							let origin = service.Views[ origin_key ];
+							// Callback
+							callback_result = Callback( service, origin );
 							if ( callback_result !== undefined ) { return callback_result; }
 						}
 					}

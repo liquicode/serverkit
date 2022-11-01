@@ -56,7 +56,7 @@ function create_main_page( Path, Pages )
 {
 	let summary_page_filename = LIB_PATH.join( Path, '000-Summary.md' );
 	let content = `
-# ServerKit API
+# ServerKit Function Reference
 `;
 	let headers_built = false;
 	for ( let page_index = 0; page_index < Pages.length; page_index++ )
@@ -65,20 +65,30 @@ function create_main_page( Path, Pages )
 		switch ( page.category )
 		{
 			case 'Section':
+				if ( headers_built ) { content += '</details>\n'; }
 				content += '\n';
-				content += `## ServerKit ${page.object}\n`;
-				content += `***${page.summary}***\n`;
+				content += '---\n';
+				content += '\n';
+				content += `## ${page.object}\n`;
+				content += `**${page.summary}**\n`;
 				headers_built = false;
 				break;
 			case 'Object':
+				if ( headers_built ) { content += '</details>\n'; }
 				content += '\n';
-				content += `- ### ${page.object} Object\n`;
-				content += `***${page.summary}***\n`;
+				content += '\n';
+				content += `### ${page.object}\n`;
+				content += `- **${page.summary}**\n`;
 				headers_built = false;
 				break;
 			default:
 				if ( !headers_built )
 				{
+					content += '\n';
+					content += '<details>\n';
+					content += '<summary>\n';
+					content += `${page.object} Functions\n`;
+					content += '</summary>\n';
 					content += '\n';
 					content += `| Category | Type | Function | Parameters | Summary |\n`;
 					content += `|----------|------|----------|------------|---------|\n`;
@@ -88,6 +98,7 @@ function create_main_page( Path, Pages )
 				break;
 		}
 	}
+	if ( headers_built ) { content += '</details>\n'; }
 	LIB_FS.writeFileSync( summary_page_filename, content );
 	return;
 }

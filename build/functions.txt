@@ -2,12 +2,20 @@ Code	Object	Category	Roles	Type	Name	Link	Signature	Summary	Docs Date
 																													
 1000	Core	Section				1000-Core.md		Core library objects and functions.	2022-09-04																				
 																													
-1001	ServerKit	Object				1001-ServerKit-Object.md		ServerKit Library																					
+1001	ServerKit	Object				1001-ServerKit-Object.md		The ServerKit Library																					
 1002	ServerKit	General	n/a	Sync	NewServer	1002-ServerKit.NewServer.md	( ApplicationName, ApplicationPath, ServerOptions )	Returns a new Server object.	2022-09-04																				
 																													
-1100	Utility	Object				1100-Utility-Object.md		Internally used utitlity functions.																					
+1100	Log	Object						Logging functions.																					
+1110	Log	Logging	n/a		debug		( Message )	Outputs a (d)ebug message.																					
+1111	Log	Logging	n/a		trace		( Message )	Outputs a (t)race message.																					
+1112	Log	Logging	n/a		info		( Message )	Outputs an (i)nformational message.																					
+1113	Log	Logging	n/a		warn		( Message )	Outputs a (w)arning message.																					
+1114	Log	Logging	n/a		error		( Message )	Outputs an (e)rror message.																					
+1115	Log	Logging	n/a		fatal		( Message )	Outputs a (f)atal error message.																					
 																													
-1200	Log	Object				1200-Log-Object.md		Logging functions.																					
+1200	TaskManager	Object						Manage scheduled tasks.																					
+1210	TaskManager	Tasks	n/a	Sync	ScheduleTask		( TaskName, TaskCron, InvokeFunction )	Schedules or unschedules a task.																					
+1220	TaskManager	Tasks	n/a	Sync	StopAllTasks		( )	Unschedules and stops all tasks.																					
 																													
 1300	ServerModule	Object				1300-ServerModule-Object.md		A "base class" for developing server modules.																					
 1310	ServerModule	Module Control	n/a	Sync	InitializeModule	1310-ServerModule-InitializeModule.md	( )	Perform any one-time initialization for the module.																					

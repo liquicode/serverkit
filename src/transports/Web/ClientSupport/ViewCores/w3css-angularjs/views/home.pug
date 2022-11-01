@@ -10,6 +10,8 @@ block content
 			!= `window.SERVER_DATA = {};\n`
 			if( locals.User )
 				!= `window.SERVER_DATA.User = ${JSON.stringify( locals.User )};\n`
+			if( locals.UserViews )
+				!= `window.SERVER_DATA.UserViews = ${JSON.stringify( locals.UserViews )};\n`
 
 		.w3-container.w3-margin
 
@@ -18,6 +20,18 @@ block content
 
 				.w3-bar-item.w3-border.w3-round-large.w3-sand.w3-center
 					h3= "Welcome, " + locals.User.user_name + "!"
+
+				.w3-container.w3-margin 
+					h3 Directory of Pages 
+
+					each service, service_key in locals.UserViews
+						h5= service.title 
+						ul
+							each page in service.Views 
+								li
+									a.w3-button.w3-border.w3-round-large(
+										href=page.url
+									)= page.title
 
 			else
 

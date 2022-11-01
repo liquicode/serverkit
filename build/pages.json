@@ -19,7 +19,7 @@
 		"name": "",
 		"link": "1001-ServerKit-Object.md",
 		"signature": "",
-		"summary": "ServerKit Library"
+		"summary": "The ServerKit Library"
 	},
 	{
 		"code": "1002",
@@ -34,25 +34,113 @@
 	},
 	{
 		"code": "1100",
-		"object": "Utility",
-		"category": "Object",
-		"roles": "",
-		"type": "",
-		"name": "",
-		"link": "1100-Utility-Object.md",
-		"signature": "",
-		"summary": "Internally used utitlity functions."
-	},
-	{
-		"code": "1200",
 		"object": "Log",
 		"category": "Object",
 		"roles": "",
 		"type": "",
 		"name": "",
-		"link": "1200-Log-Object.md",
+		"link": "",
 		"signature": "",
 		"summary": "Logging functions."
+	},
+	{
+		"code": "1110",
+		"object": "Log",
+		"category": "Logging",
+		"roles": "n/a",
+		"type": "",
+		"name": "debug",
+		"link": "",
+		"signature": "( Message )",
+		"summary": "Outputs a (d)ebug message."
+	},
+	{
+		"code": "1111",
+		"object": "Log",
+		"category": "Logging",
+		"roles": "n/a",
+		"type": "",
+		"name": "trace",
+		"link": "",
+		"signature": "( Message )",
+		"summary": "Outputs a (t)race message."
+	},
+	{
+		"code": "1112",
+		"object": "Log",
+		"category": "Logging",
+		"roles": "n/a",
+		"type": "",
+		"name": "info",
+		"link": "",
+		"signature": "( Message )",
+		"summary": "Outputs an (i)nformational message."
+	},
+	{
+		"code": "1113",
+		"object": "Log",
+		"category": "Logging",
+		"roles": "n/a",
+		"type": "",
+		"name": "warn",
+		"link": "",
+		"signature": "( Message )",
+		"summary": "Outputs a (w)arning message."
+	},
+	{
+		"code": "1114",
+		"object": "Log",
+		"category": "Logging",
+		"roles": "n/a",
+		"type": "",
+		"name": "error",
+		"link": "",
+		"signature": "( Message )",
+		"summary": "Outputs an (e)rror message."
+	},
+	{
+		"code": "1115",
+		"object": "Log",
+		"category": "Logging",
+		"roles": "n/a",
+		"type": "",
+		"name": "fatal",
+		"link": "",
+		"signature": "( Message )",
+		"summary": "Outputs a (f)atal error message."
+	},
+	{
+		"code": "1200",
+		"object": "TaskManager",
+		"category": "Object",
+		"roles": "",
+		"type": "",
+		"name": "",
+		"link": "",
+		"signature": "",
+		"summary": "Manage scheduled tasks."
+	},
+	{
+		"code": "1210",
+		"object": "TaskManager",
+		"category": "Tasks",
+		"roles": "n/a",
+		"type": "Sync",
+		"name": "ScheduleTask",
+		"link": "",
+		"signature": "( TaskName, TaskCron, InvokeFunction )",
+		"summary": "Schedules or unschedules a task."
+	},
+	{
+		"code": "1220",
+		"object": "TaskManager",
+		"category": "Tasks",
+		"roles": "n/a",
+		"type": "Sync",
+		"name": "StopAllTasks",
+		"link": "",
+		"signature": "( )",
+		"summary": "Unschedules and stops all tasks."
 	},
 	{
 		"code": "1300",

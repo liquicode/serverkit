@@ -1,42 +1,99 @@
 
-# ServerKit API
+# ServerKit Function Reference
 
-## ServerKit Core
-***Core library objects and functions.***
+---
 
-- ### ServerKit Object
-***ServerKit Library***
+## Core
+**Core library objects and functions.**
+
+
+### ServerKit
+- **The ServerKit Library**
+
+<details>
+<summary>
+ServerKit Functions
+</summary>
 
 | Category | Type | Function | Parameters | Summary |
 |----------|------|----------|------------|---------|
 | General | Sync | NewServer | ( ApplicationName, ApplicationPath, ServerOptions ) | Returns a new Server object. |
+</details>
 
-- ### Utility Object
-***Internally used utitlity functions.***
 
-- ### Log Object
-***Logging functions.***
+### Log
+- **Logging functions.**
 
-- ### ServerModule Object
-***A "base class" for developing server modules.***
+<details>
+<summary>
+Log Functions
+</summary>
+
+| Category | Type | Function | Parameters | Summary |
+|----------|------|----------|------------|---------|
+| Logging |  | debug | ( Message ) | Outputs a (d)ebug message. |
+| Logging |  | trace | ( Message ) | Outputs a (t)race message. |
+| Logging |  | info | ( Message ) | Outputs an (i)nformational message. |
+| Logging |  | warn | ( Message ) | Outputs a (w)arning message. |
+| Logging |  | error | ( Message ) | Outputs an (e)rror message. |
+| Logging |  | fatal | ( Message ) | Outputs a (f)atal error message. |
+</details>
+
+
+### TaskManager
+- **Manage scheduled tasks.**
+
+<details>
+<summary>
+TaskManager Functions
+</summary>
+
+| Category | Type | Function | Parameters | Summary |
+|----------|------|----------|------------|---------|
+| Tasks | Sync | ScheduleTask | ( TaskName, TaskCron, InvokeFunction ) | Schedules or unschedules a task. |
+| Tasks | Sync | StopAllTasks | ( ) | Unschedules and stops all tasks. |
+</details>
+
+
+### ServerModule
+- **A "base class" for developing server modules.**
+
+<details>
+<summary>
+ServerModule Functions
+</summary>
 
 | Category | Type | Function | Parameters | Summary |
 |----------|------|----------|------------|---------|
 | Module Control | Sync | InitializeModule | ( ) | Perform any one-time initialization for the module. |
 | Module Control | Sync | StartupModule | ( ) | Start the module. |
 | Module Control | Sync | ShutdownModule | ( ) | Shut down the module. |
+</details>
 
-- ### ApplicationService Object
-***A "base class" for developing application services.***
+
+### ApplicationService
+- **A "base class" for developing application services.**
+
+<details>
+<summary>
+ApplicationService Functions
+</summary>
 
 | Category | Type | Function | Parameters | Summary |
 |----------|------|----------|------------|---------|
 | Module Control | Sync | InitializeModule | ( ) | Perform any one-time initialization for the module. |
 | Module Control | Sync | StartupModule | ( ) | Start the module. |
 | Module Control | Sync | ShutdownModule | ( ) | Shut down the module. |
+</details>
 
-- ### StorageService Object
-***A "base class" for developing user storage services.***
+
+### StorageService
+- **A "base class" for developing user storage services.**
+
+<details>
+<summary>
+StorageService Functions
+</summary>
 
 | Category | Type | Function | Parameters | Summary |
 |----------|------|----------|------------|---------|
@@ -59,9 +116,16 @@
 | Service View | Async | List | ( User, Criteria ) | Returns an html page that lists all objects. |
 | Service View | Async | Item | ( User, ItemID, PageOp ) | Returns an html page that can view, edit, delete, or add a single object. |
 | Service View | Async | Share | ( User, ItemID ) | Returns an html page that can share and unshare a single object. |
+</details>
 
-- ### Server Object
-***An object representing an instance of a ServerKit server.***
+
+### Server
+- **An object representing an instance of a ServerKit server.**
+
+<details>
+<summary>
+Server Functions
+</summary>
 
 | Category | Type | Function | Parameters | Summary |
 |----------|------|----------|------------|---------|
@@ -82,12 +146,21 @@
 | Transport | Sync | ValidateFieldValues | ( FieldDefinitions, FieldValues ) | Validate a set of values against a given definition. |
 | Transport | Sync | AuthorizeOriginAccess | ( User, Origin ) | Tests if User has access to a specific Origin. |
 | Transport | Sync | InvocationTracer | ( UserName, TransportName, RouteName, Parameters ) | Helper middleware to trace Origin invocations. |
+</details>
 
-## ServerKit Services
-***Internal services that ship with ServerKit.***
+---
 
-- ### ServerAccounts Object
-***Manages user accounts for the server.***
+## Services
+**Internal services that ship with ServerKit.**
+
+
+### ServerAccounts
+- **Manages user accounts for the server.**
+
+<details>
+<summary>
+ServerAccounts Functions
+</summary>
 
 | Category | Type | Function | Parameters | Summary |
 |----------|------|----------|------------|---------|
@@ -106,9 +179,16 @@
 | Service Call | Async | StorageWriteOne | ( User, Criteria, DataObject ) | Update an existing object that matches the Criteria. |
 | Service Call | Async | StorageDeleteOne | ( User, Criteria ) | Deletes the first object that matches the Criteria. |
 | Service Call | Async | StorageDeleteMany | ( User, Criteria ) | Deletes all objects that match the Criteria. |
+</details>
 
-- ### Authentication Object
-***Manages user credentials and authenticates users for the server.***
+
+### Authentication
+- **Manages user credentials and authenticates users for the server.**
+
+<details>
+<summary>
+Authentication Functions
+</summary>
 
 | Category | Type | Function | Parameters | Summary |
 |----------|------|----------|------------|---------|
@@ -119,9 +199,16 @@
 | Service Call | Async | Signup | ( User, UserEmail, Password, UserName ) | Creates a new server account for the user. |
 | Service Call | Async | Login | ( User, UserEmail, Password ) | Logs a user in and creates a new session. |
 | Service Call | Async | Logout | ( User, UserEmail ) | Logs a user out and destroys the session. |
+</details>
 
-- ### ServerManagement Object
-***Server management.***
+
+### ServerManagement
+- **Server management.**
+
+<details>
+<summary>
+ServerManagement Functions
+</summary>
 
 | Category | Type | Function | Parameters | Summary |
 |----------|------|----------|------------|---------|
@@ -132,12 +219,21 @@
 | Service Call | Async | RestartServer | ( User ) | Restarts the server. |
 | Service Call | Async | StopServer | ( User ) | Stops the server. |
 | Service View | Async | Explorer | ( ) | A view to explore and invoke service origins. |
+</details>
 
-## ServerKit Transports
-******
+---
 
-- ### Text Object
-***A command line text transport.***
+## Transports
+****
+
+
+### Text
+- **A command line text transport.**
+
+<details>
+<summary>
+Text Functions
+</summary>
 
 | Category | Type | Function | Parameters | Summary |
 |----------|------|----------|------------|---------|
@@ -147,9 +243,16 @@
 | Internal | Async | ParseCommandString | ( CommandString ) | Parses a string containing a command name and paramters. |
 | Internal | Async | InvokeCommand | ( SessionToken, Command ) | Invokes an Origin with the command name and paramters. |
 | Internal | Async | InvokeCommandString | ( SessionID, CommandString ) | Parses and invokes a string containing a command name and paramters. |
+</details>
 
-- ### Web Object
-***An http web transport.***
+
+### Web
+- **An http web transport.**
+
+<details>
+<summary>
+Web Functions
+</summary>
 
 | Category | Type | Function | Parameters | Summary |
 |----------|------|----------|------------|---------|
@@ -165,9 +268,16 @@
 | Internal | Sync | AuthenticationGate | ( Origin ) | Returns an Express middleware that validates the session. |
 | Internal | Sync | AuthorizationGate | ( Origin ) | Returns an Express middleware that authorizes the user to access an origin. |
 | Internal | Sync | InvocationGate | ( Origin, RouteName, Invocation ) | Returns an Express middleware that invokes an origin an returns the result. |
+</details>
 
-- ### WebSocket Object
-***A web socket transport.***
+
+### WebSocket
+- **A web socket transport.**
+
+<details>
+<summary>
+WebSocket Functions
+</summary>
 
 | Category | Type | Function | Parameters | Summary |
 |----------|------|----------|------------|---------|
@@ -177,17 +287,31 @@
 | Internal | Sync | ServerAddress | ( ) | Returns the server address (e.g. "http://localhost: 42") |
 | Internal | Sync | ServerPath | ( ) | Returns the server's root path |
 | Internal | Async | NewWebSocketClient | ( SessionToken_or_UserEmail, Password ) | Creates a new client and establishes a session. |
+</details>
 
-- ### WebSocketClient Object
-***A client for invoking Origins using the WebSocket transport.***
+
+### WebSocketClient
+- **A client for invoking Origins using the WebSocket transport.**
+
+<details>
+<summary>
+WebSocketClient Functions
+</summary>
 
 | Category | Type | Function | Parameters | Summary |
 |----------|------|----------|------------|---------|
 | Internal | Async | Call | ( RouteName, Parameters ) | Calls an origin on the server. |
 | Internal | Async | Close | ( ) | Closes the client connection to the server. |
+</details>
 
-- ### Amqp Object
-***A message queue transport using the amqp protocol.***
+
+### Amqp
+- **A message queue transport using the amqp protocol.**
+
+<details>
+<summary>
+Amqp Functions
+</summary>
 
 | Category | Type | Function | Parameters | Summary |
 |----------|------|----------|------------|---------|
@@ -195,11 +319,19 @@
 | Module Control | Sync | StartupModule | ( ) | Start the module. |
 | Module Control | Sync | ShutdownModule | ( ) | Shut down the module. |
 | Internal | Async | NewAmqpClient | ( SessionToken_or_UserEmail, Password ) | Creates a new client and establishes a session. |
+</details>
 
-- ### AmqpClient Object
-***A client for invoking Origins using the Amqp transport.***
+
+### AmqpClient
+- **A client for invoking Origins using the Amqp transport.**
+
+<details>
+<summary>
+AmqpClient Functions
+</summary>
 
 | Category | Type | Function | Parameters | Summary |
 |----------|------|----------|------------|---------|
 | Internal | Async | Call | ( RouteName, Parameters ) | Calls an origin on the server. |
 | Internal | Async | Close | ( ) | Closes the client connection to the server. |
+</details>

@@ -10,7 +10,7 @@ app.controller(
 		//---------------------------------------------------------------------
 		var Page = {
 			User: window.SERVER_DATA.User,
-			// Socket: SocketApi.NewSocket(),
+			UserViews: window.SERVER_DATA.UserViews,
 		};
 		$scope.Page = Page;
 

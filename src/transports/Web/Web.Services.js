@@ -31,6 +31,7 @@ exports.MountServices =
 		{
 			let service_key = service_keys[ index ];
 			let service = CTX.Server.Services[ service_key ];
+			if ( !service.enabled ) { continue; }
 
 			let server_path = CTX.Transport.ServerPath();
 			let services_path = CTX.Transport.ServicesPath();
@@ -212,6 +213,7 @@ exports.MountServices =
 						response.render( origin.view, {
 							Server: CTX.Server,
 							User: request.user,
+							UserViews: CTX.Transport.GetUserViews( request.user, true ),
 							Service: Service.Definition,
 							Origin: origin,
 							Parameters: parameter_map,

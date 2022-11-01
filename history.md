@@ -1,15 +1,20 @@
 # Version History
 
 
+v0.0.32
+------------------------------------------
+
+- Added `WebTransport.GetUserViews()` function.
+
+
 v0.0.31
 ------------------------------------------
 
-- Added `Server.TaskManager`.
+- Added `Server.TaskManager` object.
 
 
 v0.0.30
 ------------------------------------------
-
 
 - Fixed inconsistent usage of client callback between `WebTransport` and `WebSocketTransport`.
 - Added `ServerAddress.public_address` field in `WebTransport` and `WebSocketTransport`.
@@ -21,7 +26,6 @@ v0.0.30
 
 TODO for v0.1.0
 ------------------------------------------
-
 
 - Server
 	- **COMPLETED** Rename: `ModuleBase` to `ServerModule`

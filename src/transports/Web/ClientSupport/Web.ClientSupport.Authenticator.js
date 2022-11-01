@@ -153,8 +153,11 @@ exports.ClientSupport_MountAuthenticatorRoutes =
 					{
 						response.render(
 							CTX.Transport.Settings.ClientSupport.Views.signup_view,
-							{ Server: CTX.Server, User: request.user }
-						);
+							{
+								Server: CTX.Server,
+								User: request.user,
+								UserViews: CTX.Transport.GetUserViews( request.user, true ),
+							} );
 						return `Rendering ${CTX.Transport.Settings.ClientSupport.Views.signup_view}`;
 					}
 				),
@@ -173,8 +176,11 @@ exports.ClientSupport_MountAuthenticatorRoutes =
 					{
 						response.render(
 							CTX.Transport.Settings.ClientSupport.Views.login_view,
-							{ Server: CTX.Server, User: request.user }
-						);
+							{
+								Server: CTX.Server,
+								User: request.user,
+								UserViews: CTX.Transport.GetUserViews( request.user, true ),
+							} );
 						return `Rendering ${CTX.Transport.Settings.ClientSupport.Views.login_view}`;
 					}
 				),
@@ -193,8 +199,11 @@ exports.ClientSupport_MountAuthenticatorRoutes =
 					{
 						response.render(
 							CTX.Transport.Settings.ClientSupport.Views.logout_view,
-							{ Server: CTX.Server, User: request.user }
-						);
+							{
+								Server: CTX.Server,
+								User: request.user,
+								UserViews: CTX.Transport.GetUserViews( request.user, true ),
+							} );
 						return `Rendering ${CTX.Transport.Settings.ClientSupport.Views.logout_view}`;
 					}
 				),
