@@ -6,7 +6,7 @@
 		"roles": "",
 		"type": "",
 		"name": "",
-		"link": "1000-Core.md",
+		"link": "",
 		"signature": "",
 		"summary": "Core library objects and functions."
 	},
@@ -17,7 +17,7 @@
 		"roles": "",
 		"type": "",
 		"name": "",
-		"link": "1001-ServerKit-Object.md",
+		"link": "",
 		"signature": "",
 		"summary": "The ServerKit Library"
 	},
@@ -28,7 +28,7 @@
 		"roles": "n/a",
 		"type": "Sync",
 		"name": "NewServer",
-		"link": "1002-ServerKit.NewServer.md",
+		"link": "",
 		"signature": "( ApplicationName, ApplicationPath, ServerOptions )",
 		"summary": "Returns a new Server object."
 	},
@@ -149,7 +149,7 @@
 		"roles": "",
 		"type": "",
 		"name": "",
-		"link": "1300-ServerModule-Object.md",
+		"link": "",
 		"signature": "",
 		"summary": "A \"base class\" for developing server modules."
 	},
@@ -160,7 +160,7 @@
 		"roles": "n/a",
 		"type": "Sync",
 		"name": "InitializeModule",
-		"link": "1310-ServerModule-InitializeModule.md",
+		"link": "",
 		"signature": "( )",
 		"summary": "Perform any one-time initialization for the module."
 	},
@@ -171,7 +171,7 @@
 		"roles": "n/a",
 		"type": "Sync",
 		"name": "StartupModule",
-		"link": "1311-ServerModule-StartupModule.md",
+		"link": "",
 		"signature": "( )",
 		"summary": "Start the module."
 	},
@@ -182,7 +182,7 @@
 		"roles": "n/a",
 		"type": "Sync",
 		"name": "ShutdownModule",
-		"link": "1312-ServerModule-ShutdownModule.md",
+		"link": "",
 		"signature": "( )",
 		"summary": "Shut down the module."
 	},
@@ -193,7 +193,7 @@
 		"roles": "",
 		"type": "",
 		"name": "",
-		"link": "1400-ApplicationService-Object.md",
+		"link": "",
 		"signature": "",
 		"summary": "A \"base class\" for developing application services."
 	},
@@ -204,7 +204,7 @@
 		"roles": "n/a",
 		"type": "Sync",
 		"name": "InitializeModule",
-		"link": "1410-ApplicationService-InitializeModule.md",
+		"link": "",
 		"signature": "( )",
 		"summary": "Perform any one-time initialization for the module."
 	},
@@ -215,7 +215,7 @@
 		"roles": "n/a",
 		"type": "Sync",
 		"name": "StartupModule",
-		"link": "1411-ApplicationService-StartupModule.md",
+		"link": "",
 		"signature": "( )",
 		"summary": "Start the module."
 	},
@@ -226,7 +226,7 @@
 		"roles": "n/a",
 		"type": "Sync",
 		"name": "ShutdownModule",
-		"link": "1412-ApplicationService-ShutdownModule.md",
+		"link": "",
 		"signature": "( )",
 		"summary": "Shut down the module."
 	},
@@ -237,7 +237,7 @@
 		"roles": "",
 		"type": "",
 		"name": "",
-		"link": "1500-StorageService-Object.md",
+		"link": "",
 		"signature": "",
 		"summary": "A \"base class\" for developing user storage services."
 	},
@@ -248,7 +248,7 @@
 		"roles": "n/a",
 		"type": "Sync",
 		"name": "InitializeModule",
-		"link": "1511-StorageService-InitializeModule.md",
+		"link": "",
 		"signature": "( )",
 		"summary": "Perform any one-time initialization for the module."
 	},
@@ -259,7 +259,7 @@
 		"roles": "n/a",
 		"type": "Sync",
 		"name": "StartupModule",
-		"link": "1512-StorageService-StartupModule.md",
+		"link": "",
 		"signature": "( )",
 		"summary": "Start the module."
 	},
@@ -270,7 +270,7 @@
 		"roles": "n/a",
 		"type": "Sync",
 		"name": "ShutdownModule",
-		"link": "1513-StorageService-ShutdownModule.md",
+		"link": "",
 		"signature": "( )",
 		"summary": "Shut down the module."
 	},
@@ -281,7 +281,7 @@
 		"roles": "n/a",
 		"type": "Sync",
 		"name": "InitializeStorage",
-		"link": "1514-StorageService-InitializeStorage.md",
+		"link": "",
 		"signature": "( )",
 		"summary": "Perform any one-time initialization for the storage. Must be called by InitializeModule."
 	},
@@ -292,7 +292,7 @@
 		"roles": "n/a",
 		"type": "Sync",
 		"name": "StartupStorage",
-		"link": "1515-StorageService-StartupStorage.md",
+		"link": "",
 		"signature": "( )",
 		"summary": "Start the storage. Must be called by StartupModule."
 	},
@@ -303,7 +303,7 @@
 		"roles": "n/a",
 		"type": "Sync",
 		"name": "ShutdownStorage",
-		"link": "1516-StorageService-ShutdownStorage.md",
+		"link": "",
 		"signature": "( )",
 		"summary": "Shut down the storage. Must be called by ShutdownModule."
 	},
@@ -314,7 +314,7 @@
 		"roles": "n/a",
 		"type": "Async",
 		"name": "NewStorageItem",
-		"link": "1520-StorageService-NewStorageItem.md",
+		"link": "",
 		"signature": "( User, Prototype )",
 		"summary": "Initializes a new data item based upon the service's Item definition."
 	},
@@ -325,7 +325,7 @@
 		"roles": "admin, super, user",
 		"type": "Async",
 		"name": "StorageCount",
-		"link": "1521-StorageService-StorageCount.md",
+		"link": "",
 		"signature": "( User, Criteria )",
 		"summary": "Returns the number of objects that match the Criteria."
 	},
@@ -336,7 +336,7 @@
 		"roles": "admin, super, user",
 		"type": "Async",
 		"name": "StorageFindOne",
-		"link": "1522-StorageService-StorageFindOne.md",
+		"link": "",
 		"signature": "( User, Criteria )",
 		"summary": "Returns the first object that matches the Criteria."
 	},
@@ -347,7 +347,7 @@
 		"roles": "admin, super, user",
 		"type": "Async",
 		"name": "StorageFindMany",
-		"link": "1523-StorageService-StorageFindMany.md",
+		"link": "",
 		"signature": "( User, Criteria )",
 		"summary": "Returns all objects that match the Criteria."
 	},
@@ -358,7 +358,7 @@
 		"roles": "admin, super, user",
 		"type": "Async",
 		"name": "StorageCreateOne",
-		"link": "1524-StorageService-StorageCreateOne.md",
+		"link": "",
 		"signature": "( User, Prototype )",
 		"summary": "Create and store a new object for the User."
 	},
@@ -369,7 +369,7 @@
 		"roles": "admin, super, user",
 		"type": "Async",
 		"name": "StorageWriteOne",
-		"link": "1525-StorageService-StorageWriteOne.md",
+		"link": "",
 		"signature": "( User, Criteria, DataObject )",
 		"summary": "Update an existing object that matches the Criteria."
 	},
@@ -380,7 +380,7 @@
 		"roles": "admin, super, user",
 		"type": "Async",
 		"name": "StorageDeleteOne",
-		"link": "1526-StorageService-StorageDeleteOne.md",
+		"link": "",
 		"signature": "( User, Criteria )",
 		"summary": "Deletes the first object that matches the Criteria."
 	},
@@ -391,7 +391,7 @@
 		"roles": "admin, super, user",
 		"type": "Async",
 		"name": "StorageDeleteMany",
-		"link": "1527-StorageService-StorageDeleteMany.md",
+		"link": "",
 		"signature": "( User, Criteria )",
 		"summary": "Deletes all objects that match the Criteria."
 	},
@@ -402,7 +402,7 @@
 		"roles": "admin, super, user",
 		"type": "Async",
 		"name": "StorageShare",
-		"link": "1528-StorageService-StorageShare.md",
+		"link": "",
 		"signature": "( User, Criteria, Readers, Writers, MakePublic )",
 		"summary": "Shares all objects that match the Criteria with other users."
 	},
@@ -413,7 +413,7 @@
 		"roles": "admin, super, user",
 		"type": "Async",
 		"name": "StorageUnshare",
-		"link": "1529-StorageService-StorageUnshare.md",
+		"link": "",
 		"signature": "( User, Criteria, NotReaders, NotWriters, MakeNotPublic )",
 		"summary": "Unshares all objects that match the Criteria with other users."
 	},
@@ -424,7 +424,7 @@
 		"roles": "admin, super, user",
 		"type": "Async",
 		"name": "List",
-		"link": "1530-StorageService-List.md",
+		"link": "",
 		"signature": "( User, Criteria )",
 		"summary": "Returns an html page that lists all objects."
 	},
@@ -435,7 +435,7 @@
 		"roles": "admin, super, user",
 		"type": "Async",
 		"name": "Item",
-		"link": "1531-StorageService-Item.md",
+		"link": "",
 		"signature": "( User, ItemID, PageOp )",
 		"summary": "Returns an html page that can view, edit, delete, or add a single object."
 	},
@@ -446,7 +446,7 @@
 		"roles": "admin, super, user",
 		"type": "Async",
 		"name": "Share",
-		"link": "1532-StorageService-Share.md",
+		"link": "",
 		"signature": "( User, ItemID )",
 		"summary": "Returns an html page that can share and unshare a single object."
 	},
@@ -457,7 +457,7 @@
 		"roles": "",
 		"type": "",
 		"name": "",
-		"link": "1600-Server-Object.md",
+		"link": "",
 		"signature": "",
 		"summary": "An object representing an instance of a ServerKit server."
 	},
@@ -468,7 +468,7 @@
 		"roles": "n/a",
 		"type": "Async",
 		"name": "Initialize",
-		"link": "1610-Server-Initialize.md",
+		"link": "",
 		"signature": "( )",
 		"summary": "Initializes the Server, Services, and Transports."
 	},
@@ -479,7 +479,7 @@
 		"roles": "n/a",
 		"type": "Async",
 		"name": "Startup",
-		"link": "1611-Server-Startup.md",
+		"link": "",
 		"signature": "( )",
 		"summary": "Starts the server. Starts Services and Transports."
 	},
@@ -490,7 +490,7 @@
 		"roles": "n/a",
 		"type": "Async",
 		"name": "Shutdown",
-		"link": "1612-Server-Shutdown.md",
+		"link": "",
 		"signature": "( )",
 		"summary": "Shuts down the server. Also shuts down all Services and Transports."
 	},
@@ -501,7 +501,7 @@
 		"roles": "n/a",
 		"type": "Sync",
 		"name": "InstallAutoShutdown",
-		"link": "1613-Server-InstallAutoShutdown.md",
+		"link": "",
 		"signature": "( )",
 		"summary": "Intercept SIGHUP, SIGINT, SIGTERM and gracefully shut down when process exits."
 	},
@@ -512,7 +512,7 @@
 		"roles": "n/a",
 		"type": "Sync",
 		"name": "NewServerModule",
-		"link": "1620-Server-NewServerModule.md",
+		"link": "",
 		"signature": "( Definition, Defaults )",
 		"summary": "Creates a new blank ServerModule."
 	},
@@ -523,7 +523,7 @@
 		"roles": "n/a",
 		"type": "Sync",
 		"name": "NewApplicationService",
-		"link": "1621-Server-NewApplicationService.md",
+		"link": "",
 		"signature": "( Definition, Defaults )",
 		"summary": "Creates a new blank ApplicationService."
 	},
@@ -534,7 +534,7 @@
 		"roles": "n/a",
 		"type": "Sync",
 		"name": "NewStorageService",
-		"link": "1622-Server-NewStorageService.md",
+		"link": "",
 		"signature": "( Definition, Defaults )",
 		"summary": "Creates a new blank StorageService."
 	},
@@ -545,7 +545,7 @@
 		"roles": "n/a",
 		"type": "Sync",
 		"name": "MakeSafeName",
-		"link": "1623-Server-MakeSafeName.md",
+		"link": "",
 		"signature": "( Name )",
 		"summary": "Ensures that a name is safe for use with the server: _-~[a-z][A-Z][0-9]"
 	},
@@ -556,7 +556,7 @@
 		"roles": "n/a",
 		"type": "Sync",
 		"name": "ValidateModule",
-		"link": "1624-Server-ValidateModule.md",
+		"link": "",
 		"signature": "( Module )",
 		"summary": "Called for each service and transport during Server.Initialize()."
 	},
@@ -567,7 +567,7 @@
 		"roles": "n/a",
 		"type": "Sync",
 		"name": "ResolveApplicationPath",
-		"link": "1625-Server-ResolveApplicationPath.md",
+		"link": "",
 		"signature": "( Path )",
 		"summary": "Resolves and returns the given Path, relative to the Application Folder."
 	},
@@ -578,7 +578,7 @@
 		"roles": "n/a",
 		"type": "Sync",
 		"name": "NewOriginDefinition",
-		"link": "1630-Server-NewOriginDefinition.md",
+		"link": "",
 		"signature": "( Definition, OriginFunction )",
 		"summary": "Create a new Origin definition."
 	},
@@ -589,7 +589,7 @@
 		"roles": "n/a",
 		"type": "Sync",
 		"name": "NewFieldDefinition",
-		"link": "1631-Server-NewFieldDefinition.md",
+		"link": "",
 		"signature": "( Definition )",
 		"summary": "Create a new field definition to describe a Service Item or Origin Parameter."
 	},
@@ -600,7 +600,7 @@
 		"roles": "n/a",
 		"type": "Async",
 		"name": "VisitOrigins",
-		"link": "1632-Server-VisitOrigins.md",
+		"link": "",
 		"signature": "( Callback )",
 		"summary": "Iterates through all origins in all services and calls Callback for each."
 	},
@@ -611,7 +611,29 @@
 		"roles": "n/a",
 		"type": "Async",
 		"name": "VisitViews",
-		"link": "1633-Server-VisitViews.md",
+		"link": "",
+		"signature": "( Callback )",
+		"summary": "Iterates through all views in all services and calls Callback for each."
+	},
+	{
+		"code": "1634",
+		"object": "Server",
+		"category": "Service",
+		"roles": "n/a",
+		"type": "Sync",
+		"name": "VisitOriginsSync",
+		"link": "",
+		"signature": "( Callback )",
+		"summary": "Iterates through all origins in all services and calls Callback for each."
+	},
+	{
+		"code": "1635",
+		"object": "Server",
+		"category": "Service",
+		"roles": "n/a",
+		"type": "Sync",
+		"name": "VisitViewsSync",
+		"link": "",
 		"signature": "( Callback )",
 		"summary": "Iterates through all views in all services and calls Callback for each."
 	},
@@ -622,7 +644,7 @@
 		"roles": "n/a",
 		"type": "Sync",
 		"name": "ValidateFieldValues",
-		"link": "1640-Server-ValidateFieldValues.md",
+		"link": "",
 		"signature": "( FieldDefinitions, FieldValues )",
 		"summary": "Validate a set of values against a given definition."
 	},
@@ -633,7 +655,7 @@
 		"roles": "n/a",
 		"type": "Sync",
 		"name": "AuthorizeOriginAccess",
-		"link": "1641-Server-AuthorizeOriginAccess.md",
+		"link": "",
 		"signature": "( User, Origin )",
 		"summary": "Tests if User has access to a specific Origin."
 	},
@@ -644,7 +666,7 @@
 		"roles": "n/a",
 		"type": "Sync",
 		"name": "InvocationTracer",
-		"link": "1642-Server-InvocationTracer.md",
+		"link": "",
 		"signature": "( UserName, TransportName, RouteName, Parameters )",
 		"summary": "Helper middleware to trace Origin invocations."
 	},
@@ -655,7 +677,7 @@
 		"roles": "",
 		"type": "",
 		"name": "",
-		"link": "2000-Services.md",
+		"link": "",
 		"signature": "",
 		"summary": "Internal services that ship with ServerKit."
 	},
@@ -666,7 +688,7 @@
 		"roles": "",
 		"type": "",
 		"name": "",
-		"link": "2100-ServerAccounts-Object.md",
+		"link": "",
 		"signature": "",
 		"summary": "Manages user accounts for the server."
 	},
@@ -677,7 +699,7 @@
 		"roles": "n/a",
 		"type": "Sync",
 		"name": "InitializeModule",
-		"link": "2111-ServerAccounts-InitializeModule.md",
+		"link": "",
 		"signature": "( )",
 		"summary": "Perform any one-time initialization for the module."
 	},
@@ -688,7 +710,7 @@
 		"roles": "n/a",
 		"type": "Sync",
 		"name": "StartupModule",
-		"link": "2112-ServerAccounts-StartupModule.md",
+		"link": "",
 		"signature": "( )",
 		"summary": "Start the module."
 	},
@@ -699,7 +721,7 @@
 		"roles": "n/a",
 		"type": "Sync",
 		"name": "ShutdownModule",
-		"link": "2113-ServerAccounts-ShutdownModule.md",
+		"link": "",
 		"signature": "( )",
 		"summary": "Shut down the module."
 	},
@@ -710,7 +732,7 @@
 		"roles": "n/a",
 		"type": "Sync",
 		"name": "InitializeStorage",
-		"link": "2114-ServerAccounts-InitializeStorage.md",
+		"link": "",
 		"signature": "( )",
 		"summary": "Perform any one-time initialization for the storage. Must be called by InitializeModule."
 	},
@@ -721,7 +743,7 @@
 		"roles": "n/a",
 		"type": "Sync",
 		"name": "StartupStorage",
-		"link": "2115-ServerAccounts-StartupStorage.md",
+		"link": "",
 		"signature": "( )",
 		"summary": "Start the storage. Must be called by StartupModule."
 	},
@@ -732,7 +754,7 @@
 		"roles": "n/a",
 		"type": "Sync",
 		"name": "ShutdownStorage",
-		"link": "2116-ServerAccounts-ShutdownStorage.md",
+		"link": "",
 		"signature": "( )",
 		"summary": "Shut down the storage. Must be called by ShutdownModule."
 	},
@@ -743,7 +765,7 @@
 		"roles": "n/a",
 		"type": "Async",
 		"name": "FindOrCreateUser",
-		"link": "2120-ServerAccounts-FindOrCreateUser.md",
+		"link": "",
 		"signature": "( UserInfo )",
 		"summary": "Finds or creates a User in the accounts storage."
 	},
@@ -754,7 +776,7 @@
 		"roles": "n/a",
 		"type": "Async",
 		"name": "NewStorageItem",
-		"link": "2130-ServerAccounts-NewStorageItem.md",
+		"link": "",
 		"signature": "( User, Prototype )",
 		"summary": "Initializes a new data item based upon the service's Item definition."
 	},
@@ -765,7 +787,7 @@
 		"roles": "admin, super, user",
 		"type": "Async",
 		"name": "StorageCount",
-		"link": "2131-ServerAccounts-StorageCount.md",
+		"link": "",
 		"signature": "( User, Criteria )",
 		"summary": "Returns the number of objects that match the Criteria."
 	},
@@ -776,7 +798,7 @@
 		"roles": "admin, super, user",
 		"type": "Async",
 		"name": "StorageFindOne",
-		"link": "2132-ServerAccounts-StorageFindOne.md",
+		"link": "",
 		"signature": "( User, Criteria )",
 		"summary": "Returns the first object that matches the Criteria."
 	},
@@ -787,7 +809,7 @@
 		"roles": "admin, super",
 		"type": "Async",
 		"name": "StorageFindMany",
-		"link": "2133-ServerAccounts-StorageFindMany.md",
+		"link": "",
 		"signature": "( User, Criteria )",
 		"summary": "Returns all objects that match the Criteria."
 	},
@@ -798,7 +820,7 @@
 		"roles": "admin, super",
 		"type": "Async",
 		"name": "StorageCreateOne",
-		"link": "2134-ServerAccounts-StorageCreateOne.md",
+		"link": "",
 		"signature": "( User, Prototype )",
 		"summary": "Create and store a new object for the User."
 	},
@@ -809,7 +831,7 @@
 		"roles": "admin, super, user",
 		"type": "Async",
 		"name": "StorageWriteOne",
-		"link": "2135-ServerAccounts-StorageWriteOne.md",
+		"link": "",
 		"signature": "( User, Criteria, DataObject )",
 		"summary": "Update an existing object that matches the Criteria."
 	},
@@ -820,7 +842,7 @@
 		"roles": "admin, super",
 		"type": "Async",
 		"name": "StorageDeleteOne",
-		"link": "2136-ServerAccounts-StorageDeleteOne.md",
+		"link": "",
 		"signature": "( User, Criteria )",
 		"summary": "Deletes the first object that matches the Criteria."
 	},
@@ -831,7 +853,7 @@
 		"roles": "admin, super",
 		"type": "Async",
 		"name": "StorageDeleteMany",
-		"link": "2137-ServerAccounts-StorageDeleteMany.md",
+		"link": "",
 		"signature": "( User, Criteria )",
 		"summary": "Deletes all objects that match the Criteria."
 	},
@@ -842,7 +864,7 @@
 		"roles": "",
 		"type": "",
 		"name": "",
-		"link": "2200-Authentication-Object.md",
+		"link": "",
 		"signature": "",
 		"summary": "Manages user credentials and authenticates users for the server."
 	},
@@ -853,7 +875,7 @@
 		"roles": "n/a",
 		"type": "Sync",
 		"name": "InitializeModule",
-		"link": "2211-Authentication-InitializeModule.md",
+		"link": "",
 		"signature": "( )",
 		"summary": "Perform any one-time initialization for the module."
 	},
@@ -864,7 +886,7 @@
 		"roles": "n/a",
 		"type": "Sync",
 		"name": "StartupModule",
-		"link": "2212-Authentication-StartupModule.md",
+		"link": "",
 		"signature": "( )",
 		"summary": "Start the module."
 	},
@@ -875,7 +897,7 @@
 		"roles": "n/a",
 		"type": "Sync",
 		"name": "ShutdownModule",
-		"link": "2213-Authentication-ShutdownModule.md",
+		"link": "",
 		"signature": "( )",
 		"summary": "Shut down the module."
 	},
@@ -886,7 +908,7 @@
 		"roles": "n/a",
 		"type": "Async",
 		"name": "ConnectSession",
-		"link": "2220-Authentication-ConnectSession.md",
+		"link": "",
 		"signature": "( SessionToken )",
 		"summary": "Allows transports to recover and reuse sessions."
 	},
@@ -897,7 +919,7 @@
 		"roles": "*",
 		"type": "Async",
 		"name": "Signup",
-		"link": "2230-Authentication-Signup.md",
+		"link": "",
 		"signature": "( User, UserEmail, Password, UserName )",
 		"summary": "Creates a new server account for the user."
 	},
@@ -908,7 +930,7 @@
 		"roles": "*",
 		"type": "Async",
 		"name": "Login",
-		"link": "2231-Authentication-Login.md",
+		"link": "",
 		"signature": "( User, UserEmail, Password )",
 		"summary": "Logs a user in and creates a new session."
 	},
@@ -919,7 +941,7 @@
 		"roles": "*",
 		"type": "Async",
 		"name": "Logout",
-		"link": "2232-Authentication-Logout.md",
+		"link": "",
 		"signature": "( User, UserEmail )",
 		"summary": "Logs a user out and destroys the session."
 	},
@@ -930,7 +952,7 @@
 		"roles": "",
 		"type": "",
 		"name": "",
-		"link": "2300-ServerManagement-Object.md",
+		"link": "",
 		"signature": "",
 		"summary": "Server management."
 	},
@@ -941,7 +963,7 @@
 		"roles": "n/a",
 		"type": "Sync",
 		"name": "InitializeModule",
-		"link": "2310-ServerManagement-InitializeModule.md",
+		"link": "",
 		"signature": "( )",
 		"summary": "Perform any one-time initialization for the module."
 	},
@@ -952,7 +974,7 @@
 		"roles": "n/a",
 		"type": "Sync",
 		"name": "StartupModule",
-		"link": "2311-ServerManagement-StartupModule.md",
+		"link": "",
 		"signature": "( )",
 		"summary": "Start the module."
 	},
@@ -963,7 +985,7 @@
 		"roles": "n/a",
 		"type": "Sync",
 		"name": "ShutdownModule",
-		"link": "2312-ServerManagement-ShutdownModule.md",
+		"link": "",
 		"signature": "( )",
 		"summary": "Shut down the module."
 	},
@@ -974,7 +996,7 @@
 		"roles": "admin, super",
 		"type": "Async",
 		"name": "Diagnostics",
-		"link": "2320-ServerManagement-Diagnostics.md",
+		"link": "",
 		"signature": "( User )",
 		"summary": "Returns diagnostic information, including cpu and memory usage."
 	},
@@ -985,7 +1007,7 @@
 		"roles": "admin, super",
 		"type": "Async",
 		"name": "RestartServer",
-		"link": "2321-ServerManagement-RestartServer.md",
+		"link": "",
 		"signature": "( User )",
 		"summary": "Restarts the server."
 	},
@@ -996,7 +1018,7 @@
 		"roles": "admin, super",
 		"type": "Async",
 		"name": "StopServer",
-		"link": "2322-ServerManagement-StopServer.md",
+		"link": "",
 		"signature": "( User )",
 		"summary": "Stops the server."
 	},
@@ -1007,7 +1029,7 @@
 		"roles": "admin, super, user",
 		"type": "Async",
 		"name": "Explorer",
-		"link": "2323-ServerManagement-Explorer.md",
+		"link": "",
 		"signature": "( )",
 		"summary": "A view to explore and invoke service origins."
 	},
@@ -1018,7 +1040,7 @@
 		"roles": "",
 		"type": "",
 		"name": "",
-		"link": "3000-Transports.md",
+		"link": "",
 		"signature": "",
 		"summary": ""
 	},
@@ -1029,7 +1051,7 @@
 		"roles": "",
 		"type": "",
 		"name": "",
-		"link": "3100-Text-Object.md",
+		"link": "",
 		"signature": "",
 		"summary": "A command line text transport."
 	},
@@ -1040,7 +1062,7 @@
 		"roles": "n/a",
 		"type": "Sync",
 		"name": "InitializeModule",
-		"link": "3110-Text-InitializeModule.md",
+		"link": "",
 		"signature": "( )",
 		"summary": "Perform any one-time initialization for the module."
 	},
@@ -1051,7 +1073,7 @@
 		"roles": "n/a",
 		"type": "Sync",
 		"name": "StartupModule",
-		"link": "3111-Text-StartupModule.md",
+		"link": "",
 		"signature": "( )",
 		"summary": "Start the module."
 	},
@@ -1062,7 +1084,7 @@
 		"roles": "n/a",
 		"type": "Sync",
 		"name": "ShutdownModule",
-		"link": "3112-Text-ShutdownModule.md",
+		"link": "",
 		"signature": "( )",
 		"summary": "Shut down the module."
 	},
@@ -1073,7 +1095,7 @@
 		"roles": "n/a",
 		"type": "Async",
 		"name": "ParseCommandString",
-		"link": "3120-Text-ParseCommandString.md",
+		"link": "",
 		"signature": "( CommandString )",
 		"summary": "Parses a string containing a command name and paramters."
 	},
@@ -1084,7 +1106,7 @@
 		"roles": "n/a",
 		"type": "Async",
 		"name": "InvokeCommand",
-		"link": "3121-Text-InvokeCommand.md",
+		"link": "",
 		"signature": "( SessionToken, Command )",
 		"summary": "Invokes an Origin with the command name and paramters."
 	},
@@ -1095,7 +1117,7 @@
 		"roles": "n/a",
 		"type": "Async",
 		"name": "InvokeCommandString",
-		"link": "3122-Text-InvokeCommandString.md",
+		"link": "",
 		"signature": "( SessionID, CommandString )",
 		"summary": "Parses and invokes a string containing a command name and paramters."
 	},
@@ -1106,7 +1128,7 @@
 		"roles": "",
 		"type": "",
 		"name": "",
-		"link": "3200-Web-Object.md",
+		"link": "",
 		"signature": "",
 		"summary": "An http web transport."
 	},
@@ -1117,7 +1139,7 @@
 		"roles": "n/a",
 		"type": "Sync",
 		"name": "InitializeModule",
-		"link": "3210-Web-InitializeModule.md",
+		"link": "",
 		"signature": "( )",
 		"summary": "Perform any one-time initialization for the module."
 	},
@@ -1128,7 +1150,7 @@
 		"roles": "n/a",
 		"type": "Sync",
 		"name": "StartupModule",
-		"link": "3211-Web-StartupModule.md",
+		"link": "",
 		"signature": "( )",
 		"summary": "Start the module."
 	},
@@ -1139,7 +1161,7 @@
 		"roles": "n/a",
 		"type": "Sync",
 		"name": "ShutdownModule",
-		"link": "3212-Web-ShutdownModule.md",
+		"link": "",
 		"signature": "( )",
 		"summary": "Shut down the module."
 	},
@@ -1150,7 +1172,7 @@
 		"roles": "n/a",
 		"type": "Sync",
 		"name": "ServerAddress",
-		"link": "3220-Web-ServerAddress.md",
+		"link": "",
 		"signature": "( )",
 		"summary": "Returns the server address (e.g. \"http://localhost: 42\")"
 	},
@@ -1161,7 +1183,7 @@
 		"roles": "n/a",
 		"type": "Sync",
 		"name": "ServerPath",
-		"link": "3221-Web-ServerPath.md",
+		"link": "",
 		"signature": "( )",
 		"summary": "Returns the server's root path"
 	},
@@ -1172,7 +1194,7 @@
 		"roles": "n/a",
 		"type": "Sync",
 		"name": "ServicesPath",
-		"link": "3222-Web-ServicesPath.md",
+		"link": "",
 		"signature": "( )",
 		"summary": "Returns the custom path (including the server path) for service api calls."
 	},
@@ -1183,7 +1205,7 @@
 		"roles": "n/a",
 		"type": "Sync",
 		"name": "PublicPath",
-		"link": "3223-Web-PublicPath.md",
+		"link": "",
 		"signature": "( )",
 		"summary": "Returns the custom path (including the server path) for public files."
 	},
@@ -1194,7 +1216,7 @@
 		"roles": "n/a",
 		"type": "Sync",
 		"name": "GetServerCookie",
-		"link": "3224-Web-GetServerCookie.md",
+		"link": "",
 		"signature": "( WebRequest )",
 		"summary": "Returns the server cookie value from the request headers."
 	},
@@ -1205,7 +1227,7 @@
 		"roles": "n/a",
 		"type": "Sync",
 		"name": "SetServerCookie",
-		"link": "3225-Web-SetServerCookie.md",
+		"link": "",
 		"signature": "( WebResponse, SessionToken )",
 		"summary": "Sets the server cookie value in the response headers."
 	},
@@ -1216,7 +1238,7 @@
 		"roles": "n/a",
 		"type": "Sync",
 		"name": "AuthenticationGate",
-		"link": "3226-Web-AuthenticationGate.md",
+		"link": "",
 		"signature": "( Origin )",
 		"summary": "Returns an Express middleware that validates the session."
 	},
@@ -1227,7 +1249,7 @@
 		"roles": "n/a",
 		"type": "Sync",
 		"name": "AuthorizationGate",
-		"link": "3227-Web-AuthorizationGate.md",
+		"link": "",
 		"signature": "( Origin )",
 		"summary": "Returns an Express middleware that authorizes the user to access an origin."
 	},
@@ -1238,9 +1260,20 @@
 		"roles": "n/a",
 		"type": "Sync",
 		"name": "InvocationGate",
-		"link": "3228-Web-InvocationGate.md",
+		"link": "",
 		"signature": "( Origin, RouteName, Invocation )",
 		"summary": "Returns an Express middleware that invokes an origin an returns the result."
+	},
+	{
+		"code": "3229",
+		"object": "Web",
+		"category": "Internal",
+		"roles": "n/a",
+		"type": "Sync",
+		"name": "GetUserViews",
+		"link": "",
+		"signature": "( User, OnlyNoRequiredFields = true )",
+		"summary": "Returns the Views that the user has access to."
 	},
 	{
 		"code": "3300",
@@ -1249,7 +1282,7 @@
 		"roles": "",
 		"type": "",
 		"name": "",
-		"link": "3300-WebSocket-Object.md",
+		"link": "",
 		"signature": "",
 		"summary": "A web socket transport."
 	},
@@ -1260,7 +1293,7 @@
 		"roles": "n/a",
 		"type": "Sync",
 		"name": "InitializeModule",
-		"link": "3310-WebSocket-InitializeModule.md",
+		"link": "",
 		"signature": "( )",
 		"summary": "Perform any one-time initialization for the module."
 	},
@@ -1271,7 +1304,7 @@
 		"roles": "n/a",
 		"type": "Sync",
 		"name": "StartupModule",
-		"link": "3311-WebSocket-StartupModule.md",
+		"link": "",
 		"signature": "( )",
 		"summary": "Start the module."
 	},
@@ -1282,7 +1315,7 @@
 		"roles": "n/a",
 		"type": "Sync",
 		"name": "ShutdownModule",
-		"link": "3312-WebSocket-ShutdownModule.md",
+		"link": "",
 		"signature": "( )",
 		"summary": "Shut down the module."
 	},
@@ -1293,7 +1326,7 @@
 		"roles": "n/a",
 		"type": "Sync",
 		"name": "ServerAddress",
-		"link": "3320-WebSocket-ServerAddress.md",
+		"link": "",
 		"signature": "( )",
 		"summary": "Returns the server address (e.g. \"http://localhost: 42\")"
 	},
@@ -1304,7 +1337,7 @@
 		"roles": "n/a",
 		"type": "Sync",
 		"name": "ServerPath",
-		"link": "3321-WebSocket-ServerPath.md",
+		"link": "",
 		"signature": "( )",
 		"summary": "Returns the server's root path"
 	},
@@ -1315,7 +1348,7 @@
 		"roles": "n/a",
 		"type": "Async",
 		"name": "NewWebSocketClient",
-		"link": "3322-WebSocket-NewWebSocketClient.md",
+		"link": "",
 		"signature": "( SessionToken_or_UserEmail, Password )",
 		"summary": "Creates a new client and establishes a session."
 	},
@@ -1326,7 +1359,7 @@
 		"roles": "",
 		"type": "",
 		"name": "",
-		"link": "3350-WebSocketClient-Object.md",
+		"link": "",
 		"signature": "",
 		"summary": "A client for invoking Origins using the WebSocket transport."
 	},
@@ -1337,7 +1370,7 @@
 		"roles": "n/a",
 		"type": "Async",
 		"name": "Call",
-		"link": "3351-WebSocketClient-Call.md",
+		"link": "",
 		"signature": "( RouteName, Parameters )",
 		"summary": "Calls an origin on the server."
 	},
@@ -1348,7 +1381,7 @@
 		"roles": "n/a",
 		"type": "Async",
 		"name": "Close",
-		"link": "3352-WebSocketClient-Close.md",
+		"link": "",
 		"signature": "( )",
 		"summary": "Closes the client connection to the server."
 	},
@@ -1359,7 +1392,7 @@
 		"roles": "",
 		"type": "",
 		"name": "",
-		"link": "3400-Amqp-Object.md",
+		"link": "",
 		"signature": "",
 		"summary": "A message queue transport using the amqp protocol."
 	},
@@ -1370,7 +1403,7 @@
 		"roles": "n/a",
 		"type": "Sync",
 		"name": "InitializeModule",
-		"link": "3410-Amqp-InitializeModule.md",
+		"link": "",
 		"signature": "( )",
 		"summary": "Perform any one-time initialization for the module."
 	},
@@ -1381,7 +1414,7 @@
 		"roles": "n/a",
 		"type": "Sync",
 		"name": "StartupModule",
-		"link": "3411-Amqp-StartupModule.md",
+		"link": "",
 		"signature": "( )",
 		"summary": "Start the module."
 	},
@@ -1392,7 +1425,7 @@
 		"roles": "n/a",
 		"type": "Sync",
 		"name": "ShutdownModule",
-		"link": "3412-Amqp-ShutdownModule.md",
+		"link": "",
 		"signature": "( )",
 		"summary": "Shut down the module."
 	},
@@ -1403,7 +1436,7 @@
 		"roles": "n/a",
 		"type": "Async",
 		"name": "NewAmqpClient",
-		"link": "3412-Amqp-NewAmqpClient.md",
+		"link": "",
 		"signature": "( SessionToken_or_UserEmail, Password )",
 		"summary": "Creates a new client and establishes a session."
 	},
@@ -1414,7 +1447,7 @@
 		"roles": "",
 		"type": "",
 		"name": "",
-		"link": "3450-AmqpClient-Object.md",
+		"link": "",
 		"signature": "",
 		"summary": "A client for invoking Origins using the Amqp transport."
 	},
@@ -1425,7 +1458,7 @@
 		"roles": "n/a",
 		"type": "Async",
 		"name": "Call",
-		"link": "3451-AmqpClient-Call.md",
+		"link": "",
 		"signature": "( RouteName, Parameters )",
 		"summary": "Calls an origin on the server."
 	},
@@ -1436,7 +1469,7 @@
 		"roles": "n/a",
 		"type": "Async",
 		"name": "Close",
-		"link": "3452-AmqpClient-Close.md",
+		"link": "",
 		"signature": "( )",
 		"summary": "Closes the client connection to the server."
 	}

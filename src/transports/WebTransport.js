@@ -323,13 +323,12 @@ exports.Construct =
 				Server.VisitViewsSync(
 					function process_view( Service, Origin )
 					{
+						if ( !Service.Settings.enabled ) { return; }
+						if ( !Origin ) { return; }
 						if (
-							Origin &&
-							(
-								!Origin.requires_login
-								|| Origin.allowed_roles.includes( '*' )
-								|| Origin.allowed_roles.includes( User.user_role )
-							)
+							!Origin.requires_login
+							|| Origin.allowed_roles.includes( '*' )
+							|| Origin.allowed_roles.includes( User.user_role )
 						)
 						{
 							// Get the number of required parameters.

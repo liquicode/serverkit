@@ -31,7 +31,7 @@ exports.MountServices =
 		{
 			let service_key = service_keys[ index ];
 			let service = CTX.Server.Services[ service_key ];
-			if ( !service.enabled ) { continue; }
+			if ( !service.Settings.enabled ) { continue; }
 
 			let server_path = CTX.Transport.ServerPath();
 			let services_path = CTX.Transport.ServicesPath();

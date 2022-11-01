@@ -2,8 +2,8 @@
 # Testing Output
 
 - Project: @liquicode/serverkit
-- Version: v0.0.31
-- Timestamp: 2022-10-30T12:07:47.229Z
+- Version: v0.0.32
+- Timestamp: 2022-11-01T08:17:06.875Z
 
 ~~~
 010) json-criteria Tests

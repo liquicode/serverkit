@@ -143,6 +143,8 @@ Server Functions
 | Service | Sync | NewFieldDefinition | ( Definition ) | Create a new field definition to describe a Service Item or Origin Parameter. |
 | Service | Async | VisitOrigins | ( Callback ) | Iterates through all origins in all services and calls Callback for each. |
 | Service | Async | VisitViews | ( Callback ) | Iterates through all views in all services and calls Callback for each. |
+| Service | Sync | VisitOriginsSync | ( Callback ) | Iterates through all origins in all services and calls Callback for each. |
+| Service | Sync | VisitViewsSync | ( Callback ) | Iterates through all views in all services and calls Callback for each. |
 | Transport | Sync | ValidateFieldValues | ( FieldDefinitions, FieldValues ) | Validate a set of values against a given definition. |
 | Transport | Sync | AuthorizeOriginAccess | ( User, Origin ) | Tests if User has access to a specific Origin. |
 | Transport | Sync | InvocationTracer | ( UserName, TransportName, RouteName, Parameters ) | Helper middleware to trace Origin invocations. |
@@ -268,6 +270,7 @@ Web Functions
 | Internal | Sync | AuthenticationGate | ( Origin ) | Returns an Express middleware that validates the session. |
 | Internal | Sync | AuthorizationGate | ( Origin ) | Returns an Express middleware that authorizes the user to access an origin. |
 | Internal | Sync | InvocationGate | ( Origin, RouteName, Invocation ) | Returns an Express middleware that invokes an origin an returns the result. |
+| Internal | Sync | GetUserViews | ( User, OnlyNoRequiredFields = true ) | Returns the Views that the user has access to. |
 </details>
 
 
