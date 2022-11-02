@@ -92,16 +92,57 @@ exports.MountServices =
 
 						// Invoke the origin function. (finally!)
 						api_result.result = await origin.invoke( request.user, ...parameter_values );
+
+						// Post-Processing
+						let full_origin_name = `${service_name}/${origin.name}`;
+						switch ( full_origin_name )
+						{
+							// Special exceptions to handle Session Management.
+							case 'Authentication/Signup':
+								if ( !api_result.result )
+								{
+									response.status( 401 ).send( 'Logout failed.' );
+								}
+								else
+								{
+									CTX.Transport.SetServerCookie( response, api_result.result.session_token );
+									response.redirect( 302, CTX.Transport.ServerPath() );
+								}
+								break;
+							case 'Authentication/Login':
+								if ( !api_result.result )
+								{
+									response.status( 401 ).send( 'Incorrect username or password.' );
+								}
+								else
+								{
+									CTX.Transport.SetServerCookie( response, api_result.result.session_token );
+									response.redirect( 302, CTX.Transport.ServerPath() );
+								}
+								break;
+							case 'Authentication/Logout':
+								if ( !api_result.result )
+								{
+									response.status( 401 ).send( 'Logout failed.' );
+								}
+								else
+								{
+									CTX.Transport.SetServerCookie( response, '' );
+									response.redirect( 302, CTX.Transport.ServerPath() );
+								}
+								break;
+
+							// Default processing: Return the result.
+							default:
+								response.send( api_result );
+								break;
+						}
 					}
 					catch ( error )
 					{
 						api_result.ok = false;
 						api_result.error = error.message;
 						// Server.Log.error( `Error in [${api_result.origin}]: ${api_result.error}` );
-					}
-					finally
-					{
-						response.send( api_result );
 					}
 					// Return the api_result back to InvocationGate.
 					return api_result;
@@ -210,14 +251,21 @@ exports.MountServices =
 					};
 					try
 					{
-						response.render( origin.view, {
-							Server: CTX.Server,
-							User: request.user,
-							UserViews: CTX.Transport.GetUserViews( request.user, true ),
-							Service: Service.Definition,
-							Origin: origin,
-							Parameters: parameter_map,
-						} );
+						let view_template_name = origin.view;
+						if ( !view_template_name )
+						{
+							view_template_name = `Services/${service_name}/${origin.name}`;
+						}
+						response.render(
+							view_template_name,
+							{
+								Server: CTX.Server,
+								User: request.user,
+								UserViews: CTX.Transport.GetUserViews( request.user, true ),
+								Service: Service.Definition,
+								Origin: origin,
+								Parameters: parameter_map,
+							} );
 						api_result.result = "OK";
 					}
 					catch ( error )

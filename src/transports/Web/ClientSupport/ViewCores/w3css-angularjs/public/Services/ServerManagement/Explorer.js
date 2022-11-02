@@ -119,9 +119,16 @@ app.controller(
 
 
 		//---------------------------------------------------------------------
-		function socket_api_callback( Response )
+		function socket_api_callback( Error, Response )
 		{
-			Page.Invoke.response = Response;
+			if ( Error )
+			{
+				Page.Invoke.response = Error;
+			}
+			else
+			{
+				Page.Invoke.response = Response;
+			}
 			Page.SetInvokeResponse();
 			return;
 		}

@@ -2,8 +2,8 @@
 # Testing Output
 
 - Project: @liquicode/serverkit
-- Version: v0.0.32
-- Timestamp: 2022-11-01T08:17:06.875Z
+- Version: v0.0.33
+- Timestamp: 2022-11-02T07:57:02.067Z
 
 ~~~
 010) json-criteria Tests
@@ -46,7 +46,6 @@
   130) TaskManager Tests
 Hello World from the Test task.
     √ should be able to schedule a task
-Hello World from the Test task.
 
   140) StorageService Tests
     √ Should create the test storage service

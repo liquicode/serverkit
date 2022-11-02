@@ -54,6 +54,8 @@ exports.Construct =
 			Server.NewOriginDefinition( {
 				name: 'Signup',
 				description: "Creates a new account with the provided credentials; Returns an authorization token.",
+				requires_login: false,
+				verbs: [ 'http-post', 'text-call', 'socket-call', 'amqp-call' ],
 				Fields: [
 					Server.NewFieldDefinition( {
 						name: 'UserEmail',
@@ -93,6 +95,8 @@ exports.Construct =
 			Server.NewOriginDefinition( {
 				name: 'Login',
 				description: "Login to the server with the provided credentials; Returns an authorization token.",
+				requires_login: false,
+				verbs: [ 'http-post', 'text-call', 'socket-call', 'amqp-call' ],
 				Fields: [
 					Server.NewFieldDefinition( {
 						name: 'UserEmail',
@@ -126,6 +130,7 @@ exports.Construct =
 				name: 'Logout',
 				description: "Logout from the server.",
 				requires_login: true,
+				verbs: [ 'http-post', 'text-call', 'socket-call', 'amqp-call' ],
 				Fields: [
 					Server.NewFieldDefinition( {
 						name: 'UserEmail',
@@ -151,7 +156,37 @@ exports.Construct =
 		//---------------------------------------------------------------------
 
 
-		// None.
+		//---------------------------------------------------------------------
+		service.Views.Signup =
+			Server.NewOriginDefinition( {
+				name: 'Signup',
+				title: 'User Signup',
+				description: "User signup form.",
+				requires_login: false,
+				Fields: [],
+			} );
+
+
+		//---------------------------------------------------------------------
+		service.Views.Login =
+			Server.NewOriginDefinition( {
+				name: 'Login',
+				title: 'User Login',
+				description: "User login form.",
+				requires_login: false,
+				Fields: [],
+			} );
+
+
+		//---------------------------------------------------------------------
+		service.Views.Logout =
+			Server.NewOriginDefinition( {
+				name: 'Logout',
+				title: 'User Logout',
+				description: "User logout form.",
+				requires_login: false,
+				Fields: [],
+			} );
 
 
 		//=====================================================================
@@ -170,116 +205,6 @@ exports.Construct =
 			find_user: function find_user( user_id, session_token ) { console.error( `Authentication storage engine [${service.Settings.Storage.storage_engine}] is not implemented.` ); },
 			update_user: function update_user( updated_user ) { console.error( `Authentication storage engine [${service.Settings.Storage.storage_engine}] is not implemented.` ); },
 		};
-
-
-		//---------------------------------------------------------------------
-		// service.DatabaseStorage = {
-
-		// 	Database: null,
-		// 	Procedures: {
-		// 		select_by_user_id: null,
-		// 		select_by_session_token: null,
-		// 		insert: null,
-		// 		update_by_user_id: null,
-		// 		delete_by_user_id: null,
-		// 		// delete_all: null,
-		// 	},
-
-		// 	//---------------------------------------------------------------------
-		// 	initialize:
-		// 		function initialize()
-		// 		{
-		// 			// Create the database.
-		// 			let database_path = Server.ResolveApplicationPath( service.Settings.Storage.DatabaseStorage.file_path );
-		// 			let database_options = {};
-		// 			LIB_FS.mkdirSync( LIB_PATH.dirname( database_path ), { recursive: true } );
-		// 			service.DatabaseStorage.Database = LIB_BETTER_SQLITE3( database_path, database_options );
-
-		// 			// Initialization Sql
-		// 			// let init_sql = `
-		// 			// 	CREATE TABLE IF NOT EXISTS UserSession (
-		// 			// 	user_id TEXT PRIMARY KEY,
-		// 			// 	user_role TEXT,
-		// 			// 	user_name TEXT,
-		// 			// 	password TEXT,
-		// 			// 	session_token TEXT );
-		// 			// `;
-		// 			let init_sql = `
-		// 				CREATE TABLE IF NOT EXISTS UserSession (
-		// 				user_id TEXT PRIMARY KEY,
-		// 				password TEXT,
-		// 				session_token TEXT );
-		// 			`;
-
-		// 			// Initialize the database.
-		// 			let create_table_info = service.DatabaseStorage.Database.exec( init_sql );
-
-		// 			// Prepare sql statements.
-		// 			service.DatabaseStorage.Procedures.select_by_user_id =
-		// 				service.DatabaseStorage.Database.prepare( 'SELECT * FROM UserSession WHERE (user_id = @user_id)' );
-		// 			service.DatabaseStorage.Procedures.select_by_session_token =
-		// 				service.DatabaseStorage.Database.prepare( 'SELECT * FROM UserSession WHERE (session_token = @session_token)' );
-		// 			service.DatabaseStorage.Procedures.insert =
-		// 				// service.DatabaseStorage.Database.prepare( 'INSERT INTO UserSession VALUES ( @user_id, @user_role, @user_name, @password, @session_token )' );
-		// 				service.DatabaseStorage.Database.prepare( 'INSERT INTO UserSession VALUES ( @user_id, @password, @session_token )' );
-		// 			service.DatabaseStorage.Procedures.update_by_user_id =
-		// 				// service.DatabaseStorage.Database.prepare( 'UPDATE UserSession SET user_role = @user_role, user_name = @user_name, password = @password, session_token = @session_token WHERE (user_id = @user_id)' );
-		// 				service.DatabaseStorage.Database.prepare( 'UPDATE UserSession SET password = @password, session_token = @session_token WHERE (user_id = @user_id)' );
-		// 			service.DatabaseStorage.Procedures.delete_by_user_id =
-		// 				service.DatabaseStorage.Database.prepare( 'DELETE FROM UserSession WHERE (user_id = @user_id)' );
-
-		// 			// Initial Users
-		// 			let procedure_rowcount = service.DatabaseStorage.Database.prepare( 'SELECT COUNT( * ) AS RowCount FROM UserSession' );
-		// 			let rowcount = procedure_rowcount.get();
-		// 			if ( rowcount.RowCount === 0 )
-		// 			{
-		// 				for ( let index = 0; index < service.Settings.Storage.InitialUsers.length; index++ )
-		// 				{
-		// 					let user = JSON.parse( JSON.stringify( service.Settings.Storage.InitialUsers[ index ] ) );
-		// 					user.session_token = '';
-		// 					let insert_info = service.DatabaseStorage.Procedures.insert.run( user );
-		// 					Server.Log.debug( `Added user [${user.user_id}] to the credentials store.` );
-		// 				}
-		// 			}
-
-		// 			// Return.
-		// 			return;
-		// 		},
-
-		// 	//---------------------------------------------------------------------
-		// 	find_user:
-		// 		function find_user( user_id, session_token )
-		// 		{
-		// 			let storage_user = null;
-		// 			if ( user_id )
-		// 			{
-		// 				storage_user = service.DatabaseStorage.Procedures.select_by_user_id.get( {
-		// 					user_id: user_id
-		// 				} );
-		// 			}
-		// 			else if ( session_token )
-		// 			{
-		// 				storage_user = service.DatabaseStorage.Procedures.select_by_session_token.get( {
-		// 					session_token: session_token
-		// 				} );
-		// 			}
-		// 			return storage_user;
-		// 		},
-
-		// 	//---------------------------------------------------------------------
-		// 	update_user:
-		// 		function update_user( updated_user )
-		// 		{
-		// 			let update_info = service.DatabaseStorage.Procedures.update_by_user_id.run( updated_user );
-		// 			if ( !update_info.changes )
-		// 			{
-		// 				let insert_info = service.DatabaseStorage.Procedures.insert.run( updated_user );
-		// 				if ( !insert_info.changes ) { throw new Error( `Error saving user session in database.` ); }
-		// 			}
-		// 			return;
-		// 		},
-
-		// };
 
 
 		//=====================================================================
@@ -372,12 +297,18 @@ exports.Construct =
 		service.Logout =
 			async function Logout( User, UserEmail )
 			{
+				//TODO:
+
 				// Find the user and remove the session.
 				// let authentication_user = service.Storage.find_user( UserEmail, null );
 				// if ( !authentication_user ) { return false; }
 				// authentication_user.session_token = '';
 				// service.Storage.update_user( authentication_user );
-				return true;
+				// return true;
+				return {
+					User: { user_id: UserEmail },
+					session_token: '',
+				};
 			};
 
 

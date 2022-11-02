@@ -6,14 +6,17 @@
 -var server_public_url = web_transport.PublicPath()			// /my-server/public/
 -var user_is_logged_in = ( locals.User && locals.User.user_role && [ 'admin', 'super', 'user' ].includes( locals.User.user_role ) )
 //- Urls to application pages.
--var server_signup_url = server_root_url + web_transport.Settings.ClientSupport.Views.signup_url
--var server_login_url = server_root_url + web_transport.Settings.ClientSupport.Views.login_url
--var server_logout_url = server_root_url + web_transport.Settings.ClientSupport.Views.logout_url
+//- -var server_signup_url = server_root_url + web_transport.Settings.ClientSupport.Views.signup_url
+//- -var server_login_url = server_root_url + web_transport.Settings.ClientSupport.Views.login_url
+//- -var server_logout_url = server_root_url + web_transport.Settings.ClientSupport.Views.logout_url
+-var server_signup_url = server_root_url +  'Authentication/Signup'
+-var server_login_url = server_root_url +  'Authentication/Login'
+-var server_logout_url = server_root_url +  'Authentication/Logout'
 //- Urls to public include files.
 -var include_express_client_api_js_url = server_public_url + web_transport.Settings.ClientSupport.client_api_file
--var include_storage_list_js_url = server_public_url + 'storage/list.js'
--var include_storage_item_js_url = server_public_url + 'storage/item.js'
--var include_storage_share_js_url = server_public_url + 'storage/share.js'
+-var include_storage_list_js_url = server_public_url + 'Services/StorageService/List.js'
+-var include_storage_item_js_url = server_public_url + 'Services/StorageService/Item.js'
+-var include_storage_share_js_url = server_public_url + 'Services/StorageService/Share.js'
 
 
 doctype html
@@ -79,6 +82,14 @@ html
 
 body
 
+	script
+		!= `window.SERVER_DATA = {};\n`
+		!= `window.SERVER_DATA.User = ${JSON.stringify( locals.User )};\n`
+		!= `window.SERVER_DATA.UserViews = ${JSON.stringify( locals.UserViews )};\n`
+		!= `window.SERVER_DATA.Service = ${JSON.stringify( locals.Service )};\n`
+		!= `window.SERVER_DATA.Origin = ${JSON.stringify( locals.Origin )};\n`
+		!= `window.SERVER_DATA.Parameters = ${JSON.stringify( locals.Parameters )};\n`
+
 	div( ng-app='Application_Module', ng-cloak )
 
 		//- Build top navigation bar.
@@ -98,11 +109,6 @@ body
 			//- Application Links
 			if( user_is_logged_in )
 
-				//- User is logged in, show Service links.
-				if ( locals.User.user_role === 'admin' ) || ( locals.User.user_role === 'super' )
-					//- a.w3-bar-item.w3-button.w3-mobile( href="/explorer" ) Server Explorer
-					a.w3-bar-item.w3-button.w3-mobile( href="/ServerAccounts/List" ) Server Accounts
-
 				//- Application drop down menu.
 				.w3-dropdown-hover.w3-right.w3-mobile
 
@@ -120,12 +126,6 @@ body
 						.w3-border-bottom.w3-border-top
 							a.w3-bar-item.w3-button.w3-mobile( href="/ServerAccounts/Item?ItemID=" + locals.User.__.id + "&PageOp=Update" ) My Account
 							a.w3-bar-item.w3-button.w3-mobile( href=server_logout_url ) Log Out
-
-						//- Administrator links
-						if ( [ 'admin', 'super' ].includes( locals.User.user_role ) )
-							.w3-border-bottom.w3-border-top
-								a.w3-bar-item.w3-button.w3-mobile( href="/ServerManagement/Explorer" ) Server Explorer
-								a.w3-bar-item.w3-button.w3-mobile( href="/ServerAccounts/List" ) Server Accounts
 
 			else
 

@@ -1,6 +1,19 @@
 # Version History
 
 
+v0.0.33
+------------------------------------------
+
+- Reworked the `Service.Views` mechanism.
+	- The `Service.Definition.view` field is now optional.
+	- The view template file will default to `Services/{ServiceName}/{OriginName}`.
+
+- Integrated the `Authentication` views (Signup, Login, Logout) into the views mechanism.
+	They are no longer as much of an exceptional case within the codebase.
+
+- Cleaned up the `w3css-angularjs` ViewCore implementation.
+
+
 v0.0.32
 ------------------------------------------
 
@@ -81,6 +94,7 @@ TODO for v0.1.0
 		- `failure_max_tries`
 		- `failure_cooldown_seconds`
 		- `session_lifetime_seconds`
+	- The `Logout` function needs to actually delete the session so that a logout appiles to all devices.
 
 
 - `ServerManagement` Service

@@ -1,4 +1,4 @@
-extends ../index.pug
+extends ../../index.pug
 
 block content
 
@@ -17,6 +17,17 @@ block content
 					action=server_logout_url
 				)
 					table.w3-table
+
+						tr 
+							th.w3-right-align Email:
+							td
+								input.w3-input.w3-sand.w3-round-large.w3-text-blue(
+									type="email"
+									id="UserEmail"
+									name="UserEmail"
+									value=locals.User.user_id
+								)
+
 						tr 
 							th( colspan=2 ).w3-center
 								input.w3-btn.w3-green.w3-border.w3-round-large(

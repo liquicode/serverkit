@@ -6,19 +6,12 @@ block content
 
 	div( ng-controller='Home_Controller' )
 
-		script
-			!= `window.SERVER_DATA = {};\n`
-			if( locals.User )
-				!= `window.SERVER_DATA.User = ${JSON.stringify( locals.User )};\n`
-			if( locals.UserViews )
-				!= `window.SERVER_DATA.UserViews = ${JSON.stringify( locals.UserViews )};\n`
-
 		.w3-container.w3-margin
 
 			-var is_logged_in = ( locals.User && locals.User.user_role && ['admin','super','user'].includes( locals.User.user_role ) )
 			if( is_logged_in )
 
-				.w3-bar-item.w3-border.w3-round-large.w3-sand.w3-center
+				.w3-panel.w3-border.w3-round-large.w3-sand.w3-center
 					h3= "Welcome, " + locals.User.user_name + "!"
 
 				.w3-container.w3-margin 
@@ -26,12 +19,11 @@ block content
 
 					each service, service_key in locals.UserViews
 						h5= service.title 
-						ul
-							each page in service.Views 
-								li
-									a.w3-button.w3-border.w3-round-large(
-										href=page.url
-									)= page.title
+						each page in service.Views 
+							.w3-container.w3-padding
+								a.w3-button.w3-border.w3-round-large.w3-green(
+									href=page.url
+								)= page.title
 
 			else
 

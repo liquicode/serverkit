@@ -11,7 +11,7 @@ exports.Construct =
 			{
 				name: 'ServerAccounts',
 				title: "Server Accounts",
-				description: "Manages user accounts for the server.",
+				description: "Manages user accounts for this server.",
 				//---------------------------------------------------------------------
 				//	Storage Item
 				//---------------------------------------------------------------------
@@ -240,6 +240,12 @@ exports.Construct =
 
 				// Limit listing to only admin and super.
 				service.Views.List.allowed_roles = [ 'admin', 'super' ];
+
+				// Use the default storage service pages.
+				service.Views.List.title = 'Account List';
+				service.Views.List.view = 'Services/StorageService/List';
+				service.Views.Item.title = 'Account Item';
+				service.Views.Item.view = 'Services/StorageService/Item';
 
 				// Disable sharing.
 				service.Views.Share.verbs = [];					// Do not expose the Share view

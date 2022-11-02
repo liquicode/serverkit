@@ -242,7 +242,9 @@ describe( `310) Text Transport Tests`,
 					{
 						let command = `Authentication.Logout --UserEmail "admin@server"`;
 						let result = await Server.Transports.Text.InvokeCommand( session_token, command );
-						LIB_ASSERT.ok( result === true );
+						LIB_ASSERT.ok( result );
+						LIB_ASSERT.ok( result.User );
+						LIB_ASSERT.ok( result.User.user_id === 'admin@server' );
 						session_user = null;
 						session_token = null;
 						return;

@@ -55,7 +55,9 @@ describe( `240) Authentication Service Tests`,
 				// LIB_ASSERT.strictEqual( result.session_token, session_token );
 				// Do a logout.
 				result = await Server.Services.Authentication.Logout( null, Admin.user_id );
-				LIB_ASSERT.ok( result === true );
+				LIB_ASSERT.ok( result );
+				LIB_ASSERT.ok( result.User );
+				LIB_ASSERT.ok( result.User.user_id === Admin.user_id );
 				// // Do an invalid connect.
 				// result = await Server.Services.Authentication.ConnectSession( session_token );
 				// LIB_ASSERT.ok( result === false );

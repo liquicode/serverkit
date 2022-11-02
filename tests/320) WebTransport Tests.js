@@ -30,7 +30,7 @@ describe( `320) Web Transport Tests`,
 				} );
 				server_address = Server.Transports.Web.ServerAddress();
 				service_address = server_address + Server.Transports.Web.ServicesPath();
-				login_url = `${service_address}${Server.Settings.Transports.Web.ClientSupport.Views.login_url}`;
+				login_url = `${service_address}Authentication/Login`;
 				return;
 			}
 		);
@@ -80,8 +80,8 @@ describe( `320) Web Transport Tests`,
 							let response = await Server.Utility.async_request(
 								'post', login_url,
 								{
-									username: 'admin@wrong-server',
-									password: 'password',
+									UserEmail: 'admin@wrong-server',
+									Password: 'password',
 								} );
 							LIB_ASSERT.fail( `it authenticated invalid credentials` );
 						}
@@ -106,8 +106,8 @@ describe( `320) Web Transport Tests`,
 							let response = await Server.Utility.async_request(
 								'post', login_url,
 								{
-									username: 'admin@server',
-									password: 'wrong-password',
+									UserEmail: 'admin@server',
+									Password: 'wrong-password',
 								} );
 							LIB_ASSERT.fail( `it authenticated invalid credentials` );
 						}
@@ -132,8 +132,8 @@ describe( `320) Web Transport Tests`,
 							let response = await Server.Utility.async_request(
 								'post', login_url,
 								{
-									username: 'admin@server',
-									password: 'password',
+									UserEmail: 'admin@server',
+									Password: 'password',
 								} );
 							LIB_ASSERT.ok( response );
 							LIB_ASSERT.ok( response.status === 200 );
@@ -173,8 +173,8 @@ describe( `320) Web Transport Tests`,
 							let response = await Server.Utility.async_request(
 								'post', login_url,
 								{
-									username: 'admin@server',
-									password: 'password',
+									UserEmail: 'admin@server',
+									Password: 'password',
 								} );
 							LIB_ASSERT.ok( response );
 							LIB_ASSERT.ok( response.status === 200 );

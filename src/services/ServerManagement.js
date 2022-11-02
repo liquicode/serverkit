@@ -13,14 +13,11 @@ exports.Construct =
 		let service = Server.NewApplicationService(
 			{
 				name: 'ServerManagement',
-				title: "ServerManagement",
+				title: "Server Management",
 				description: "Server management.",
 			},
 			{
 				enabled: true,
-				Views:{
-					explorer_view: 'explorer/explorer',
-				},
 			},
 		);
 
@@ -79,12 +76,13 @@ exports.Construct =
 
 
 		//---------------------------------------------------------------------
-		let View_Explorer =
+		// let View_Explorer =
+		service.Views.Explorer =
 			Server.NewOriginDefinition( {
 				name: 'Explorer',
+				title: 'Server Explorer',
 				description: 'A ui to get information about services and to test their functions.',
 				requires_login: true,
-				view: 'explorer/explorer',
 			} );
 
 
@@ -171,8 +169,8 @@ exports.Construct =
 		service.InitializeModule =
 			function InitializeModule()
 			{
-				View_Explorer.view = service.Settings.Views.explorer_view;
-				service.Views.Explorer = View_Explorer;
+				// View_Explorer.view = service.Settings.Views.explorer_view;
+				// service.Views.Explorer = View_Explorer;
 				// Return
 				return;
 			};

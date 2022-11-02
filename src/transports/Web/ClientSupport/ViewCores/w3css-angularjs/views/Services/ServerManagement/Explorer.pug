@@ -1,21 +1,19 @@
-extends ../index.pug
+extends ../../index.pug
 
 block content
 
-	-var include_explorer_js_url = server_public_url + 'explorer/explorer.js'
-
-	script( type='text/javascript' src=include_explorer_js_url )
+	script( type='text/javascript' src=`${server_public_url}Services/ServerManagement/Explorer.js` )
 
 	div( ng-controller='Explorer_Controller' )
 
-		script
-			!= `window.SERVER_DATA = {};\n`
-			!= `window.SERVER_DATA.User = ${JSON.stringify( locals.User )};\n`
-			!= `window.SERVER_DATA.Service = ${JSON.stringify( locals.Service )};\n`
-			!= `window.SERVER_DATA.Origin = ${JSON.stringify( locals.Origin )};\n`
-			!= `window.SERVER_DATA.Parameters = ${JSON.stringify( locals.Parameters )};\n`
+		//- script
+		//- 	!= `window.SERVER_DATA = {};\n`
+		//- 	!= `window.SERVER_DATA.User = ${JSON.stringify( locals.User )};\n`
+		//- 	!= `window.SERVER_DATA.Service = ${JSON.stringify( locals.Service )};\n`
+		//- 	!= `window.SERVER_DATA.Origin = ${JSON.stringify( locals.Origin )};\n`
+		//- 	!= `window.SERVER_DATA.Parameters = ${JSON.stringify( locals.Parameters )};\n`
 
-		include partials/invoke-modal.pug
+		include explorer-partials/invoke-modal.pug
 
 		-var Settings = locals.Server.Settings 
 
@@ -58,7 +56,7 @@ block content
 									else
 										span.w3-small &nbsp; (Not Shareable)
 									//- Item Fields
-									include partials/item-fields.pug
+									include explorer-partials/item-fields.pug
 								else 
 									h5
 										i No Service Item
@@ -94,10 +92,10 @@ block content
 
 											//- Allowed Roles and Login
 											.w3-container 
-												include partials/origin-description.pug 
+												include explorer-partials/origin-description.pug 
 
 											//- Parameters Table
-											include partials/origin-parameters.pug 
+											include explorer-partials/origin-parameters.pug 
 
 											//- Function Verbs
 											if( origin.verbs.length === 0 )
@@ -167,10 +165,10 @@ block content
 
 											//- Allowed Roles and Login
 											.w3-container 
-												include partials/origin-description.pug 
+												include explorer-partials/origin-description.pug 
 
 											//- Parameters Table
-											include partials/origin-parameters.pug 
+											include explorer-partials/origin-parameters.pug 
 
 											//- Function Verbs
 											.w3-row

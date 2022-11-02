@@ -5,7 +5,6 @@ const LIB_FS = require( 'fs' );
 const LIB_PATH = require( 'path' );
 const SRC_CLIENT_SUPPORT_CLIENT_API = require( './ClientSupport/Web.ClientSupport.ClientApiFile.js' );
 const SRC_CLIENT_SUPPORT_OPEN_API = require( './ClientSupport/Web.ClientSupport.OpenApiFile.js' );
-const SRC_CLIENT_SUPPORT_AUTHENTICATOR = require( './ClientSupport/Web.ClientSupport.Authenticator.js' );
 const SRC_CLIENT_SUPPORT_VIEW_CORE = require( './ClientSupport/Web.ClientSupport.ViewCore.js' );
 
 
@@ -118,6 +117,5 @@ exports.ClientSupport_MountRootRoute =
 	};
 
 //---------------------------------------------------------------------
-exports.ClientSupport_MountAuthenticatorRoutes = SRC_CLIENT_SUPPORT_AUTHENTICATOR.ClientSupport_MountAuthenticatorRoutes;
 exports.ClientSupport_GenerateViewCore = SRC_CLIENT_SUPPORT_VIEW_CORE.ClientSupport_GenerateViewCore;
 

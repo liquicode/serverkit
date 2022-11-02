@@ -217,7 +217,10 @@ describe( `340) Amqp Transport Tests`,
 						let result = await transport_client.Call( 'Authentication.Logout', {
 							UserEmail: session_user.user_id
 						} );
-						LIB_ASSERT.ok( result === true );
+						LIB_ASSERT.ok( result );
+						LIB_ASSERT.ok( result.User );
+						LIB_ASSERT.ok( result.User.user_id === 'admin@server' );
+						LIB_ASSERT.ok( !result.session_token );
 						session_user = null;
 						session_token = null;
 						await transport_client.Close();

@@ -119,24 +119,6 @@ exports.Construct =
 
 					Views: {
 						root_view: 'home',						// Name of default view to use for root route '/'.
-
-						signup_url: 'auth/signup',				// The signup page.
-						signup_view: 'auth/signup',				// View that Posts {user_id,password,user_name} to signup_url.
-
-						login_url: 'auth/login',				// The login page.
-						login_view: 'auth/login',				// View that Posts {user_id,password} to login_url.
-
-						logout_url: 'auth/logout',				// The logout page.
-						logout_view: 'auth/logout',				// View that Posts {user_id} to logout_url.
-
-						storage_list_url: 'storage/list',		// The storage list page for all StorageService-based services.
-						storage_list_view: 'storage/list',		// View that displays a list with crud links to storage/item.
-
-						storage_item_url: 'storage/item',		// The storage item page for all StorageService-based services.
-						storage_item_view: 'storage/item',		// View that manipulates a storage item in create, read, update, and delete modes.
-
-						storage_share_url: 'storage/share',		// The storage share page for all StorageService-based services.
-						storage_share_view: 'storage/share',	// View that controls sharing permissions for a storage item.
 					},
 
 					// Authenticator
@@ -403,6 +385,8 @@ exports.Construct =
 							if ( transport.Settings.ClientSupport
 								&& transport.Settings.ClientSupport.enabled )
 							{
+								//TODO:
+
 								// // Store the original url in our session.
 								// if ( request.session )
 								// {
@@ -410,7 +394,8 @@ exports.Construct =
 								// 	request.session.redirect_url_after_login = request.originalUrl;
 								// }
 
-								response.redirect( `${transport.ServerPath()}${transport.Settings.ClientSupport.Views.login_url}` );
+								// response.redirect( `${transport.ServerPath()}${transport.Settings.ClientSupport.Views.login_url}` );
+								response.redirect( `${transport.ServerPath()}Authentication/Login` );
 							}
 							else
 							{
@@ -610,7 +595,6 @@ exports.Construct =
 					components.ClientSupport_MountPublicFolder = SRC.ClientSupport_MountPublicFolder;
 					components.ClientSupport_MountRootRoute = SRC.ClientSupport_MountRootRoute;
 					components.ClientSupport_MountExplorerRoute = SRC.ClientSupport_MountExplorerRoute;
-					components.ClientSupport_MountAuthenticatorRoutes = SRC.ClientSupport_MountAuthenticatorRoutes;
 				}
 
 				//---------------------------------------------------------------------
@@ -643,7 +627,6 @@ exports.Construct =
 				components.ClientSupport_GenerateViewCore( component_context );
 				components.ClientSupport_MountPublicFolder( component_context );
 				components.ClientSupport_MountRootRoute( component_context );
-				components.ClientSupport_MountAuthenticatorRoutes( component_context );
 				components.MountServices( component_context );
 
 
@@ -667,7 +650,7 @@ exports.Construct =
 								if ( r.route.methods.get ) { verbs.push( 'GET ' ); }
 								if ( r.route.methods.put ) { verbs.push( 'PUT ' ); }
 								if ( r.route.methods.post ) { verbs.push( 'POST' ); }
-								if ( r.route.methods.del ) { verbs.push( 'DEL ' ); }
+								if ( r.route.methods.delete ) { verbs.push( 'DEL ' ); }
 								let text = '  ' + verbs.join( '|' );
 								text = text.padEnd( 20 );
 								text += ' ' + r.route.path;

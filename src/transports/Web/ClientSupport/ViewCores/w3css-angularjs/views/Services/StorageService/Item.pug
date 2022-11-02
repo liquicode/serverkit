@@ -1,17 +1,17 @@
-extends ../index.pug
+extends ../../index.pug
 
 block content
 
-	script( type='text/javascript' src=include_storage_item_js_url )
+	script( type='text/javascript' src=`${server_public_url}Services/StorageService/Item.js` )
 
 	div( ng-controller='StorageItem_Controller' )
 
-		script
-			!= `window.SERVER_DATA = {};\n`
-			!= `window.SERVER_DATA.User = ${JSON.stringify( locals.User )};\n`
-			!= `window.SERVER_DATA.Service = ${JSON.stringify( locals.Service )};\n`
-			!= `window.SERVER_DATA.Origin = ${JSON.stringify( locals.Origin )};\n`
-			!= `window.SERVER_DATA.Parameters = ${JSON.stringify( locals.Parameters )};\n`
+		//- script
+		//- 	!= `window.SERVER_DATA = {};\n`
+		//- 	!= `window.SERVER_DATA.User = ${JSON.stringify( locals.User )};\n`
+		//- 	!= `window.SERVER_DATA.Service = ${JSON.stringify( locals.Service )};\n`
+		//- 	!= `window.SERVER_DATA.Origin = ${JSON.stringify( locals.Origin )};\n`
+		//- 	!= `window.SERVER_DATA.Parameters = ${JSON.stringify( locals.Parameters )};\n`
 
 
 		//-=====================================================================
