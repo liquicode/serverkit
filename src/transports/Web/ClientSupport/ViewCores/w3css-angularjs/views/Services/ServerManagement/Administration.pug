@@ -1,0 +1,54 @@
+extends ../../index.pug
+
+block content
+
+	script( type='text/javascript' src=`${server_public_url}Services/ServerManagement/Administration.js` )
+
+	div( ng-controller='Administration_Controller' )
+
+		-var Settings = locals.Server.Settings 
+
+		.w3-container.w3-blue-grey
+			h2
+				i= `${Settings.AppInfo.name} Administration`
+
+
+		br
+		.w3-container
+
+
+			//-=====================================================================
+			//-=====================================================================
+			//- 
+			//- 	Server Control
+			//- 
+			//-=====================================================================
+			//-=====================================================================
+
+
+			.w3-container
+				h3 Server Controls
+				a.w3-btn.w3-green.w3-border.w3-rounded-large.w3-margin(
+					ng-click="Page.RestartServer()"
+				) Restart Server
+				a.w3-btn.w3-red.w3-border.w3-rounded-large.w3-margin(
+					ng-click="Page.StopServer()"
+				) Stop Server
+
+			.w3-container
+				h3 Server Diagnostics
+
+				a.w3-btn.w3-green.w3-border.w3-rounded-large.w3-margin(
+					ng-click="Page.RefreshDiagnostics()"
+				) Refresh Stats
+
+				input.w3-check.w3-small(
+					type="checkbox"
+					ng-bind="Page.AutoRefreshEnabled()"
+					ng-click="Page.ToggleAutoRefresh()"
+				)
+				label.w3-small.w3-margin-left Auto Refresh
+				
+				pre.w3-code.jsHigh.w3-small(
+					ng-bind="Page.diagnostics_text"
+				)

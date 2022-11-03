@@ -526,7 +526,7 @@
 				"<node_internals>/**"
 			],
 			"cwd": "${workspaceFolder}",
-			"program": "${workspaceFolder}/samples/TestConfig/TestConfig.js",
+			"program": "${workspaceFolder}/~samples/TestConfig/TestConfig.js",
 			"args": [],
 			"outputCapture": "std",
 			"internalConsoleOptions": "openOnSessionStart",

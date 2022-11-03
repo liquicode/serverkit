@@ -1,6 +1,17 @@
 # Version History
 
 
+v0.0.34
+------------------------------------------
+
+- Changed ServerKit startup behavior.
+	If `services_path` is not provided to `ServerKit.NewServer()`,
+	ServerKit will look for services within these folders: `App/services`, `App/Services`, and `App`.
+- Added `server_timeout` (in milliseconds) to the Web and WebSocket configurations.
+- Added the `ServerManagement/Administration` view to the view core.
+- Added "Directory of Pages" to the home view.
+
+
 v0.0.33
 ------------------------------------------
 

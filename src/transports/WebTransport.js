@@ -32,6 +32,8 @@ exports.Construct =
 				services_url_path: '',				// Path to services and functions. (e.g. '/MyApp/api/...')
 				report_routes: false,				// Reports all routes added on startup.
 				set_express_trust_proxy: false,		// Use when running behind a proxy.
+				// server_timeout: 120000,
+				server_timeout: 5000,
 
 				//---------------------------------------------------------------------
 				// Http Server
@@ -307,11 +309,22 @@ exports.Construct =
 					{
 						if ( !Service.Settings.enabled ) { return; }
 						if ( !Origin ) { return; }
-						if (
-							!Origin.requires_login
-							|| Origin.allowed_roles.includes( '*' )
-							|| Origin.allowed_roles.includes( User.user_role )
-						)
+						if ( !Origin ) { return; }
+						if ( Origin.requires_login )
+						{
+							if ( User.user_role === 'anon' ) { return; }
+							if (
+								!Origin.allowed_roles.includes( User.user_role )
+								&& !Origin.allowed_roles.includes( '*' )
+							)
+							{
+								return;
+							}
+						}
+						// if ( !Origin.requires_login
+						// 	|| Origin.allowed_roles.includes( '*' )
+						// 	|| Origin.allowed_roles.includes( User.user_role )
+						// )
 						{
 							// Get the number of required parameters.
 							let required_fields = 0;
@@ -324,6 +337,7 @@ exports.Construct =
 								user_views[ Service.Definition.name ] = {
 									name: Service.Definition.name,
 									title: Service.Definition.title || Service.Definition.name,
+									description: Service.Definition.description,
 									Views: [],
 								};
 							}
@@ -333,6 +347,7 @@ exports.Construct =
 							service_entry.Views.push( {
 								name: Origin.name,
 								title: Origin.title || Origin.name,
+								description: Origin.description,
 								url: Service.Definition.name + '/' + Origin.name,
 								required_fields: required_fields,
 							} );
@@ -510,7 +525,6 @@ exports.Construct =
 							// Internal error.
 							// response.status( 500 ).send( { error: error.message } );
 							let message = invocation_tracer.LogResponse( error.message, null );
-
 							let api_result = {
 								ok: false,
 								origin: RouteName,
@@ -678,6 +692,7 @@ exports.Construct =
 			async function StartupModule()
 			{
 				if ( transport.HttpServer ) { throw new Error( `HttpServer is already running. Call the StopServer() function to shut down.` ); }
+				Server.Log.trace( `Web.HttpServer is initializing.` );
 
 				//---------------------------------------------------------------------
 				// Create the HTTP Server.
@@ -696,6 +711,11 @@ exports.Construct =
 						transport.Settings.ServerAddress.protocol,
 						`Must be either 'http' or 'https'.` ) );
 				}
+
+				//---------------------------------------------------------------------
+				// Configure the HTTP Server.
+				transport.HttpServer.timeout = transport.Settings.server_timeout;
+
 				// Server.Log.trace( `Web.HttpServer is initialized.` );
 
 				//---------------------------------------------------------------------
@@ -712,7 +732,9 @@ exports.Construct =
 								else { resolve( true ); }
 							} );
 					} );
-				Server.Log.trace( `Web.HttpServer is listening at [${transport.ServerAddress()}]` );
+				Server.Log.debug( `Web.HttpServer is listening at [${transport.ServerAddress()}].` );
+
+				Server.Log.trace( `Web.HttpServer has initialized.` );
 
 				// Return
 				return;
@@ -732,6 +754,7 @@ exports.Construct =
 			{
 				if ( transport.HttpServer ) 
 				{
+					Server.Log.trace( `Web.HttpServer is stopping. This may take up to ${parseInt( transport.Settings.server_timeout / 1000 )} seconds.` );
 					if ( transport.HttpServer.listening ) 
 					{
 						await new Promise(

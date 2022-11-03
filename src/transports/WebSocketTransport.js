@@ -32,6 +32,8 @@ exports.Construct =
 				server_url_path: '/socket.io/',
 				trace_connections: false,
 				use_http_server: 'internal',	// One of: 'internal' or 'node'
+				// server_timeout: 120000,
+				server_timeout: 5000,
 				ServerAddress: {
 					protocol: 'http',
 					address: '0.0.0.0',
@@ -202,15 +204,16 @@ exports.Construct =
 
 						// Do the invocation.
 						api_result.result = await Origin.invoke( user, ...parameter_values );
-						invocation_tracer.LogResponse( null, api_result.result );
+						Server.Log.debug( invocation_tracer.LogResponse( null, api_result.result ) );
 
 					}
 					catch ( error )
 					{
 						api_result.ok = false;
 						api_result.error = error.message;
-						if ( invocation_tracer ) { invocation_tracer.LogResponse( api_result.error, null ); }
-						else { Server.Log.error( api_result.error, null ); }
+						// if ( invocation_tracer ) { invocation_tracer.LogResponse( api_result.error, null ); }
+						// else { Server.Log.error( api_result.error, null ); }
+						Server.Log.error( invocation_tracer.LogResponse( api_result.error, null ) );
 					}
 					finally
 					{
@@ -227,6 +230,9 @@ exports.Construct =
 		//---------------------------------------------------------------------
 		async function start_http_server()
 		{
+			Server.Log.trace( `WebSocket.HttpServer is initializing.` );
+
+			//---------------------------------------------------------------------
 			// Create the HTTP Server.
 			if ( transport.Settings.ServerAddress.protocol === 'http' )
 			{
@@ -244,6 +250,10 @@ exports.Construct =
 					`Must be either 'http' or 'https'.` ) );
 			}
 
+			//---------------------------------------------------------------------
+			// Configure the HTTP Server.
+			transport.HttpServer.timeout = transport.Settings.server_timeout;
+
 			// Begin accepting connections.
 			await new Promise(
 				function ( resolve, reject )
@@ -257,6 +267,9 @@ exports.Construct =
 							else { resolve( true ); }
 						} );
 				} );
+
+
+			Server.Log.trace( `WebSocket.HttpServer has initialized.` );
 			return;
 		}
 
@@ -268,6 +281,7 @@ exports.Construct =
 			{
 				// if ( transport.HttpServer.listening ) 
 				{
+					Server.Log.trace( `WebSocket.HttpServer is stopping. This may take up to ${parseInt( transport.Settings.server_timeout / 1000 )} seconds.` );
 					await new Promise(
 						function ( resolve, reject )
 						{
@@ -284,6 +298,7 @@ exports.Construct =
 								} );
 							return;
 						} );
+					Server.Log.trace( `WebSocket.HttpServer has stopped.` );
 				}
 			}
 			transport.HttpServer = null;
@@ -294,7 +309,10 @@ exports.Construct =
 		//---------------------------------------------------------------------
 		async function start_web_socket_server()
 		{
+			Server.Log.trace( `WebSocket.SocketServer is initializing.` );
+
 			let socket_server_options = {
+				// REF: https://socket.io/docs/v4/server-options/
 				path: transport.ServerPath(),
 				serveClient: true,
 				cors: {
@@ -304,7 +322,9 @@ exports.Construct =
 					// origin: false,
 				},
 				// credentials: true,
+				connect_timeout: 45000,
 			};
+
 			if ( transport.Settings.use_http_server === 'internal' )
 			{
 				// Start Internal Socket Server
@@ -315,23 +335,24 @@ exports.Construct =
 				transport.SocketServer = LIB_SOCKET_IO( server_port, socket_server_options );
 				// transport.SocketServer = LIB_SOCKET_IO( socket_server_options );
 				// transport.SocketServer.listen( server_port );
+				transport.SocketServer.httpServer.timeout = transport.Settings.server_timeout;
 
-				Server.Log.trace( `WebSocket.SocketServer is listening at [${transport.ServerAddress()}]` );
+				Server.Log.debug( `WebSocket.SocketServer is listening at [${transport.ServerAddress()}].` );
 			}
 			else if ( transport.Settings.use_http_server === 'node' )
 			{
 				// Start Node Http Server
 				await start_http_server();
-				Server.Log.trace( `WebSocket.HttpServer is listening at [${transport.ServerAddress()}]` );
+				Server.Log.debug( `WebSocket.HttpServer is listening at [${transport.ServerAddress()}].` );
 				// Start Socket Server
 				transport.SocketServer = LIB_SOCKET_IO( transport.HttpServer, socket_server_options );
-				Server.Log.trace( `WebSocket.SocketServer is listening at [${transport.ServerAddress()}]` );
+				Server.Log.debug( `WebSocket.SocketServer is listening at [${transport.ServerAddress()}].` );
 			}
 			// else if ( transport.Settings.use_http_server === 'web' )
 			// {
 			// 	// Start Socket Server, Connected to Express
 			// 	transport.SocketServer = LIB_SOCKET_IO( Server.Transports.Web.HttpServer, socket_server_options );
-			// 	Server.Log.trace( `WebSocket.SocketServer is listening at [${transport.ServerAddress()}]` );
+			// 	Server.Log.debug( `WebSocket.SocketServer is listening at [${transport.ServerAddress()}]` );
 			// }
 			else
 			{
@@ -340,6 +361,8 @@ exports.Construct =
 					transport.Settings.use_http_server,
 					`Must be either 'internal' or 'node'.` ) );
 			}
+
+			Server.Log.trace( `WebSocket.SocketServer has initialized.` );
 			return;
 		}
 
@@ -349,6 +372,7 @@ exports.Construct =
 		{
 			if ( transport.SocketServer ) 
 			{
+				Server.Log.trace( `WebSocket.SocketServer is stopping. This may take up to ${parseInt( transport.Settings.server_timeout / 1000 )} seconds.` );
 				await new Promise(
 					function ( resolve, reject )
 					{
@@ -365,6 +389,7 @@ exports.Construct =
 							} );
 						return;
 					} );
+				Server.Log.trace( `WebSocket.SocketServer has stopped.` );
 			}
 			transport.SocketServer = null;
 			return;
@@ -488,7 +513,7 @@ exports.Construct =
 					let filename = Server.ResolveApplicationPath( transport.Settings.ClientSupport.client_api_file );
 					LIB_FS.mkdirSync( LIB_PATH.dirname( filename ), { recursive: true } );
 					LIB_FS.writeFileSync( filename, code );
-					Server.Log.trace( `WebSocket.ClientSupport generated client file [${transport.Settings.ClientSupport.client_api_file}].` );
+					Server.Log.debug( `WebSocket.ClientSupport generated client file [${transport.Settings.ClientSupport.client_api_file}].` );
 				}
 
 				// Return
@@ -511,15 +536,12 @@ exports.Construct =
 				if ( transport.SocketServer )
 				{
 					await stop_web_socket_server();
-					Server.Log.trace( `WebSocket.SocketServer has stopped.` );
 				}
 
 				// Shutdown the http server.
 				if ( transport.HttpServer ) 
 				{
 					await stop_http_server();
-					transport.HttpServer = null;
-					Server.Log.trace( `WebSocket.HttpServer has stopped.` );
 				}
 
 				// Return

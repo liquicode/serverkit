@@ -133,12 +133,25 @@ exports.Construct =
 				// module.error = module.Logger.error;
 				// module.fatal = module.Logger.fatal;
 
-				server_module.debug = function ( Message ) { process.nextTick( function () { server_module.Logger.debug( Message ); } ); };
-				server_module.trace = function ( Message ) { process.nextTick( function () { server_module.Logger.trace( Message ); } ); };
-				server_module.info = function ( Message ) { process.nextTick( function () { server_module.Logger.info( Message ); } ); };
-				server_module.warn = function ( Message ) { process.nextTick( function () { server_module.Logger.warn( Message ); } ); };
-				server_module.error = function ( Message ) { process.nextTick( function () { server_module.Logger.error( Message ); } ); };
-				server_module.fatal = function ( Message ) { process.nextTick( function () { server_module.Logger.fatal( Message ); } ); };
+				// if ( false )
+				if ( Server.Settings.AppInfo.environment === 'development' )
+				{
+					server_module.debug = function ( Message ) { server_module.Logger.debug( Message ); };
+					server_module.trace = function ( Message ) { server_module.Logger.trace( Message ); };
+					server_module.info = function ( Message ) { server_module.Logger.info( Message ); };
+					server_module.warn = function ( Message ) { server_module.Logger.warn( Message ); };
+					server_module.error = function ( Message ) { server_module.Logger.error( Message ); };
+					server_module.fatal = function ( Message ) { server_module.Logger.fatal( Message ); };
+				}
+				else
+				{
+					server_module.debug = function ( Message ) { process.nextTick( function () { server_module.Logger.debug( Message ); } ); };
+					server_module.trace = function ( Message ) { process.nextTick( function () { server_module.Logger.trace( Message ); } ); };
+					server_module.info = function ( Message ) { process.nextTick( function () { server_module.Logger.info( Message ); } ); };
+					server_module.warn = function ( Message ) { process.nextTick( function () { server_module.Logger.warn( Message ); } ); };
+					server_module.error = function ( Message ) { process.nextTick( function () { server_module.Logger.error( Message ); } ); };
+					server_module.fatal = function ( Message ) { process.nextTick( function () { server_module.Logger.fatal( Message ); } ); };
+				}
 
 
 				// Return, ok.

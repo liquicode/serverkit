@@ -69,6 +69,15 @@ exports.Construct =
 
 
 		//---------------------------------------------------------------------
+		// NOTE:
+		// The RestartServer and StopServer origins can get a little
+		// squirrely when they are invoked via the Web transport. 
+		// This is because browser based calls will tend to retry their
+		// calls when the server becomes unresponsive.
+		//---------------------------------------------------------------------
+
+
+		//---------------------------------------------------------------------
 		//---------------------------------------------------------------------
 		//	View Definitions
 		//---------------------------------------------------------------------
@@ -76,12 +85,22 @@ exports.Construct =
 
 
 		//---------------------------------------------------------------------
-		// let View_Explorer =
+		service.Views.Diagnostics =
+			Server.NewOriginDefinition( {
+				name: 'Administration',
+				title: 'Administration',
+				description: 'Display server health and controls.',
+				requires_login: true,
+				allowed_roles: [ 'admin' ],
+			} );
+
+
+		//---------------------------------------------------------------------
 		service.Views.Explorer =
 			Server.NewOriginDefinition( {
 				name: 'Explorer',
 				title: 'Server Explorer',
-				description: 'A ui to get information about services and to test their functions.',
+				description: 'Service info and function testing.',
 				requires_login: true,
 			} );
 

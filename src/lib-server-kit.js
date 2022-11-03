@@ -328,7 +328,7 @@ exports.NewServer =
 				};
 
 
-				server.VisitOriginsSync =
+			server.VisitOriginsSync =
 				function VisitOriginsSync( Callback )
 				{
 					let service_keys = Object.keys( server.Services );
@@ -386,7 +386,7 @@ exports.NewServer =
 				};
 
 
-				server.VisitViewsSync =
+			server.VisitViewsSync =
 				function VisitViewsSync( Callback )
 				{
 					let service_keys = Object.keys( server.Services );
@@ -724,6 +724,21 @@ exports.NewServer =
 		if ( ServerOptions.services_path )
 		{
 			ServerOptions.services_path = server.ResolveApplicationPath( ServerOptions.services_path );
+		}
+		else
+		{
+			if ( LIB_FS.existsSync( server.ResolveApplicationPath( 'services' ) ) )
+			{
+				ServerOptions.services_path = server.ResolveApplicationPath( 'services' );
+			}
+			else if ( LIB_FS.existsSync( server.ResolveApplicationPath( 'Services' ) ) )
+			{
+				ServerOptions.services_path = server.ResolveApplicationPath( 'Services' );
+			}
+			else
+			{
+				ServerOptions.services_path = server.ResolveApplicationPath( '' );
+			}
 		}
 
 
@@ -1071,9 +1086,9 @@ exports.NewServer =
 						let module_key = module_keys[ index ];
 						if ( server.Services[ module_key ].Settings.enabled )
 						{
+							server.Log.debug( `Server is starting service [${module_key}].` );
 							await server.Services[ module_key ].StartupModule();
 						}
-						server.Log.trace( `Server started service [${module_key}].` );
 					}
 				}
 
@@ -1085,9 +1100,9 @@ exports.NewServer =
 						let module_key = module_keys[ index ];
 						if ( server.Transports[ module_key ].Settings.enabled )
 						{
+							server.Log.debug( `Server is starting transport [${module_key}].` );
 							await server.Transports[ module_key ].StartupModule();
 						}
-						server.Log.trace( `Server started transport [${module_key}].` );
 					}
 				}
 
@@ -1121,9 +1136,9 @@ exports.NewServer =
 						let module_key = module_keys[ index ];
 						if ( server.Transports[ module_key ].Settings.enabled )
 						{
+							server.Log.debug( `Server is stopping transport [${module_key}].` );
 							await server.Transports[ module_key ].ShutdownModule();
 						}
-						server.Log.trace( `Server stopped transport [${module_key}].` );
 					}
 				}
 
@@ -1135,13 +1150,13 @@ exports.NewServer =
 						let module_key = module_keys[ index ];
 						if ( server.Services[ module_key ].Settings.enabled )
 						{
+							server.Log.debug( `Server is stopping service [${module_key}].` );
 							await server.Services[ module_key ].ShutdownModule();
 						}
-						server.Log.trace( `Server stopped service [${module_key}].` );
 					}
 				}
 
-				server.Log.info( `Server is stopped.` );
+				server.Log.info( `Server has stopped.` );
 				return;
 			};
 
@@ -1161,15 +1176,27 @@ exports.NewServer =
 				//---------------------------------------------------------------------
 				// Graceful Shutdown
 				// NOTE: This will shutdown only the last server created.
-				process.on( 'exit',
-					async function ()
-					{
-						server.Log.info( `Server detected process termination, shutting down now.` );
-						await server.Shutdown();
-					} );
-				process.on( 'SIGHUP', () => process.exit( 128 + 1 ) );
-				process.on( 'SIGINT', () => process.exit( 128 + 2 ) );
-				process.on( 'SIGTERM', () => process.exit( 128 + 15 ) );
+
+				// process.on( 'exit',
+				// 	async function ()
+				// 	{
+				// 		server.Log.info( `Server detected a termination signal, shutting down now.` );
+				// 		await server.Shutdown();
+				// 	} );
+				// process.on( 'SIGHUP', () => process.exit( 128 + 1 ) );
+				// process.on( 'SIGINT', () => process.exit( 128 + 2 ) );
+				// process.on( 'SIGTERM', () => process.exit( 128 + 15 ) );
+
+				async function graceful_shutdown( ExitCode )
+				{
+					server.Log.info( `Server detected a termination signal, shutting down now.` );
+					await server.Shutdown();
+					process.exit( ExitCode );
+				}
+
+				process.on( 'SIGHUP', () => graceful_shutdown( 128 + 1 ) );
+				process.on( 'SIGINT', () => graceful_shutdown( 128 + 2 ) );
+				process.on( 'SIGTERM', () => graceful_shutdownexit( 128 + 15 ) );
 				return;
 			};
 

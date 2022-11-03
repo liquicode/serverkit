@@ -404,7 +404,7 @@ exports.NewStorageService =
 			service.Views.List =
 				Server.NewOriginDefinition( {
 					name: 'List',
-					description: "Lists all items matching the given criteria.",
+					description: "List items for a service.",
 					requires_login: true,
 					Fields: [
 						Server.NewFieldDefinition( {
@@ -424,7 +424,7 @@ exports.NewStorageService =
 			service.Views.Item =
 				Server.NewOriginDefinition( {
 					name: 'Item',
-					description: "Shows item detail and management functions.",
+					description: "Item detail and management functions.",
 					requires_login: true,
 					Fields: [
 						Server.NewFieldDefinition( {

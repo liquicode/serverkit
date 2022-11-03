@@ -184,7 +184,7 @@ exports.Construct =
 				name: 'Logout',
 				title: 'User Logout',
 				description: "User logout form.",
-				requires_login: false,
+				requires_login: true,
 				Fields: [],
 			} );
 
