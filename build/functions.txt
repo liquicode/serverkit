@@ -17,11 +17,6 @@ Code	Object	Category	Roles	Type	Name		Signature	Summary	Docs Date
 1210	TaskManager	Tasks	n/a	Sync	ScheduleTask		( TaskName, TaskCron, InvokeFunction )	Schedules or unschedules a task.																					
 1220	TaskManager	Tasks	n/a	Sync	StopAllTasks		( )	Unschedules and stops all tasks.																					
 																													
-1300	ServerModule	Object						A "base class" for developing server modules.																					
-1310	ServerModule	Module Control	n/a	Sync	InitializeModule		( )	Perform any one-time initialization for the module.																					
-1311	ServerModule	Module Control	n/a	Sync	StartupModule		( )	Start the module.																					
-1312	ServerModule	Module Control	n/a	Sync	ShutdownModule		( )	Shut down the module.																					
-																													
 1400	ApplicationService	Object						A "base class" for developing application services.																					
 1410	ApplicationService	Module Control	n/a	Sync	InitializeModule		( )	Perform any one-time initialization for the module.																					
 1411	ApplicationService	Module Control	n/a	Sync	StartupModule		( )	Start the module.																					
@@ -72,12 +67,6 @@ Code	Object	Category	Roles	Type	Name		Signature	Summary	Docs Date
 2000	Services	Section						Internal services that ship with ServerKit.																					
 																													
 2100	ServerAccounts	Object						Manages user accounts for the server.																					
-2111	ServerAccounts	Module Control	n/a	Sync	InitializeModule		( )	Perform any one-time initialization for the module.																					
-2112	ServerAccounts	Module Control	n/a	Sync	StartupModule		( )	Start the module.																					
-2113	ServerAccounts	Module Control	n/a	Sync	ShutdownModule		( )	Shut down the module.																					
-2114	ServerAccounts	Storage Control	n/a	Sync	InitializeStorage		( )	Perform any one-time initialization for the storage. Must be called by InitializeModule.																					
-2115	ServerAccounts	Storage Control	n/a	Sync	StartupStorage		( )	Start the storage. Must be called by StartupModule.																					
-2116	ServerAccounts	Storage Control	n/a	Sync	ShutdownStorage		( )	Shut down the storage. Must be called by ShutdownModule.																					
 2120	ServerAccounts	Internal	n/a	Async	FindOrCreateUser		( UserInfo )	Finds or creates a User in the accounts storage.																					
 2130	ServerAccounts	Internal	n/a	Async	NewStorageItem		( User, Prototype )	Initializes a new data item based upon the service's Item definition.																					
 2131	ServerAccounts	Service Call	admin, super, user	Async	StorageCount		( User, Criteria )	Returns the number of objects that match the Criteria.																					
@@ -89,18 +78,12 @@ Code	Object	Category	Roles	Type	Name		Signature	Summary	Docs Date
 2137	ServerAccounts	Service Call	admin, super	Async	StorageDeleteMany		( User, Criteria )	Deletes all objects that match the Criteria.																					
 																													
 2200	Authentication	Object						Manages user credentials and authenticates users for the server.																					
-2211	Authentication	Module Control	n/a	Sync	InitializeModule		( )	Perform any one-time initialization for the module.																					
-2212	Authentication	Module Control	n/a	Sync	StartupModule		( )	Start the module.																					
-2213	Authentication	Module Control	n/a	Sync	ShutdownModule		( )	Shut down the module.																					
 2220	Authentication	Internal	n/a	Async	ConnectSession		( SessionToken )	Allows transports to recover and reuse sessions.																					
 2230	Authentication	Service Call	*	Async	Signup		( User, UserEmail, Password, UserName )	Creates a new server account for the user.																					
 2231	Authentication	Service Call	*	Async	Login		( User, UserEmail, Password )	Logs a user in and creates a new session.																					
 2232	Authentication	Service Call	*	Async	Logout		( User, UserEmail )	Logs a user out and destroys the session.																					
 																													
 2300	ServerManagement	Object						Server management.																					
-2310	ServerManagement	Module Control	n/a	Sync	InitializeModule		( )	Perform any one-time initialization for the module.																					
-2311	ServerManagement	Module Control	n/a	Sync	StartupModule		( )	Start the module.																					
-2312	ServerManagement	Module Control	n/a	Sync	ShutdownModule		( )	Shut down the module.																					
 2320	ServerManagement	Service Call	admin, super	Async	Diagnostics		( User )	Returns diagnostic information, including cpu and memory usage.																					
 2321	ServerManagement	Service Call	admin, super	Async	RestartServer		( User )	Restarts the server.																					
 2322	ServerManagement	Service Call	admin, super	Async	StopServer		( User )	Stops the server.																					
@@ -109,17 +92,11 @@ Code	Object	Category	Roles	Type	Name		Signature	Summary	Docs Date
 3000	Transports	Section																											
 																													
 3100	Text	Object						A command line text transport.																					
-3110	Text	Module Control	n/a	Sync	InitializeModule		( )	Perform any one-time initialization for the module.																					
-3111	Text	Module Control	n/a	Sync	StartupModule		( )	Start the module.																					
-3112	Text	Module Control	n/a	Sync	ShutdownModule		( )	Shut down the module.																					
 3120	Text	Internal	n/a	Async	ParseCommandString		( CommandString )	Parses a string containing a command name and paramters.																					
 3121	Text	Internal	n/a	Async	InvokeCommand		( SessionToken, Command )	Invokes an Origin with the command name and paramters.																					
 3122	Text	Internal	n/a	Async	InvokeCommandString		( SessionID, CommandString )	Parses and invokes a string containing a command name and paramters.																					
 																													
 3200	Web	Object						An http web transport.																					
-3210	Web	Module Control	n/a	Sync	InitializeModule		( )	Perform any one-time initialization for the module.																					
-3211	Web	Module Control	n/a	Sync	StartupModule		( )	Start the module.																					
-3212	Web	Module Control	n/a	Sync	ShutdownModule		( )	Shut down the module.																					
 3220	Web	Internal	n/a	Sync	ServerAddress		( )	Returns the server address (e.g. "http://localhost: 42")																					
 3221	Web	Internal	n/a	Sync	ServerPath		( )	Returns the server's root path																					
 3222	Web	Internal	n/a	Sync	ServicesPath		( )	Returns the custom path (including the server path) for service api calls.																					
@@ -132,9 +109,6 @@ Code	Object	Category	Roles	Type	Name		Signature	Summary	Docs Date
 3229	Web	Internal	n/a	Sync	GetUserViews		( User, OnlyNoRequiredFields = true )	Returns the Views that the user has access to.																					
 																													
 3300	WebSocket	Object						A web socket transport.																					
-3310	WebSocket	Module Control	n/a	Sync	InitializeModule		( )	Perform any one-time initialization for the module.																					
-3311	WebSocket	Module Control	n/a	Sync	StartupModule		( )	Start the module.																					
-3312	WebSocket	Module Control	n/a	Sync	ShutdownModule		( )	Shut down the module.																					
 3320	WebSocket	Internal	n/a	Sync	ServerAddress		( )	Returns the server address (e.g. "http://localhost: 42")																					
 3321	WebSocket	Internal	n/a	Sync	ServerPath		( )	Returns the server's root path																					
 3322	WebSocket	Internal	n/a	Async	NewWebSocketClient		( SessionToken_or_UserEmail, Password )	Creates a new client and establishes a session.																					
@@ -144,9 +118,6 @@ Code	Object	Category	Roles	Type	Name		Signature	Summary	Docs Date
 3352	WebSocketClient	Internal	n/a	Async	Close		( )	Closes the client connection to the server.																					
 																													
 3400	Amqp	Object						A message queue transport using the amqp protocol.																					
-3410	Amqp	Module Control	n/a	Sync	InitializeModule		( )	Perform any one-time initialization for the module.																					
-3411	Amqp	Module Control	n/a	Sync	StartupModule		( )	Start the module.																					
-3412	Amqp	Module Control	n/a	Sync	ShutdownModule		( )	Shut down the module.																					
 3412	Amqp	Internal	n/a	Async	NewAmqpClient		( SessionToken_or_UserEmail, Password )	Creates a new client and establishes a session.																					
 																													
 3450	AmqpClient	Object						A client for invoking Origins using the Amqp transport.																					

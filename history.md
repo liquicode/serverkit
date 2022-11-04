@@ -1,7 +1,7 @@
 # Version History
 
 
-v0.0.35
+v0.0.35, 2022-11-04
 ------------------------------------------
 
 - The `Web` transport no longer enables `Web.Security.Cors` by default. Both `Web.Security.Cors` and `Web.Security.Helmet` are now disabled by default.
@@ -14,7 +14,7 @@ v0.0.35
 - Simplified Log configuration. No longer a seperate object for Shell, just a new `Console.ShellColorTheme` setting.
 
 
-v0.0.34
+v0.0.34, 2022-11-03
 ------------------------------------------
 
 - Changed ServerKit startup behavior.

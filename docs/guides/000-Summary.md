@@ -55,22 +55,6 @@ TaskManager Functions
 </details>
 
 
-### ServerModule
-- **A "base class" for developing server modules.**
-
-<details>
-<summary>
-ServerModule Functions
-</summary>
-
-| Category | Type | Function | Parameters | Summary |
-|----------|------|----------|------------|---------|
-| Module Control | Sync | InitializeModule | ( ) | Perform any one-time initialization for the module. |
-| Module Control | Sync | StartupModule | ( ) | Start the module. |
-| Module Control | Sync | ShutdownModule | ( ) | Shut down the module. |
-</details>
-
-
 ### ApplicationService
 - **A "base class" for developing application services.**
 
@@ -166,12 +150,6 @@ ServerAccounts Functions
 
 | Category | Type | Function | Parameters | Summary |
 |----------|------|----------|------------|---------|
-| Module Control | Sync | InitializeModule | ( ) | Perform any one-time initialization for the module. |
-| Module Control | Sync | StartupModule | ( ) | Start the module. |
-| Module Control | Sync | ShutdownModule | ( ) | Shut down the module. |
-| Storage Control | Sync | InitializeStorage | ( ) | Perform any one-time initialization for the storage. Must be called by InitializeModule. |
-| Storage Control | Sync | StartupStorage | ( ) | Start the storage. Must be called by StartupModule. |
-| Storage Control | Sync | ShutdownStorage | ( ) | Shut down the storage. Must be called by ShutdownModule. |
 | Internal | Async | FindOrCreateUser | ( UserInfo ) | Finds or creates a User in the accounts storage. |
 | Internal | Async | NewStorageItem | ( User, Prototype ) | Initializes a new data item based upon the service's Item definition. |
 | Service Call | Async | StorageCount | ( User, Criteria ) | Returns the number of objects that match the Criteria. |
@@ -194,9 +172,6 @@ Authentication Functions
 
 | Category | Type | Function | Parameters | Summary |
 |----------|------|----------|------------|---------|
-| Module Control | Sync | InitializeModule | ( ) | Perform any one-time initialization for the module. |
-| Module Control | Sync | StartupModule | ( ) | Start the module. |
-| Module Control | Sync | ShutdownModule | ( ) | Shut down the module. |
 | Internal | Async | ConnectSession | ( SessionToken ) | Allows transports to recover and reuse sessions. |
 | Service Call | Async | Signup | ( User, UserEmail, Password, UserName ) | Creates a new server account for the user. |
 | Service Call | Async | Login | ( User, UserEmail, Password ) | Logs a user in and creates a new session. |
@@ -214,9 +189,6 @@ ServerManagement Functions
 
 | Category | Type | Function | Parameters | Summary |
 |----------|------|----------|------------|---------|
-| Module Control | Sync | InitializeModule | ( ) | Perform any one-time initialization for the module. |
-| Module Control | Sync | StartupModule | ( ) | Start the module. |
-| Module Control | Sync | ShutdownModule | ( ) | Shut down the module. |
 | Service Call | Async | Diagnostics | ( User ) | Returns diagnostic information, including cpu and memory usage. |
 | Service Call | Async | RestartServer | ( User ) | Restarts the server. |
 | Service Call | Async | StopServer | ( User ) | Stops the server. |
@@ -239,9 +211,6 @@ Text Functions
 
 | Category | Type | Function | Parameters | Summary |
 |----------|------|----------|------------|---------|
-| Module Control | Sync | InitializeModule | ( ) | Perform any one-time initialization for the module. |
-| Module Control | Sync | StartupModule | ( ) | Start the module. |
-| Module Control | Sync | ShutdownModule | ( ) | Shut down the module. |
 | Internal | Async | ParseCommandString | ( CommandString ) | Parses a string containing a command name and paramters. |
 | Internal | Async | InvokeCommand | ( SessionToken, Command ) | Invokes an Origin with the command name and paramters. |
 | Internal | Async | InvokeCommandString | ( SessionID, CommandString ) | Parses and invokes a string containing a command name and paramters. |
@@ -258,9 +227,6 @@ Web Functions
 
 | Category | Type | Function | Parameters | Summary |
 |----------|------|----------|------------|---------|
-| Module Control | Sync | InitializeModule | ( ) | Perform any one-time initialization for the module. |
-| Module Control | Sync | StartupModule | ( ) | Start the module. |
-| Module Control | Sync | ShutdownModule | ( ) | Shut down the module. |
 | Internal | Sync | ServerAddress | ( ) | Returns the server address (e.g. "http://localhost: 42") |
 | Internal | Sync | ServerPath | ( ) | Returns the server's root path |
 | Internal | Sync | ServicesPath | ( ) | Returns the custom path (including the server path) for service api calls. |
@@ -284,9 +250,6 @@ WebSocket Functions
 
 | Category | Type | Function | Parameters | Summary |
 |----------|------|----------|------------|---------|
-| Module Control | Sync | InitializeModule | ( ) | Perform any one-time initialization for the module. |
-| Module Control | Sync | StartupModule | ( ) | Start the module. |
-| Module Control | Sync | ShutdownModule | ( ) | Shut down the module. |
 | Internal | Sync | ServerAddress | ( ) | Returns the server address (e.g. "http://localhost: 42") |
 | Internal | Sync | ServerPath | ( ) | Returns the server's root path |
 | Internal | Async | NewWebSocketClient | ( SessionToken_or_UserEmail, Password ) | Creates a new client and establishes a session. |
@@ -318,9 +281,6 @@ Amqp Functions
 
 | Category | Type | Function | Parameters | Summary |
 |----------|------|----------|------------|---------|
-| Module Control | Sync | InitializeModule | ( ) | Perform any one-time initialization for the module. |
-| Module Control | Sync | StartupModule | ( ) | Start the module. |
-| Module Control | Sync | ShutdownModule | ( ) | Shut down the module. |
 | Internal | Async | NewAmqpClient | ( SessionToken_or_UserEmail, Password ) | Creates a new client and establishes a session. |
 </details>
 

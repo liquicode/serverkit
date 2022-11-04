@@ -143,50 +143,6 @@
 		"summary": "Unschedules and stops all tasks."
 	},
 	{
-		"code": "1300",
-		"object": "ServerModule",
-		"category": "Object",
-		"roles": "",
-		"type": "",
-		"name": "",
-		"link": "",
-		"signature": "",
-		"summary": "A \"base class\" for developing server modules."
-	},
-	{
-		"code": "1310",
-		"object": "ServerModule",
-		"category": "Module Control",
-		"roles": "n/a",
-		"type": "Sync",
-		"name": "InitializeModule",
-		"link": "",
-		"signature": "( )",
-		"summary": "Perform any one-time initialization for the module."
-	},
-	{
-		"code": "1311",
-		"object": "ServerModule",
-		"category": "Module Control",
-		"roles": "n/a",
-		"type": "Sync",
-		"name": "StartupModule",
-		"link": "",
-		"signature": "( )",
-		"summary": "Start the module."
-	},
-	{
-		"code": "1312",
-		"object": "ServerModule",
-		"category": "Module Control",
-		"roles": "n/a",
-		"type": "Sync",
-		"name": "ShutdownModule",
-		"link": "",
-		"signature": "( )",
-		"summary": "Shut down the module."
-	},
-	{
 		"code": "1400",
 		"object": "ApplicationService",
 		"category": "Object",
@@ -693,72 +649,6 @@
 		"summary": "Manages user accounts for the server."
 	},
 	{
-		"code": "2111",
-		"object": "ServerAccounts",
-		"category": "Module Control",
-		"roles": "n/a",
-		"type": "Sync",
-		"name": "InitializeModule",
-		"link": "",
-		"signature": "( )",
-		"summary": "Perform any one-time initialization for the module."
-	},
-	{
-		"code": "2112",
-		"object": "ServerAccounts",
-		"category": "Module Control",
-		"roles": "n/a",
-		"type": "Sync",
-		"name": "StartupModule",
-		"link": "",
-		"signature": "( )",
-		"summary": "Start the module."
-	},
-	{
-		"code": "2113",
-		"object": "ServerAccounts",
-		"category": "Module Control",
-		"roles": "n/a",
-		"type": "Sync",
-		"name": "ShutdownModule",
-		"link": "",
-		"signature": "( )",
-		"summary": "Shut down the module."
-	},
-	{
-		"code": "2114",
-		"object": "ServerAccounts",
-		"category": "Storage Control",
-		"roles": "n/a",
-		"type": "Sync",
-		"name": "InitializeStorage",
-		"link": "",
-		"signature": "( )",
-		"summary": "Perform any one-time initialization for the storage. Must be called by InitializeModule."
-	},
-	{
-		"code": "2115",
-		"object": "ServerAccounts",
-		"category": "Storage Control",
-		"roles": "n/a",
-		"type": "Sync",
-		"name": "StartupStorage",
-		"link": "",
-		"signature": "( )",
-		"summary": "Start the storage. Must be called by StartupModule."
-	},
-	{
-		"code": "2116",
-		"object": "ServerAccounts",
-		"category": "Storage Control",
-		"roles": "n/a",
-		"type": "Sync",
-		"name": "ShutdownStorage",
-		"link": "",
-		"signature": "( )",
-		"summary": "Shut down the storage. Must be called by ShutdownModule."
-	},
-	{
 		"code": "2120",
 		"object": "ServerAccounts",
 		"category": "Internal",
@@ -869,39 +759,6 @@
 		"summary": "Manages user credentials and authenticates users for the server."
 	},
 	{
-		"code": "2211",
-		"object": "Authentication",
-		"category": "Module Control",
-		"roles": "n/a",
-		"type": "Sync",
-		"name": "InitializeModule",
-		"link": "",
-		"signature": "( )",
-		"summary": "Perform any one-time initialization for the module."
-	},
-	{
-		"code": "2212",
-		"object": "Authentication",
-		"category": "Module Control",
-		"roles": "n/a",
-		"type": "Sync",
-		"name": "StartupModule",
-		"link": "",
-		"signature": "( )",
-		"summary": "Start the module."
-	},
-	{
-		"code": "2213",
-		"object": "Authentication",
-		"category": "Module Control",
-		"roles": "n/a",
-		"type": "Sync",
-		"name": "ShutdownModule",
-		"link": "",
-		"signature": "( )",
-		"summary": "Shut down the module."
-	},
-	{
 		"code": "2220",
 		"object": "Authentication",
 		"category": "Internal",
@@ -955,39 +812,6 @@
 		"link": "",
 		"signature": "",
 		"summary": "Server management."
-	},
-	{
-		"code": "2310",
-		"object": "ServerManagement",
-		"category": "Module Control",
-		"roles": "n/a",
-		"type": "Sync",
-		"name": "InitializeModule",
-		"link": "",
-		"signature": "( )",
-		"summary": "Perform any one-time initialization for the module."
-	},
-	{
-		"code": "2311",
-		"object": "ServerManagement",
-		"category": "Module Control",
-		"roles": "n/a",
-		"type": "Sync",
-		"name": "StartupModule",
-		"link": "",
-		"signature": "( )",
-		"summary": "Start the module."
-	},
-	{
-		"code": "2312",
-		"object": "ServerManagement",
-		"category": "Module Control",
-		"roles": "n/a",
-		"type": "Sync",
-		"name": "ShutdownModule",
-		"link": "",
-		"signature": "( )",
-		"summary": "Shut down the module."
 	},
 	{
 		"code": "2320",
@@ -1056,39 +880,6 @@
 		"summary": "A command line text transport."
 	},
 	{
-		"code": "3110",
-		"object": "Text",
-		"category": "Module Control",
-		"roles": "n/a",
-		"type": "Sync",
-		"name": "InitializeModule",
-		"link": "",
-		"signature": "( )",
-		"summary": "Perform any one-time initialization for the module."
-	},
-	{
-		"code": "3111",
-		"object": "Text",
-		"category": "Module Control",
-		"roles": "n/a",
-		"type": "Sync",
-		"name": "StartupModule",
-		"link": "",
-		"signature": "( )",
-		"summary": "Start the module."
-	},
-	{
-		"code": "3112",
-		"object": "Text",
-		"category": "Module Control",
-		"roles": "n/a",
-		"type": "Sync",
-		"name": "ShutdownModule",
-		"link": "",
-		"signature": "( )",
-		"summary": "Shut down the module."
-	},
-	{
 		"code": "3120",
 		"object": "Text",
 		"category": "Internal",
@@ -1131,39 +922,6 @@
 		"link": "",
 		"signature": "",
 		"summary": "An http web transport."
-	},
-	{
-		"code": "3210",
-		"object": "Web",
-		"category": "Module Control",
-		"roles": "n/a",
-		"type": "Sync",
-		"name": "InitializeModule",
-		"link": "",
-		"signature": "( )",
-		"summary": "Perform any one-time initialization for the module."
-	},
-	{
-		"code": "3211",
-		"object": "Web",
-		"category": "Module Control",
-		"roles": "n/a",
-		"type": "Sync",
-		"name": "StartupModule",
-		"link": "",
-		"signature": "( )",
-		"summary": "Start the module."
-	},
-	{
-		"code": "3212",
-		"object": "Web",
-		"category": "Module Control",
-		"roles": "n/a",
-		"type": "Sync",
-		"name": "ShutdownModule",
-		"link": "",
-		"signature": "( )",
-		"summary": "Shut down the module."
 	},
 	{
 		"code": "3220",
@@ -1287,39 +1045,6 @@
 		"summary": "A web socket transport."
 	},
 	{
-		"code": "3310",
-		"object": "WebSocket",
-		"category": "Module Control",
-		"roles": "n/a",
-		"type": "Sync",
-		"name": "InitializeModule",
-		"link": "",
-		"signature": "( )",
-		"summary": "Perform any one-time initialization for the module."
-	},
-	{
-		"code": "3311",
-		"object": "WebSocket",
-		"category": "Module Control",
-		"roles": "n/a",
-		"type": "Sync",
-		"name": "StartupModule",
-		"link": "",
-		"signature": "( )",
-		"summary": "Start the module."
-	},
-	{
-		"code": "3312",
-		"object": "WebSocket",
-		"category": "Module Control",
-		"roles": "n/a",
-		"type": "Sync",
-		"name": "ShutdownModule",
-		"link": "",
-		"signature": "( )",
-		"summary": "Shut down the module."
-	},
-	{
 		"code": "3320",
 		"object": "WebSocket",
 		"category": "Internal",
@@ -1395,39 +1120,6 @@
 		"link": "",
 		"signature": "",
 		"summary": "A message queue transport using the amqp protocol."
-	},
-	{
-		"code": "3410",
-		"object": "Amqp",
-		"category": "Module Control",
-		"roles": "n/a",
-		"type": "Sync",
-		"name": "InitializeModule",
-		"link": "",
-		"signature": "( )",
-		"summary": "Perform any one-time initialization for the module."
-	},
-	{
-		"code": "3411",
-		"object": "Amqp",
-		"category": "Module Control",
-		"roles": "n/a",
-		"type": "Sync",
-		"name": "StartupModule",
-		"link": "",
-		"signature": "( )",
-		"summary": "Start the module."
-	},
-	{
-		"code": "3412",
-		"object": "Amqp",
-		"category": "Module Control",
-		"roles": "n/a",
-		"type": "Sync",
-		"name": "ShutdownModule",
-		"link": "",
-		"signature": "( )",
-		"summary": "Shut down the module."
 	},
 	{
 		"code": "3412",
