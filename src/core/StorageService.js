@@ -598,7 +598,7 @@ exports.NewStorageService =
 			// Initialize the storage.
 			// Call this from InitializeModule.
 			service.InitializeStorage =
-				function InitializeStorage()
+				async function InitializeStorage()
 				{
 					service.UserStorage = SRC_USER_STORAGE.NewUserStorage( Server, service );
 					return;
@@ -607,11 +607,11 @@ exports.NewStorageService =
 
 			//---------------------------------------------------------------------
 			service.StartupStorage =
-				function StartupStorage()
+				async function StartupStorage()
 				{
 					if ( service.UserStorage )
 					{
-						service.UserStorage.StartupProvider();
+						await service.UserStorage.StartupProvider();
 					}
 					return;
 				};
@@ -619,11 +619,11 @@ exports.NewStorageService =
 
 			//---------------------------------------------------------------------
 			service.ShutdownStorage =
-				function ShutdownStorage()
+				async function ShutdownStorage()
 				{
 					if ( service.UserStorage )
 					{
-						service.UserStorage.ShutdownProvider();
+						await service.UserStorage.ShutdownProvider();
 					}
 					return;
 				};
@@ -639,9 +639,9 @@ exports.NewStorageService =
 
 
 			service.InitializeModule =
-				function InitializeModule()
+				async function InitializeModule()
 				{
-					service.InitializeStorage();
+					await service.InitializeStorage();
 					Server.Log.trace( `Services: ${service.Definition.name} is initialized.` );
 					return;
 				};
@@ -656,9 +656,9 @@ exports.NewStorageService =
 
 
 			service.StartupModule =
-				function StartupModule()
+				async function StartupModule()
 				{
-					service.StartupStorage();
+					await service.StartupStorage();
 					Server.Log.trace( `Services: ${service.Definition.name} has started.` );
 					return;
 				};
@@ -673,9 +673,9 @@ exports.NewStorageService =
 
 
 			service.ShutdownModule =
-				function ShutdownModule()
+				async function ShutdownModule()
 				{
-					service.ShutdownStorage();
+					await service.ShutdownStorage();
 					Server.Log.trace( `Services: ${service.Definition.name} has stopped.` );
 					return;
 				};

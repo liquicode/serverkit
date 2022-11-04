@@ -100,20 +100,20 @@ exports.NewUserStorage =
 
 		//---------------------------------------------------------------------
 		user_storage.StartupProvider =
-			function StartupProvider() 
+			async function StartupProvider() 
 			{
 				if ( !Server.Utility.has_value( user_storage.Provider ) ) { throw new Error( `Storage Provider does not exist.` ); }
-				user_storage.Provider.StartupProvider();
+				await user_storage.Provider.StartupProvider();
 				return;
 			};
 
 
 		//---------------------------------------------------------------------
 		user_storage.ShutdownProvider =
-			function ShutdownProvider() 
+			async function ShutdownProvider() 
 			{
 				if ( !Server.Utility.has_value( user_storage.Provider ) ) { throw new Error( `Storage Provider does not exist.` ); }
-				user_storage.Provider.ShutdownProvider();
+				await user_storage.Provider.ShutdownProvider();
 				return;
 			};
 

@@ -470,6 +470,19 @@
 			"name": "------------------------------------------",
 		},
 		{
+			"name": "Sample: Albion Data Server",
+			"type": "node",
+			"request": "launch",
+			"skipFiles": [
+				"<node_internals>/**"
+			],
+			"cwd": "${workspaceFolder}",
+			"program": "${workspaceFolder}/~samples/AlbionDataServer/AlbionDataServer.js",
+			"args": [],
+			"outputCapture": "std",
+			"internalConsoleOptions": "openOnSessionStart",
+		},
+		{
 			"name": "Sample: Maths Server",
 			"type": "node",
 			"request": "launch",

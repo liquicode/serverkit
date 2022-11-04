@@ -51,7 +51,7 @@
 	"dependencies": {
 		"@liquicode/lib-json": "0.x",
 		"@liquicode/lib-logger": "0.x",
-		"@liquicode/liquicodejs": "0.x",
+		"@liquicode/liquicodejs": "0.0.22",
 		"amqplib": "0.x",
 		"axios": "1.x",
 		"babel-polyfill": "6.x",

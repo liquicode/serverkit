@@ -53,6 +53,7 @@ exports.NewProvider =
 				if ( client )
 				{
 					client.close();
+					// database.close();
 				}
 			}
 
@@ -97,7 +98,6 @@ exports.NewProvider =
 					{
 						try
 						{
-							database.close();
 							resolve();
 						}
 						catch ( error )
