@@ -16,9 +16,8 @@ let Alice = { user_id: 'alice@server', user_role: 'admin' };
 var SERVER_SETTINGS = {
 	Services: {
 		TestService: {
-			Storage: {
-				storage_provider: 'Memory',
-				MemoryProvider: {},
+			UserStorage: {
+				storage_provider: 'MemoryProvider',
 			},
 		}
 	}

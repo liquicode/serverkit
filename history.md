@@ -1,6 +1,19 @@
 # Version History
 
 
+v0.0.35
+------------------------------------------
+
+- The `Web` transport no longer enables `Web.Security.Cors` by default. Both `Web.Security.Cors` and `Web.Security.Helmet` are now disabled by default.
+- Moved configuration `Web.ClientSupport.Views.root_view` to `Web.ClientSupport.home_view`.
+- Renamed configuration setting `StorageService.Storage` to `StorageService.UserStorage`.
+- Renamed configuration setting `Authentication.Storage` to `Authentication.SessionStorage`.
+- Changed usage of the `StorageService.storage_provider` configuration setting. It is now set to the full provider name: `MemoryProvider`, `FileProvider`, `Sqlite3Provider`, or `MongoProvider`
+- New UserStorage providers for `StorageService.UserStorage` can be authored in the source folder `src/core/StorageProviders`
+	and named as `{StorageProviderName}.js`.
+- Simplified Log configuration. No longer a seperate object for Shell, just a new `Console.ShellColorTheme` setting.
+
+
 v0.0.34
 ------------------------------------------
 
@@ -62,7 +75,7 @@ TODO for v0.1.0
 		- **COMPLETED** `Server.Transports.Text.Call( SessionToken, CommandText )`
 		- **COMPLETED** Used by `server-kit-cli.js`
 	- Update lib-json to support hjson. Go full lib-json
-		- allow js-style syntax for user input
+	- CONFIRM: Allow js-style syntax for user input.
 	- **COMPLETED** When reporting file and folder names, use a truncated version of the name that is relative to the application folder.
 	- **COMPLETED** Make `VisitOrigins()` an async function.
 	- **COMPLETED** Make `VisitViews()` an async function.
@@ -71,6 +84,8 @@ TODO for v0.1.0
 	- **COMPLETED** Develop a `Server.NewOriginDefinition()` function to make it easier to define Origins.
 	- **COMPLETED** Allow wildcards in `Origin.verbs`.
 	- **COMPLETED** Make a task scheduler.
+	- Add `Log.Console.max_line_length` configuration setting to limit the length of log output lines.
+	- Simplify Log configuration. Add `Log.shell_colors` configuration setting to enable colorized output. Valid values can be one of `'light'`, `'dark'`, or empty. Additionally, add `Log.Colors.Light` and `Log.Colors.Dark` to define the color values.
 
 
 - Services
@@ -92,7 +107,7 @@ TODO for v0.1.0
 	- **COMPLETED** Rename: All Origin and View Parameter names should be in PascalCase.
 	- Add: `ProxyTo` Setting which informs transports to proxy all calls for a service to a remote server.
 	- Rename configuration setting `StorageService.Defaults.Storage` to `StorageService.Defaults.UserStorage`
-	- Add Origins using their `Definition.name` field rather than the programmatic name. Or remove the `Definition.name` field.
+	- CONFIRM: Add Origins using their `Definition.name` field rather than the programmatic name. Or remove the `Definition.name` field.
 
 
 - `Authentication` Service
@@ -137,6 +152,7 @@ TODO for v0.1.0
 	- **DECLINED** Rename: `DataHandling` to `Middlewares`
 	- **COMPLETED** Rename `ExpressTransport` to `WebTransport`.
 	- Come up with a way for admin users and super users to impersonate another user.
+	- Add `Web.ClientSupport.auto_favicon` configuration setting to generate a favicon based on the server name.
 
 	- **DEPRECATED** Session persistence strategies
 		- **COMPLETED** [memorystore](https://www.npmjs.com/package/memorystore)

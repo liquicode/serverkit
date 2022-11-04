@@ -32,8 +32,8 @@ exports.Construct =
 				server_url_path: '/socket.io/',
 				trace_connections: false,
 				use_http_server: 'internal',	// One of: 'internal' or 'node'
-				// server_timeout: 120000,
-				server_timeout: 5000,
+				server_timeout: 120000,
+				// server_timeout: 5000,
 				ServerAddress: {
 					protocol: 'http',
 					address: '0.0.0.0',
@@ -281,7 +281,7 @@ exports.Construct =
 			{
 				// if ( transport.HttpServer.listening ) 
 				{
-					Server.Log.trace( `WebSocket.HttpServer is stopping. This may take up to ${parseInt( transport.Settings.server_timeout / 1000 )} seconds.` );
+					Server.Log.trace( `WebSocket.HttpServer is stopping. This may take up to ${parseInt( transport.Settings.server_timeout / 1000 )} seconds if connections are being held open.` );
 					await new Promise(
 						function ( resolve, reject )
 						{
@@ -372,7 +372,7 @@ exports.Construct =
 		{
 			if ( transport.SocketServer ) 
 			{
-				Server.Log.trace( `WebSocket.SocketServer is stopping. This may take up to ${parseInt( transport.Settings.server_timeout / 1000 )} seconds.` );
+				Server.Log.trace( `WebSocket.SocketServer is stopping. This may take up to ${parseInt( transport.Settings.server_timeout / 1000 )} seconds if connections are being held open.` );
 				await new Promise(
 					function ( resolve, reject )
 					{

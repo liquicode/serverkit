@@ -14,7 +14,7 @@ const LIB_BETTER_SQLITE3 = require( 'better-sqlite3' );
 exports.NewProvider =
 	function NewProvider( Server, StorageService )
 	{
-		let storage_config = StorageService.Settings.Storage.Sqlite3Provider;
+		let storage_config = StorageService.Settings.UserStorage.Sqlite3Provider;
 		let storage_provider = {};
 
 		// Open/Create the database.

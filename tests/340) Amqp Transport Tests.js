@@ -12,16 +12,6 @@ const SRC_TEST_SERVER = require( './test-routines/TestServer.js' );
 let Server = null;
 
 
-var SERVER_SETTINGS = {
-	Transports: {
-		Amqp:
-		{
-			enabled: true,
-		},
-	}
-};
-
-
 const RABBITMQ_IMAGE_NAME = 'rabbitmq:3-management';
 const RABBITMQ_CONTAINER_NAME = 'serverkit-rabbitmq-test';
 
@@ -57,7 +47,14 @@ describe( `340) Amqp Transport Tests`,
 					console.log( `Starting ${RABBITMQ_CONTAINER_NAME}.` );
 					LIQUICODEJS.System.StartContainer( RABBITMQ_CONTAINER_NAME );
 				}
-				Server = await SRC_TEST_SERVER.CreateTestServer( SERVER_SETTINGS );
+				Server = await SRC_TEST_SERVER.CreateTestServer( {
+					Transports: {
+						Amqp:
+						{
+							enabled: true,
+						},
+					}
+				} );
 				return;
 			}
 		);

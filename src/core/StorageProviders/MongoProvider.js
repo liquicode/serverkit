@@ -9,7 +9,7 @@ const LIB_MONGODB = require( 'mongodb' );
 exports.NewProvider =
 	function NewProvider( Server, StorageService )
 	{
-		let storage_config = StorageService.Settings.Storage.MongoProvider;
+		let storage_config = StorageService.Settings.UserStorage.MongoProvider;
 		let storage_provider = {};
 
 

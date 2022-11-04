@@ -32,8 +32,8 @@ exports.Construct =
 				services_url_path: '',				// Path to services and functions. (e.g. '/MyApp/api/...')
 				report_routes: false,				// Reports all routes added on startup.
 				set_express_trust_proxy: false,		// Use when running behind a proxy.
-				// server_timeout: 120000,
-				server_timeout: 5000,
+				server_timeout: 120000,
+				// server_timeout: 5000,
 
 				//---------------------------------------------------------------------
 				// Http Server
@@ -70,7 +70,7 @@ exports.Construct =
 							abortOnLimit: true,
 							responseOnLimit: 'Uploads cannot be larger than 500MB.',
 							useTempFiles: false,
-							tempFileDir: 'path-to-temp-folder',
+							tempFileDir: '~server-data/temp',
 						},
 					},
 				},
@@ -80,16 +80,16 @@ exports.Construct =
 				//	- Security features for the Web transport (use Helmet or Cors)
 				//---------------------------------------------------------------------
 				Security: {
-					Helmet: {
-						enabled: true,
-						Settings: {},					// See: https://helmetjs.github.io/
-					},
 					Cors: {
 						enabled: false,
 						Settings: {
 							origin: '*',				// Allow all origins
 							optionsSuccessStatus: 200,	// some legacy browsers (IE11, various SmartTVs) choke on 204
 						},
+					},
+					Helmet: {
+						enabled: false,
+						Settings: { /* needs research */ },	// See: https://helmetjs.github.io/
 					},
 				},
 
@@ -116,12 +116,13 @@ exports.Construct =
 					// Views
 					view_engine: 'pug',							// Any Express compatible templating engine (e.g. pug, jade, etc.)
 					view_folder: '~web-views',					// Application folder of the view files.
+					home_view: 'home',						// Name of default home view ('/').
 					view_core: 'w3css-angularjs',				// Generate core ui elements (into public_folder).
 					view_core_overwrite: false,					// Overwrite existing files when copying the view core.
 
-					Views: {
-						root_view: 'home',						// Name of default view to use for root route '/'.
-					},
+					// Views: {
+					// 	root_view: 'home',						// Name of default home view ('/').
+					// },
 
 					// Authenticator
 					Authenticator: {
@@ -754,7 +755,7 @@ exports.Construct =
 			{
 				if ( transport.HttpServer ) 
 				{
-					Server.Log.trace( `Web.HttpServer is stopping. This may take up to ${parseInt( transport.Settings.server_timeout / 1000 )} seconds.` );
+					Server.Log.trace( `Web.HttpServer is stopping. This may take up to ${parseInt( transport.Settings.server_timeout / 1000 )} seconds if connections are being held open.` );
 					if ( transport.HttpServer.listening ) 
 					{
 						await new Promise(

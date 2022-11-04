@@ -31,7 +31,7 @@ exports.Construct =
 				function initialize()
 				{
 					// Create the database.
-					let database_path = Server.ResolveApplicationPath( authentication_settings.Storage.DatabaseStorage.file_path );
+					let database_path = Server.ResolveApplicationPath( authentication_settings.SessionStorage.DatabaseStorage.file_path );
 					let database_options = {};
 					LIB_FS.mkdirSync( LIB_PATH.dirname( database_path ), { recursive: true } );
 					this.Database = LIB_BETTER_SQLITE3( database_path, database_options );

@@ -6,6 +6,7 @@ const LIB_PATH = require( 'path' );
 const SRC_SERVER_MODULE = require( LIB_PATH.resolve( __dirname, '..', 'core', 'ServerModule.js' ) );
 
 const LIB_LOGGER = require( '@liquicode/lib-logger' );
+const { json } = require( 'express' );
 
 const MODULE_NOT_INITIALIZED_MESSAGE = `Module [Log] is not initialized. Call App.Initialize() first.`;
 
@@ -23,43 +24,40 @@ exports.Construct =
 				Console:
 				{
 					enabled: true,
-					DeviceName: 'console',
-					LogLevels: 'TDIWEF',
-					OutputGroup: false,
-					OutputDate: false,
-					OutputTime: true,
-					OutputMilliseconds: true,
-					OutputTimezone: false,
-					OutputSeverity: true,
-					OutputSeverityWords: true,
+					LogLevels: 'TDIWEF',			// Can be one or more of: (T)race, (D)ebug, (I)nfo, (W)arning, (E)rror, and (F)atal.
+					OutputGroup: false,				// Output the group name.
+					OutputDate: false,				// Output a column for the date.
+					OutputTime: true,				// Output a column for the time.
+					OutputMilliseconds: true,		// Output a column for the milliseconds.
+					OutputTimezone: false,			// Output the time zone.
+					OutputSeverity: true,			// Output the message severity, one of: TDIWEF
+					OutputSeverityWords: true,		// Use the full severity level name, rather than the first letter.
+					ShellColorTheme: '',			// Color theme: 'ShellLight', 'ShellDark', or empty for no colors.
+					DeferredOutput: false,			// Defers console output to the next tick when true.
 				},
-				Shell:
+				ShellLight:
 				{
-					enabled: false,
-					DeviceName: 'shell',
-					LogLevels: 'TDIWEF',
-					OutputGroup: false,
-					OutputDate: false,
-					OutputTime: true,
-					OutputMilliseconds: true,
-					OutputTimezone: false,
-					OutputSeverity: true,
-					OutputSeverityWords: true,
-					Shell:
-					{
-						ColorizeEntireLine: true,
-						TraceColors: { Forecolor: LIB_LOGGER.ShellForecolor.DarkGray, Effect: LIB_LOGGER.ShellEffect.Dim },
-						DebugColors: { Forecolor: LIB_LOGGER.ShellForecolor.DarkGray, Effect: LIB_LOGGER.ShellEffect.Bold },
-						InfoColors: { Forecolor: LIB_LOGGER.ShellForecolor.White, Effect: '' },
-						WarnColors: { Forecolor: LIB_LOGGER.ShellForecolor.Yellow, Effect: '' },
-						ErrorColors: { Forecolor: LIB_LOGGER.ShellForecolor.Red, Effect: '' },
-						FatalColors: { Forecolor: LIB_LOGGER.ShellForecolor.Red, Effect: LIB_LOGGER.ShellEffect.Invert },
-					},
+					ColorizeEntireLine: true,
+					TraceColors: { Forecolor: LIB_LOGGER.ShellForecolor.DarkGray, Effect: LIB_LOGGER.ShellEffect.Dim },
+					DebugColors: { Forecolor: LIB_LOGGER.ShellForecolor.DarkGray, Effect: LIB_LOGGER.ShellEffect.Bold },
+					InfoColors: { Forecolor: LIB_LOGGER.ShellForecolor.White, Effect: '' },
+					WarnColors: { Forecolor: LIB_LOGGER.ShellForecolor.Yellow, Effect: '' },
+					ErrorColors: { Forecolor: LIB_LOGGER.ShellForecolor.Red, Effect: '' },
+					FatalColors: { Forecolor: LIB_LOGGER.ShellForecolor.Red, Effect: LIB_LOGGER.ShellEffect.Invert },
+				},
+				ShellDark:
+				{
+					ColorizeEntireLine: true,
+					TraceColors: { Forecolor: LIB_LOGGER.ShellForecolor.DarkGray, Effect: '' },
+					DebugColors: { Forecolor: LIB_LOGGER.ShellForecolor.LightGray, Effect: '' },
+					InfoColors: { Forecolor: LIB_LOGGER.ShellForecolor.White, Effect: LIB_LOGGER.ShellEffect.Bold },
+					WarnColors: { Forecolor: LIB_LOGGER.ShellForecolor.Yellow, Effect: '' },
+					ErrorColors: { Forecolor: LIB_LOGGER.ShellForecolor.Red, Effect: '' },
+					FatalColors: { Forecolor: LIB_LOGGER.ShellForecolor.Red, Effect: LIB_LOGGER.ShellEffect.Invert },
 				},
 				File:
 				{
 					enabled: false,
-					DeviceName: 'file',
 					LogLevels: 'IWEF',
 					OutputGroup: false,
 					OutputDate: true,
@@ -70,7 +68,7 @@ exports.Construct =
 					OutputSeverityWords: true,
 					File:
 					{
-						log_path: '',
+						log_path: '~server-data/log',
 						log_filename: 'server',
 						log_extension: 'log',
 						use_hourly_logfiles: false,
@@ -108,20 +106,35 @@ exports.Construct =
 				// Add the log targets.
 				if ( server_module.Settings.Console && server_module.Settings.Console.enabled )
 				{
-					let target = LIB_LOGGER.NewConsoleLogTarget( server_module.Settings.Console.LogLevels );
-					target.Config = server_module.Settings.Console;
+					let target = null;
+					if ( !server_module.Settings.Console.ShellColorTheme )
+					{
+						// Console device.
+						target = LIB_LOGGER.NewConsoleLogTarget( server_module.Settings.Console.LogLevels );
+						target.Config = JSON.parse( JSON.stringify( server_module.Settings.Console ) );
+						target.Config.DeviceName = 'console';
+					}
+					else
+					{
+						// Shell device.
+						target = LIB_LOGGER.NewShellLogTarget( server_module.Settings.Console.LogLevels );
+						target.Config = JSON.parse( JSON.stringify( server_module.Settings.Console ) );
+						target.Config.DeviceName = 'shell';
+						target.Config.Shell = server_module.Settings[ server_module.Settings.Console.ShellColorTheme ];
+					}
 					server_module.Logger.AddLogTarget( target );
 				}
-				if ( server_module.Settings.Shell && server_module.Settings.Shell.enabled )
-				{
-					let target = LIB_LOGGER.NewShellLogTarget( server_module.Settings.Shell.LogLevels );
-					target.Config = server_module.Settings.Shell;
-					server_module.Logger.AddLogTarget( target );
-				}
+				// if ( server_module.Settings.Shell && server_module.Settings.Shell.enabled )
+				// {
+				// 	let target = LIB_LOGGER.NewShellLogTarget( server_module.Settings.Shell.LogLevels );
+				// 	target.Config = server_module.Settings.Shell;
+				// 	server_module.Logger.AddLogTarget( target );
+				// }
 				if ( server_module.Settings.File && server_module.Settings.File.enabled )
 				{
 					let target = LIB_LOGGER.NewFileLogTarget( server_module.Settings.File.LogLevels );
-					target.Config = server_module.Settings.File;
+					target.Config = JSON.parse( JSON.stringify( server_module.Settings.File ) );
+					target.Config.DeviceName = 'file';
 					server_module.Logger.AddLogTarget( target );
 				}
 
@@ -134,16 +147,7 @@ exports.Construct =
 				// module.fatal = module.Logger.fatal;
 
 				// if ( false )
-				if ( Server.Settings.AppInfo.environment === 'development' )
-				{
-					server_module.debug = function ( Message ) { server_module.Logger.debug( Message ); };
-					server_module.trace = function ( Message ) { server_module.Logger.trace( Message ); };
-					server_module.info = function ( Message ) { server_module.Logger.info( Message ); };
-					server_module.warn = function ( Message ) { server_module.Logger.warn( Message ); };
-					server_module.error = function ( Message ) { server_module.Logger.error( Message ); };
-					server_module.fatal = function ( Message ) { server_module.Logger.fatal( Message ); };
-				}
-				else
+				if ( server_module.Settings.Console.DeferredOutput )
 				{
 					server_module.debug = function ( Message ) { process.nextTick( function () { server_module.Logger.debug( Message ); } ); };
 					server_module.trace = function ( Message ) { process.nextTick( function () { server_module.Logger.trace( Message ); } ); };
@@ -151,6 +155,15 @@ exports.Construct =
 					server_module.warn = function ( Message ) { process.nextTick( function () { server_module.Logger.warn( Message ); } ); };
 					server_module.error = function ( Message ) { process.nextTick( function () { server_module.Logger.error( Message ); } ); };
 					server_module.fatal = function ( Message ) { process.nextTick( function () { server_module.Logger.fatal( Message ); } ); };
+				}
+				else
+				{
+					server_module.debug = function ( Message ) { server_module.Logger.debug( Message ); };
+					server_module.trace = function ( Message ) { server_module.Logger.trace( Message ); };
+					server_module.info = function ( Message ) { server_module.Logger.info( Message ); };
+					server_module.warn = function ( Message ) { server_module.Logger.warn( Message ); };
+					server_module.error = function ( Message ) { server_module.Logger.error( Message ); };
+					server_module.fatal = function ( Message ) { server_module.Logger.fatal( Message ); };
 				}
 
 

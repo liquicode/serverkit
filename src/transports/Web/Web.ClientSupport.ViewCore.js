@@ -30,7 +30,7 @@ exports.ClientSupport_GenerateViewCore =
 				let server_path = LIB_PATH.join( view_core_path, 'public' );
 				let client_path = CTX.Server.ResolveApplicationPath( CTX.Transport.Settings.ClientSupport.public_folder );
 				let file_count = CTX.Server.Utility.copy_folder_recurse( server_path, client_path, overwrite_files );
-				CTX.Server.Log.trace( `Web.ClientSupport.ViewCore generated [${CTX.Transport.Settings.ClientSupport.view_core}] (${file_count} files) to [${CTX.Transport.Settings.ClientSupport.public_folder}].` );
+				CTX.Server.Log.trace( `Web.ClientSupport.ViewCore generated [${CTX.Transport.Settings.ClientSupport.view_core}] (${file_count} files) into [${CTX.Transport.Settings.ClientSupport.public_folder}].` );
 			}
 
 			// Copy the View files.
@@ -38,11 +38,11 @@ exports.ClientSupport_GenerateViewCore =
 				let server_path = LIB_PATH.join( view_core_path, 'views' );
 				let client_path = CTX.Server.ResolveApplicationPath( CTX.Transport.Settings.ClientSupport.view_folder );
 				let file_count = CTX.Server.Utility.copy_folder_recurse( server_path, client_path, overwrite_files );
-				CTX.Server.Log.trace( `Web.ClientSupport.ViewCore generated [${CTX.Transport.Settings.ClientSupport.view_core}] (${file_count} files) to [${CTX.Transport.Settings.ClientSupport.view_folder}].` );
+				CTX.Server.Log.trace( `Web.ClientSupport.ViewCore generated [${CTX.Transport.Settings.ClientSupport.view_core}] (${file_count} files) into [${CTX.Transport.Settings.ClientSupport.view_folder}].` );
 			}
 
 			//---------------------------------------------------------------------
-			CTX.Server.Log.trace( `Web.ClientSupport.ViewCore is initialized.` );
+			CTX.Server.Log.trace( `Web.ClientSupport.ViewCore has initialized.` );
 			return;
 		}
 	};

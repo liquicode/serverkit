@@ -33,7 +33,7 @@ exports.Construct =
 			destroy:
 				function destroy()
 				{
-					this.Users = [];
+					this.Users = null;
 					return;
 				},
 
@@ -41,6 +41,7 @@ exports.Construct =
 			find_user:
 				function find_user( user_id, session_token )
 				{
+					if ( !this.Users ) { throw new Error( `MemorySessionStore is not initialized.` ); }
 					for ( let index = 0; index < this.Users.length; index++ )
 					{
 						let user = this.Users[ index ];
@@ -54,6 +55,7 @@ exports.Construct =
 			update_user:
 				function update_user( updated_user )
 				{
+					if ( !this.Users ) { throw new Error( `MemorySessionStore is not initialized.` ); }
 					for ( let index = 0; index < this.Users.length; index++ )
 					{
 						let user = this.Users[ index ];

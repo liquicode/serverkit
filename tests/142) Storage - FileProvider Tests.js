@@ -16,8 +16,8 @@ let Alice = { user_id: 'alice@server', user_role: 'admin' };
 var SERVER_SETTINGS = {
 	Services: {
 		TestService: {
-			Storage: {
-				storage_provider: 'File',
+			UserStorage: {
+				storage_provider: 'FileProvider',
 				FileProvider: {
 					path: '~server-data/TestService',		// Path to the data files.
 					filename: 'TestService',				// Name of the data files: {filename}.{id}.json

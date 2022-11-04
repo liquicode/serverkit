@@ -2,7 +2,7 @@ extends index.pug
 
 block content
 
-	script( type='text/javascript' src='/public/home.js' )
+	script( type='text/javascript' src=`${server_public_url}home.js` )
 
 	div( ng-controller='Home_Controller' )
 

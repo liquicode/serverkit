@@ -26,7 +26,7 @@ exports.Construct =
 					session_key: '*** A MAGICAL SECRET KEY !!! ***',	// 32 bytes of magic.
 					session_duration: '24h',
 				},
-				Storage: {
+				SessionStorage: {
 					storage_engine: 'Memory',
 					MemoryStorage: {
 						/* No Settings */
@@ -200,11 +200,12 @@ exports.Construct =
 
 
 		//---------------------------------------------------------------------
-		service.Storage = {
-			initialize: function initialize() { console.error( `Authentication storage engine [${service.Settings.Storage.storage_engine}] is not implemented.` ); },
-			find_user: function find_user( user_id, session_token ) { console.error( `Authentication storage engine [${service.Settings.Storage.storage_engine}] is not implemented.` ); },
-			update_user: function update_user( updated_user ) { console.error( `Authentication storage engine [${service.Settings.Storage.storage_engine}] is not implemented.` ); },
-		};
+		// let storage_settings = service.Settings.SessionStorage;
+		// service.SessionStorage = {
+		// 	initialize: function initialize() { console.error( `Authentication storage engine [${storage_settings.storage_engine}] is not implemented.` ); },
+		// 	find_user: function find_user( user_id, session_token ) { console.error( `Authentication storage engine [${storage_settings.storage_engine}] is not implemented.` ); },
+		// 	update_user: function update_user( updated_user ) { console.error( `Authentication storage engine [${storage_settings.storage_engine}] is not implemented.` ); },
+		// };
 
 
 		//=====================================================================
@@ -224,11 +225,11 @@ exports.Construct =
 			async function Signup( User, UserEmail, Password, UserName )
 			{
 				// Find user in authentication storage.
-				let storage_user = service.Storage.find_user( UserEmail, null );
+				let storage_user = service.SessionStorage.find_user( UserEmail, null );
 				if ( storage_user ) { throw new Error( `This user already exists [${UserEmail}].` ); }
 
 				// Add user to authentication storage.
-				service.Storage.update_user( {
+				service.SessionStorage.update_user( {
 					user_id: UserEmail,
 					user_role: 'user',
 					password: Password,
@@ -255,7 +256,7 @@ exports.Construct =
 			async function Login( User, UserEmail, Password )
 			{
 				// Find user in authentication storage.
-				let authentication_user = service.Storage.find_user( UserEmail, null );
+				let authentication_user = service.SessionStorage.find_user( UserEmail, null );
 				if ( !authentication_user ) { return false; }
 
 				// Authenticate the user.
@@ -300,10 +301,10 @@ exports.Construct =
 				//TODO:
 
 				// Find the user and remove the session.
-				// let authentication_user = service.Storage.find_user( UserEmail, null );
+				// let authentication_user = service.SessionStorage.find_user( UserEmail, null );
 				// if ( !authentication_user ) { return false; }
 				// authentication_user.session_token = '';
-				// service.Storage.update_user( authentication_user );
+				// service.SessionStorage.update_user( authentication_user );
 				// return true;
 				return {
 					User: { user_id: UserEmail },
@@ -334,7 +335,7 @@ exports.Construct =
 				if ( !SessionToken ) { return null; }
 
 				// Find the session.
-				// let storage_user = service.Storage.find_user( null, SessionToken );
+				// let storage_user = service.SessionStorage.find_user( null, SessionToken );
 				// if ( !storage_user ) { return false; }
 
 				// Decrypt the session token.
@@ -396,18 +397,18 @@ exports.Construct =
 				}
 
 				// Initialize storage.
-				switch ( service.Settings.Storage.storage_engine.trim().toLowerCase() )
+				switch ( service.Settings.SessionStorage.storage_engine.trim().toLowerCase() )
 				{
 					case 'memory':
 						// service.Storage = service.MemoryStorage;
-						service.Storage = require( './Authentication/MemorySessionStore.js' ).Construct( Server );
+						service.SessionStorage = require( './Authentication/MemorySessionStore.js' ).Construct( Server );
 						break;
 					// case 'File':
 					// 	service.Storage = service.FileStorage;
 					// 	break;
 					case 'database':
 						// service.Storage = service.DatabaseStorage;
-						service.Storage = require( './Authentication/Sqlite3SessionStore.js' ).Construct( Server );
+						service.SessionStorage = require( './Authentication/Sqlite3SessionStore.js' ).Construct( Server );
 						break;
 					default:
 						// service.Storage = service.UnsupportedStorage;
@@ -428,9 +429,9 @@ exports.Construct =
 		service.StartupModule =
 			function StartupModule()
 			{
-				if ( service.Storage )
+				if ( service.SessionStorage )
 				{
-					service.Storage.initialize();
+					service.SessionStorage.initialize();
 				}
 				// Return.
 				return;
@@ -448,9 +449,10 @@ exports.Construct =
 		service.ShutdownModule =
 			function ShutdownModule()
 			{
-				if ( service.Storage )
+				if ( service.SessionStorage )
 				{
-					service.Storage.destroy();
+					service.SessionStorage.destroy();
+					service.SessionStorage = null;
 				}
 				// Return.
 				return;

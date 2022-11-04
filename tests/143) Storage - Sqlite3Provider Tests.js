@@ -16,8 +16,8 @@ let Alice = { user_id: 'alice@server', user_role: 'admin' };
 var SERVER_SETTINGS = {
 	Services: {
 		TestService: {
-			Storage: {
-				storage_provider: 'Sqlite3',
+			UserStorage: {
+				storage_provider: 'Sqlite3Provider',
 				Sqlite3Provider: {
 					path: '~server-data',					// Path to the database file.
 					filename: 'TestService.sqlite3',		// Name of the database file.

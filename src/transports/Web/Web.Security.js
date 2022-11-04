@@ -17,7 +17,7 @@ exports.Security_Cors =
 			CTX.Transport.ExpressApp.use(
 				LIB_CORS(
 					CTX.Transport.Settings.Security.Cors.Settings ) );
-			CTX.Server.Log.trace( `Web.Security.Cors is initialized.` );
+			CTX.Server.Log.trace( `Web.Security.Cors has initialized.` );
 		}
 	};
 
@@ -32,7 +32,7 @@ exports.Security_Helmet =
 			CTX.Transport.ExpressApp.use(
 				LIB_HELMET(
 					CTX.Transport.Settings.Security.Helmet.Settings ) );
-			CTX.Server.Log.trace( `Web.Security.Helmet is initialized.` );
+			CTX.Server.Log.trace( `Web.Security.Helmet has initialized.` );
 		}
 	};
 

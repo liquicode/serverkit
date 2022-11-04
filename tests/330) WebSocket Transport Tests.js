@@ -22,7 +22,9 @@ describe( `330) WebSocket Transport Tests`,
 				{
 					Server = await SRC_TEST_SERVER.CreateTestServer( {
 						Transports: {
-							WebSocket: { enabled: true, },
+							WebSocket: {
+								enabled: true,
+							},
 						},
 					} );
 				} catch ( error )

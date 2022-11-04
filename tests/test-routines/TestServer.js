@@ -4,7 +4,6 @@
 const LIB_FS = require( 'fs' );
 const LIB_PATH = require( 'path' );
 
-// const LIQUICODEJS = require( LIB_PATH.resolve( __dirname, '..', '..', '..', 'liquicodejs.git', 'src', 'liquicode-node.js' ) );
 const LIQUICODEJS = require( '@liquicode/liquicodejs' );
 
 const LIB_SERVER_KIT = require( LIB_PATH.resolve( __dirname, '..', '..', 'src', 'lib-server-kit.js' ) );
@@ -17,23 +16,13 @@ exports.CreateTestServer =
 		if ( Settings === undefined ) { Settings = {}; }
 
 		// Disable logging for testing.
-		// if ( Settings.Modules === undefined ) { Settings.Modules = {}; }
-		// if ( Settings.Modules.Log === undefined ) { Settings.Modules.Log = {}; }
-		// if ( Settings.Modules.Log.Console === undefined ) { Settings.Modules.Log.Console = {}; }
-		// if ( Settings.Modules.Log.Shell === undefined ) { Settings.Modules.Log.Shell = {}; }
-		// Settings.Modules.Log.Console.enabled = false;
-		// // Settings.Log.Shell.enabled = false;
-		// Settings.Modules.Log.Shell.enabled = true;
-
 		Settings = LIQUICODEJS.Object.Merge(
 			Settings,
 			{
 				Modules: {
 					Log: {
 						Console: { enabled: false },
-						// Console: { enabled: true },
-						Shell: { enabled: false },
-						// Shell: { enabled: true },
+						// Console: { enabled: true, ShellColorTheme: 'ShellDark' },
 					}
 				}
 			}

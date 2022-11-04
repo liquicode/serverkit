@@ -67,11 +67,11 @@ exports.NewStorageService =
 			// 	};
 
 			service.Defaults = Server.Liquicode.Object.Merge( {
-				Storage: {
+				UserStorage: {
 					// - User Storage Configuration -
 					storage_info_member: '__',			// Name of the info field used in objects (e.g. thing.__.id = '...').
 					throw_permission_errors: false,		// Throw errors when user fails to have read or write access to an object.
-					storage_provider: 'memory',
+					storage_provider: 'MemoryProvider',
 					// - Memory Provider Configuration -
 					MemoryProvider: {},
 					// - File Provider Configuration -
@@ -600,20 +600,7 @@ exports.NewStorageService =
 			service.InitializeStorage =
 				function InitializeStorage()
 				{
-
-					// Initialize Storage.
-					// if ( service.Settings.Storage.JsonProvider.enabled )
-					// {
-					// 	service.Settings.Storage.JsonProvider.database_name = Server.ResolveApplicationPath( service.Settings.Storage.JsonProvider.database_name );
-					// }
 					service.UserStorage = SRC_USER_STORAGE.NewUserStorage( Server, service );
-
-					// Initialize Views.
-					service.Views.List.view = Server.Settings.Transports.Web.ClientSupport.Views.storage_list_view;
-					service.Views.Item.view = Server.Settings.Transports.Web.ClientSupport.Views.storage_item_view;
-					service.Views.Share.view = Server.Settings.Transports.Web.ClientSupport.Views.storage_share_view;
-
-					// Return.
 					return;
 				};
 

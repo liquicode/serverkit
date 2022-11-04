@@ -67,7 +67,7 @@ app.controller(
 				}
 				else
 				{
-					Page.auto_refresh_timer = window.setInterval( RefreshDiagnostics, Page.auto_refresh_interval );
+					Page.auto_refresh_timer = window.setInterval( Page.RefreshDiagnostics, Page.auto_refresh_interval );
 				}
 				return;
 			};

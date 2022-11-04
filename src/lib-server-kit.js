@@ -1060,7 +1060,8 @@ exports.NewServer =
 				// 		}
 				// 	} );
 
-				server.Log.info( `Server is initialized.` );
+				// server.Log.info( `Server is initialized.` );
+				server.Log.info( `Server has initialized.` );
 				return { ok: true };
 			};
 

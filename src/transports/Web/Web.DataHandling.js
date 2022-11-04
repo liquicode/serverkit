@@ -14,7 +14,7 @@ exports.DataHandling_JsonBodyParser =
 			CTX.Transport.ExpressApp.use(
 				CTX.LIB_EXPRESS.json(
 					CTX.Transport.Settings.DataHandling.JsonBodyParser.Settings ) );
-			CTX.Server.Log.trace( `Web.DataHandling.JsonBodyParser is initialized.` );
+			CTX.Server.Log.trace( `Web.DataHandling.JsonBodyParser has initialized.` );
 		}
 	};
 
@@ -28,7 +28,7 @@ exports.DataHandling_UrlEncodedParser =
 			CTX.Transport.ExpressApp.use(
 				CTX.LIB_EXPRESS.urlencoded(
 					CTX.Transport.Settings.DataHandling.UrlEncodedParser.Settings ) );
-			CTX.Server.Log.trace( `Web.DataHandling.UrlEncodedParser is initialized.` );
+			CTX.Server.Log.trace( `Web.DataHandling.UrlEncodedParser has initialized.` );
 		}
 	};
 
@@ -42,7 +42,7 @@ exports.DataHandling_FileUpload =
 			CTX.Transport.ExpressApp.use(
 				LIB_EXPRESS_FILEUPLOAD(
 					CTX.Transport.Settings.DataHandling.FileUpload.Settings ) );
-			CTX.Server.Log.trace( `Web.DataHandling.FileUpload is initialized.` );
+			CTX.Server.Log.trace( `Web.DataHandling.FileUpload has initialized.` );
 		}
 	};
 

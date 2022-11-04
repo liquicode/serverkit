@@ -24,13 +24,13 @@ const LOCK_OPTIONS = {
 exports.NewProvider =
 	function NewProvider( Server, StorageService )
 	{
-		let storage_config = StorageService.Settings.Storage.FileProvider;
+		let storage_config = StorageService.Settings.UserStorage.FileProvider;
 
 		// Storage Provider State.
 		let storage_provider = {};
-		let storage_path = Server.ResolveApplicationPath( StorageService.Settings.Storage.FileProvider.path );
+		let storage_path = Server.ResolveApplicationPath( storage_config.path );
 		LIB_FS.mkdirSync( storage_path, { recursive: true } );
-		let storage_filename = StorageService.Settings.Storage.FileProvider.filename;
+		let storage_filename = storage_config.filename;
 
 
 		//=====================================================================

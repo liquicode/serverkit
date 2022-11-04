@@ -102,7 +102,17 @@ while ( Parameters.length )
 	}
 	else if ( Parameters[ 0 ].trim().toLowerCase() === '--shell' )
 	{
-		logging_mode = 'shell';
+		logging_mode = 'shell-light';
+		Parameters = Parameters.slice( 1 );
+	}
+	else if ( Parameters[ 0 ].trim().toLowerCase() === '--shell-light' )
+	{
+		logging_mode = 'shell-light';
+		Parameters = Parameters.slice( 1 );
+	}
+	else if ( Parameters[ 0 ].trim().toLowerCase() === '--shell-dark' )
+	{
+		logging_mode = 'shell-dark';
 		Parameters = Parameters.slice( 1 );
 	}
 	else if ( Parameters[ 0 ].trim().toLowerCase() === '--debug' )
@@ -217,21 +227,23 @@ ServerOptions.Settings.Transports.Text.enabled = true;
 if ( !ServerOptions.Settings.Modules ) { ServerOptions.Settings.Modules = {}; }
 if ( !ServerOptions.Settings.Modules.Log ) { ServerOptions.Settings.Modules.Log = {}; }
 if ( !ServerOptions.Settings.Modules.Log.Console ) { ServerOptions.Settings.Modules.Log.Console = {}; }
-if ( !ServerOptions.Settings.Modules.Log.Shell ) { ServerOptions.Settings.Modules.Log.Shell = {}; }
 if ( logging_mode === 'log' )
 {
 	ServerOptions.Settings.Modules.Log.Console.enabled = true;
-	ServerOptions.Settings.Modules.Log.Shell.enabled = false;
 }
-else if ( logging_mode === 'shell' )
+else if ( logging_mode === 'shell-light' )
 {
-	ServerOptions.Settings.Modules.Log.Console.enabled = false;
-	ServerOptions.Settings.Modules.Log.Shell.enabled = true;
+	ServerOptions.Settings.Modules.Log.Console.enabled = true;
+	ServerOptions.Settings.Modules.Log.Console.ShellColorTheme = 'ShellLight';
+}
+else if ( logging_mode === 'shell-dark' )
+{
+	ServerOptions.Settings.Modules.Log.Console.enabled = true;
+	ServerOptions.Settings.Modules.Log.Console.ShellColorTheme = 'ShellDark';
 }
 else
 {
 	ServerOptions.Settings.Modules.Log.Console.enabled = false;
-	ServerOptions.Settings.Modules.Log.Shell.enabled = false;
 }
 
 
@@ -264,6 +276,7 @@ Any command can be preceeded by any of the following options:
     --options <options-filename>      | Filename of a server options file. Defaults to '<server-folder>/<server-name>.options.json'.
     --log                             | Send server log output to the console.
     --shell                           | Send server log output to the shell (console with styling).
+    --shell-dark                      | Same as --shell, but for dark backgrounds.
     --debug                           | Output debugging information to the console.
     --version                         | Output the ServerKit library version to the console and exit.
 ---------------------------------------------------

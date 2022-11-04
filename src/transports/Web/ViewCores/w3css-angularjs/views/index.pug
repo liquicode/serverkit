@@ -24,6 +24,8 @@ html
 	head
 		title= locals.Server.Settings.AppInfo.name
 
+		link( rel="icon" type="image/x-icon" href=server_public_url + '/images/logo-24x24.png' )
+
 		meta( name="viewport" content="width=device-width, initial-scale=1" )
 
 		//----------------------------------------------------------------------
@@ -70,15 +72,15 @@ html
 		//- Client API Files
 		//----------------------------------------------------------------------
 
-		script( type='text/javascript' src='/public/_web-client-api.js' )
-		script( type='text/javascript' src='/public/_websocket-client-api.js' )
+		script( type='text/javascript' src=server_public_url + '/_web-client-api.js' )
+		script( type='text/javascript' src=server_public_url + '/_websocket-client-api.js' )
 
 		//----------------------------------------------------------------------
 		//- Application Source
 		//----------------------------------------------------------------------
 
-		script( type='text/javascript' src='/public/app.js' )
-		link( rel='stylesheet' href='/public/application.css' )
+		script( type='text/javascript' src=server_public_url + '/app.js' )
+		link( rel='stylesheet' href=server_public_url + '/application.css' )
 
 body
 
@@ -96,11 +98,11 @@ body
 		nav.w3-bar.w3-border.w3-light-grey( role="navigation" )
 
 			//- Application Logo
-			img.w3-bar-item.w3-image.w3-responsive.w3-opacity( src='/public/images/logo-24x24.png' )
-			
+			img.w3-bar-item.w3-image.w3-responsive.w3-opacity( src=server_public_url + '/images/logo-24x24.png' )
+
 			//- Application Name
 			.w3-bar-item.w3-text-grey= locals.Server.Settings.AppInfo.name
-			
+
 			//- Application Home
 			a.w3-bar-item.w3-button.w3-mobile(
 				href=server_root_url

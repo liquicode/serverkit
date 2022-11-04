@@ -21,29 +21,30 @@ exports.NewUserStorage =
 
 
 		// Get the storage provider.
-		user_storage.Provider = null;
-		switch ( StorageService.Settings.Storage.storage_provider.toLowerCase() )
-		{
-			case 'memory':
-				user_storage.Provider = require( './MemoryProvider' ).NewProvider( Server, StorageService );
-				break;
-			case 'file':
-				user_storage.Provider = require( './FileProvider' ).NewProvider( Server, StorageService );
-				break;
-			case 'sqlite3':
-				user_storage.Provider = require( './Sqlite3Provider' ).NewProvider( Server, StorageService );
-				break;
-			case 'mongo':
-				user_storage.Provider = require( './MongoProvider' ).NewProvider( Server, StorageService );
-				break;
-			default:
-				throw new Error( `Unkown storage provider "${StorageService.Settings.Storage.storage_provider}".` );
-		}
+		// user_storage.Provider = null;
+		// switch ( StorageService.Settings.UserStorage.storage_provider )
+		// {
+		// 	case 'MemoryProvider':
+		// 		user_storage.Provider = require( './MemoryProvider' ).NewProvider( Server, StorageService );
+		// 		break;
+		// 	case 'FileProvider':
+		// 		user_storage.Provider = require( './FileProvider' ).NewProvider( Server, StorageService );
+		// 		break;
+		// 	case 'Sqlite3Provider':
+		// 		user_storage.Provider = require( './Sqlite3Provider' ).NewProvider( Server, StorageService );
+		// 		break;
+		// 	case 'MongoProvider':
+		// 		user_storage.Provider = require( './MongoProvider' ).NewProvider( Server, StorageService );
+		// 		break;
+		// 	default:
+		// 		throw new Error( `Unknown storage provider "${StorageService.Settings.UserStorage.storage_provider}".` );
+		// }
+		user_storage.Provider = require( `./${StorageService.Settings.UserStorage.storage_provider}` ).NewProvider( Server, StorageService );
 
 
 		// Configuration shortcuts.
-		let storage_info_member = StorageService.Settings.Storage.storage_info_member;
-		let throw_permission_errors = StorageService.Settings.Storage.throw_permission_errors;
+		let storage_info_member = StorageService.Settings.UserStorage.storage_info_member;
+		let throw_permission_errors = StorageService.Settings.UserStorage.throw_permission_errors;
 
 
 		//=====================================================================

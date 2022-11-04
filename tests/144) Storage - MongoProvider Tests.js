@@ -21,8 +21,8 @@ let Alice = { user_id: 'alice@server', user_role: 'admin' };
 var SERVER_SETTINGS = {
 	Services: {
 		TestService: {
-			Storage: {
-				storage_provider: 'Mongo',
+			UserStorage: {
+				storage_provider: 'MongoProvider',
 				MongoProvider: {
 					database_name: 'TestStorage',			// Name of the MongoDB database.
 					collection_name: 'TestService',			// Name of the MongoDB collection.
