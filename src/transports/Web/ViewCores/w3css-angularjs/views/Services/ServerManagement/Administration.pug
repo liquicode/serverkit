@@ -20,14 +20,15 @@ block content
 			//-=====================================================================
 			//-=====================================================================
 			//- 
-			//- 	Server Control
+			//- 	Server Controls
 			//- 
 			//-=====================================================================
 			//-=====================================================================
 
 
+			h3 Server Controls
+
 			.w3-container
-				h3 Server Controls
 				a.w3-btn.w3-green.w3-border.w3-rounded-large.w3-margin(
 					ng-click="Page.RestartServer()"
 				) Restart Server
@@ -35,8 +36,19 @@ block content
 					ng-click="Page.StopServer()"
 				) Stop Server
 
+
+			//-=====================================================================
+			//-=====================================================================
+			//- 
+			//- 	Server Controls
+			//- 
+			//-=====================================================================
+			//-=====================================================================
+
+
+			h3 Server Diagnostics
+
 			.w3-container
-				h3 Server Diagnostics
 
 				a.w3-btn.w3-green.w3-border.w3-rounded-large.w3-margin(
 					ng-click="Page.RefreshDiagnostics()"
@@ -48,7 +60,55 @@ block content
 					ng-click="Page.ToggleAutoRefresh()"
 				)
 				label.w3-small.w3-margin-left Auto Refresh
-				
+
 				pre.w3-code.jsHigh.w3-small(
-					ng-bind="Page.diagnostics_text"
+					ng-bind="Page.Diagnostics.text"
 				)
+
+
+			//-=====================================================================
+			//-=====================================================================
+			//- 
+			//- 	Scheduled Tasks
+			//- 
+			//-=====================================================================
+			//-=====================================================================
+
+
+			h3 Scheduled Tasks
+
+			.w3-container
+
+				table(
+					style="border: 1px solid black;"
+				).w3-table
+
+					thead 
+						tr 
+							th Task Name 
+							th Enabled
+							th Last Start
+							th Last Finish
+							th Last Duration
+							th Last Error
+							th Run Count
+
+					tbody 
+						tr(
+							ng-show="!Page.Tasks || !Page.Tasks.length"
+						)
+							td( colspan=7 ).w3-center No scheduled tasks.
+
+						tr(
+							ng-repeat="task in Page.Tasks"
+						)
+							td {{ task.name }}
+							td {{ task.enabled }}
+							td {{ task.last_start }}
+							td {{ task.last_finish }}
+							td {{ task.last_duration }}
+							td {{ task.last_error }}
+							td {{ task.run_count }}
+
+
+

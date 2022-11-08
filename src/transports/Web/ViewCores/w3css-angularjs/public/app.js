@@ -6,10 +6,10 @@ var app = angular.module(
 	[
 		// 'angular-loading-bar',
 		// 'locationProvider',
-		'ngCookies',
-		'ngResource',
-		'ngSanitize',
-		'ngTouch',
+		// 'ngCookies',
+		// 'ngResource',
+		// 'ngSanitize',
+		// 'ngTouch',
 	],
 	// function ( $locationProvider )
 	// {
@@ -39,38 +39,38 @@ var app = angular.module(
 // app.constant( "WebPages", WebPages );
 
 
-//---------------------------------------------------------------------
-function clone_object( item )
-{
-	return JSON.parse( JSON.stringify( item ) );
-}
+// //---------------------------------------------------------------------
+// function clone_object( item )
+// {
+// 	return JSON.parse( JSON.stringify( item ) );
+// }
 
 
-const APP_COOKIE_NAME = 'lib-server-kit';
+// const APP_COOKIE_NAME = 'lib-server-kit';
 
 
-//---------------------------------------------------------------------
-const COOKIE =
-{
-	//---------------------------------------------------------------------
-	load:
-		function ( $cookies, name )
-		{
-			let info = $cookies.getObject( `${APP_COOKIE_NAME}.${name}` );
-			return info;
-		},
+// //---------------------------------------------------------------------
+// const COOKIE =
+// {
+// 	//---------------------------------------------------------------------
+// 	load:
+// 		function ( $cookies, name )
+// 		{
+// 			let info = $cookies.getObject( `${APP_COOKIE_NAME}.${name}` );
+// 			return info;
+// 		},
 
 
-	//---------------------------------------------------------------------
-	save:
-		function ( $cookies, name, info )
-		{
-			let time_now_ms = new Date().getTime();
-			let default_time_expires = new Date();
-			default_time_expires.setTime( time_now_ms + ( 100 * ( 24 * 60 * 60 ) * 1000 ) ); // 100 days
-			$cookies.putObject( `${APP_COOKIE_NAME}.${name}`, info, { expires: default_time_expires } );
-			return;
-		},
+// 	//---------------------------------------------------------------------
+// 	save:
+// 		function ( $cookies, name, info )
+// 		{
+// 			let time_now_ms = new Date().getTime();
+// 			let default_time_expires = new Date();
+// 			default_time_expires.setTime( time_now_ms + ( 100 * ( 24 * 60 * 60 ) * 1000 ) ); // 100 days
+// 			$cookies.putObject( `${APP_COOKIE_NAME}.${name}`, info, { expires: default_time_expires } );
+// 			return;
+// 		},
 
-};
+// };
 

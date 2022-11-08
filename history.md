@@ -4,6 +4,8 @@
 v0.0.36
 ------------------------------------------
 
+- Throttled code coloring in `Services/ServerManagament/Explorer.js` to <= 8KB.
+- Enhanced TaskManager.
 
 
 v0.0.35, 2022-11-04
@@ -89,8 +91,13 @@ TODO for v0.1.0
 	- **COMPLETED** Develop a `Server.NewOriginDefinition()` function to make it easier to define Origins.
 	- **COMPLETED** Allow wildcards in `Origin.verbs`.
 	- **COMPLETED** Make a task scheduler.
+	- **COMPLETED** Simplify Log configuration. Add `Log.shell_colors` configuration setting to enable colorized output.
+		Valid values can be one of `'light'`, `'dark'`, or empty.
+		Additionally, add `Log.Colors.Light` and `Log.Colors.Dark` to define the color values.
 	- Add `Log.Console.max_line_length` configuration setting to limit the length of log output lines.
-	- Simplify Log configuration. Add `Log.shell_colors` configuration setting to enable colorized output. Valid values can be one of `'light'`, `'dark'`, or empty. Additionally, add `Log.Colors.Light` and `Log.Colors.Dark` to define the color values.
+	- TaskScheduler: During initialize, only load the tasks and do not start them. Start and Stop tasks with `StartServer` and `StopServer`.
+	- TaskScheduler: Have a `run_once` option for tasks.
+	- Log: Add `Log.Console.MaxMessageLength` configuration setting.
 
 
 - Services
@@ -110,93 +117,94 @@ TODO for v0.1.0
 		- **COMPLETED** Function `Server.VerifyFields` will apply defaults to missing fields.
 	- **COMPLETED** Rename: `Origin.parameters` and `Page.parameters` to `Parameters`.
 	- **COMPLETED** Rename: All Origin and View Parameter names should be in PascalCase.
+	- **COMPLETED** Rename configuration setting `StorageService.Defaults.Storage` to `StorageService.Defaults.UserStorage`
 	- Add: `ProxyTo` Setting which informs transports to proxy all calls for a service to a remote server.
-	- Rename configuration setting `StorageService.Defaults.Storage` to `StorageService.Defaults.UserStorage`
 	- CONFIRM: Add Origins using their `Definition.name` field rather than the programmatic name. Or remove the `Definition.name` field.
 
 
-- `Authentication` Service
-	- **DEPRECATED** Develop: Cache system for sessions.
-	- **COMPLETED** Implement: database storage for sessions.
-	- **COMPLETED ???** Encrypt stored user passwords.
-	- **COMPLETED** Implement: file storage for sessions.
-	- Add Feature: Allow admin and super users to `Impersonate` other users.
-	- Add Configuration Settings:
-		- `failure_max_tries`
-		- `failure_cooldown_seconds`
-		- `session_lifetime_seconds`
-	- The `Logout` function needs to actually delete the session so that a logout appiles to all devices.
+	- `Authentication` Service
+		- **DEPRECATED** Develop: Cache system for sessions.
+		- **COMPLETED** Implement: database storage for sessions.
+		- **COMPLETED ???** Encrypt stored user passwords.
+		- **COMPLETED** Implement: file storage for sessions.
+		- Add Feature: Allow admin and super users to `Impersonate` other users.
+		- Add Configuration Settings:
+			- `failure_max_tries`
+			- `failure_cooldown_seconds`
+			- `session_lifetime_seconds`
+		- The `Logout` function needs to actually delete the session so that a logout appiles to all devices.
 
 
-- `ServerManagement` Service
-	- **COMPLETED** Develop: Origin `ServerManagement.Diagnostics()`
-	- **COMPLETED** Develop: Origin `ServerManagement.RestartServer()`
-	- **COMPLETED** Develop: Origin `ServerManagement.StopServer()`
-	- Explorer UI
-		- **COMPLETED** Make 'Response' box resizable
-		- **COMPLETED** Fix: The client-api implementation uses $.ajax which drops any empty array or object parameters
-		- Select user to Invoke As
+	- `ServerManagement` Service
+		- **COMPLETED** Develop: Origin `ServerManagement.Diagnostics()`
+		- **COMPLETED** Develop: Origin `ServerManagement.RestartServer()`
+		- **COMPLETED** Develop: Origin `ServerManagement.StopServer()`
+		- Explorer UI
+			- **COMPLETED** Make 'Response' box resizable
+			- **COMPLETED** Fix: The client-api implementation uses $.ajax which drops any empty array or object parameters
+			- Select user to Invoke As
+
+- Transports
+
+	- `TextTransport`
+		- **COMPLETED** Validate SessionToken and user_role.
+		- **COMPLETED** Origin must have the 'text-call' varb.
+		- **COMPLETED** Limit to Origins which have the 'text-call' verb.
+		- Develop `TextClient`.
+		- Remove `TextTransport` and promote the `ParseCommand()` and `InvokeCommand()` functions to the Server. (?)
 
 
-- `TextTransport`
-	- **COMPLETED** Validate SessionToken and user_role.
-	- **COMPLETED** Origin must have the 'text-call' varb.
-	- **COMPLETED** Limit to Origins which have the 'text-call' verb.
-	- Develop `TextClient`.
-	- Remove `TextTransport` and promote the `ParseCommand()` and `InvokeCommand()` functions to the Server. (?)
+	- `WebTransport`
+		- **COMPLETED** Move `AnonymousUser` to the top, underneath `WebServer`
+		- **COMPLETED** Convert all configuration/initialization bits into functions that can be called in any order
+		- **COMPLETED** Develop `Express.AuthorizationGate` middleware to check user roles
+		- **COMPLETED** Convert `WebServer.RequestProcessor` to `Express.InvocationGate`
+		- **COMPLETED** Fix: All Origin calls are being stringified
+		- **COMPLETED** Fix: Origin socket call logs do not show the result. Because we are getting the result of the middleware and not the call itself
+		- **COMPLETED** Fix: When an error occurs during an Express origin call, an eror string is returned rather than an ApiResult
+		- **DECLINED** Rename: `DataHandling` to `Middlewares`
+		- **COMPLETED** Rename `ExpressTransport` to `WebTransport`.
+		- Come up with a way for admin users and super users to impersonate another user.
+		- Add `Web.ClientSupport.auto_favicon` configuration setting to generate a favicon based on the server name.
+
+		- **DEPRECATED** Session persistence strategies
+			- **COMPLETED** [memorystore](https://www.npmjs.com/package/memorystore)
+			- **COMPLETED** [session-file-store](https://www.npmjs.com/package/session-file-store)
+			- **DEPRECATED** [better-sqlite3-session-store](https://www.npmjs.com/package/better-sqlite3-session-store)
+			- **DEPRECATED** [connect-mongo](https://www.npmjs.com/package/connect-mongo)
+			- **DEPRECATED** [connect-session-sequelize](https://www.npmjs.com/package/connect-session-sequelize)
+
+		- Security
+			- **COMPLETED** Add helmet.
+
+		- ClientSupport
+			- **COMPLETED** Implement generation of `view_core` files.
+			- **UNNECESSARY** Implement more view engines (e.g. jade, ejs).
+			- Implement Auth0 (or other passwordless strategy) integration.
+
+		- **DEPRECATED** Remove: Swagger *** Remove It! ***
+			- **DEPRECATED** authorization
+			- **DEPRECATED** parameter data types
+			- **DEPRECATED** service item definitions
+			- **DEPRECATED** Add Module: `Express.ClientSupport.Swagger`
+				- **DEPRECATED** [https://swagger.io/](https://swagger.io/)
+				- **DEPRECATED** [https://blog.logrocket.com/documenting-your-express-api-with-swagger/](https://blog.logrocket.com/documenting-your-express-api-with-swagger/)
 
 
-- `WebTransport`
-	- **COMPLETED** Move `AnonymousUser` to the top, underneath `WebServer`
-	- **COMPLETED** Convert all configuration/initialization bits into functions that can be called in any order
-	- **COMPLETED** Develop `Express.AuthorizationGate` middleware to check user roles
-	- **COMPLETED** Convert `WebServer.RequestProcessor` to `Express.InvocationGate`
-	- **COMPLETED** Fix: All Origin calls are being stringified
-	- **COMPLETED** Fix: Origin socket call logs do not show the result. Because we are getting the result of the middleware and not the call itself
-	- **COMPLETED** Fix: When an error occurs during an Express origin call, an eror string is returned rather than an ApiResult
-	- **DECLINED** Rename: `DataHandling` to `Middlewares`
-	- **COMPLETED** Rename `ExpressTransport` to `WebTransport`.
-	- Come up with a way for admin users and super users to impersonate another user.
-	- Add `Web.ClientSupport.auto_favicon` configuration setting to generate a favicon based on the server name.
-
-	- **DEPRECATED** Session persistence strategies
-		- **COMPLETED** [memorystore](https://www.npmjs.com/package/memorystore)
-		- **COMPLETED** [session-file-store](https://www.npmjs.com/package/session-file-store)
-		- **DEPRECATED** [better-sqlite3-session-store](https://www.npmjs.com/package/better-sqlite3-session-store)
-		- **DEPRECATED** [connect-mongo](https://www.npmjs.com/package/connect-mongo)
-		- **DEPRECATED** [connect-session-sequelize](https://www.npmjs.com/package/connect-session-sequelize)
-
-	- Security
-		- **COMPLETED** Add helmet.
-
-	- ClientSupport
-		- **COMPLETED** Implement generation of `view_core` files.
-		- **UNNECESSARY** Implement more view engines (e.g. jade, ejs).
-		- Implement Auth0 (or other passwordless strategy) integration.
-
-	- **DEPRECATED** Remove: Swagger *** Remove It! ***
-		- **DEPRECATED** authorization
-		- **DEPRECATED** parameter data types
-		- **DEPRECATED** service item definitions
-		- **DEPRECATED** Add Module: `Express.ClientSupport.Swagger`
-			- **DEPRECATED** [https://swagger.io/](https://swagger.io/)
-			- **DEPRECATED** [https://blog.logrocket.com/documenting-your-express-api-with-swagger/](https://blog.logrocket.com/documenting-your-express-api-with-swagger/)
+	- `WebSocketTransport`
+		- **COMPLETED** Validate SessionToken and user_role.
+		- **COMPLETED** Origin must have the 'socket-call' varb.
+		- **DECLINED** Rename `WebSocketTransport` to `SocketTransport`.
+		- Add `ServerAddress.public_address` field.
+			This field is optional and defaults to `ServerAddress.address`.
+			This address is used when generating client api files.
 
 
-- `WebSocketTransport`
-	- **COMPLETED** Validate SessionToken and user_role.
-	- **COMPLETED** Origin must have the 'socket-call' varb.
-	- **DECLINED** Rename `WebSocketTransport` to `SocketTransport`.
-	- Add `ServerAddress.public_address` field.
-		This field is optional and defaults to `ServerAddress.address`.
-		This address is used when generating client api files.
-
-
-- `AmqpTransport`
-	- **COMPLETED** Develop: `AmqpTransport`
-	- **COMPLETED** Develop: `AmqpClient`
-	- Develop: `amqp-client-api`
-		- Use (rabbit.js)[http://www.squaremobius.net/rabbit.js/] for browser support.
+	- `AmqpTransport`
+		- **COMPLETED** Develop: `AmqpTransport`
+		- **COMPLETED** Develop: `AmqpClient`
+		- Develop: `amqp-client-api`
+			- Use (rabbit.js)[http://www.squaremobius.net/rabbit.js/] for browser support.
 
 
 # Notes

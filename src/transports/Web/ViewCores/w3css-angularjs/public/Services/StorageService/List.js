@@ -3,7 +3,7 @@
 
 app.controller(
 	'StorageList_Controller',
-	function ( $scope, $http, $window, $location, $cookies )
+	function ( $scope )
 	{
 
 

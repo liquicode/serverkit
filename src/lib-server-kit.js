@@ -1107,6 +1107,11 @@ exports.NewServer =
 					}
 				}
 
+				// Startup Task Manager
+				{
+					server.TaskManager.Startup();
+				}
+
 				server.Log.info( `Server is running.` );
 				return;
 			};
@@ -1126,7 +1131,7 @@ exports.NewServer =
 			{
 				// Shutdown Task Manager
 				{
-					server.TaskManager.StopAllTasks();
+					server.TaskManager.Shutdown();
 				}
 
 				// Shutdown Transports

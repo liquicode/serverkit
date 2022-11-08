@@ -43,6 +43,22 @@ exports.Construct =
 
 
 		//---------------------------------------------------------------------
+		service.Origins.ListTasks =
+			Server.NewOriginDefinition( {
+				name: 'ListTasks',
+				description: "Return a list of Scheduled Tasks.",
+				requires_login: true,
+				allowed_roles: [ 'admin', 'super' ],
+			},
+				async function ( User )
+				{
+
+					return service.ListTasks( User );
+				},
+			);
+
+
+		//---------------------------------------------------------------------
 		service.Origins.RestartServer =
 			Server.NewOriginDefinition( {
 				name: 'RestartServer',
@@ -85,7 +101,7 @@ exports.Construct =
 
 
 		//---------------------------------------------------------------------
-		service.Views.Diagnostics =
+		service.Views.Administration =
 			Server.NewOriginDefinition( {
 				name: 'Administration',
 				title: 'Administration',
@@ -137,6 +153,31 @@ exports.Construct =
 
 				// Return the diagnostics.
 				return diagnostics;
+			};
+
+
+		//---------------------------------------------------------------------
+		// ListTasks: Lists the scheduled tasks.
+		//---------------------------------------------------------------------
+
+		service.ListTasks =
+			async function ListTasks( User )
+			{
+				let tasks = [];
+				for ( let task_key in Server.TaskManager.ScheduledTasks )
+				{
+					let task = Server.TaskManager.ScheduledTasks[ task_key ];
+					tasks.push( {
+						name: task.name,
+						enabled: task.enabled,
+						last_start: task.last_start,
+						last_finish: task.last_finish,
+						last_duration: task.last_duration,
+						last_error: task.last_error,
+						run_count: task.run_count,
+					} );
+				}
+				return tasks;
 			};
 
 

@@ -34,6 +34,7 @@ exports.Construct =
 					OutputSeverityWords: true,		// Use the full severity level name, rather than the first letter.
 					ShellColorTheme: '',			// Color theme: 'ShellLight', 'ShellDark', or empty for no colors.
 					DeferredOutput: false,			// Defers console output to the next tick when true.
+					// MaxMessageLength: 0,			// Maximum length of a log message (truncated).
 				},
 				ShellLight:
 				{

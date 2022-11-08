@@ -3,7 +3,7 @@
 
 app.controller(
 	'Administration_Controller',
-	function ( $scope, $http, $window, $location, $cookies )
+	function ( $scope )
 	{
 
 
@@ -12,9 +12,14 @@ app.controller(
 			User: window.SERVER_DATA.User,
 			UserViews: window.SERVER_DATA.UserViews,
 
-			diagnostics_text: 'Diagnostics Output',
-			auto_refresh_timer: null,
-			auto_refresh_interval: 3000,
+			Diagnostics: {
+				text: 'Diagnostics Output',
+				auto_refresh_timer: null,
+				auto_refresh_interval: 3000,
+			},
+
+			Tasks: null,
+
 		};
 		$scope.Page = Page;
 
@@ -47,7 +52,7 @@ app.controller(
 						if ( error ) { alert( error ); }
 						else
 						{
-							Page.diagnostics_text = JSON.stringify( response.result, null, '    ' );
+							Page.Diagnostics.text = JSON.stringify( response.result, null, '    ' );
 							$scope.$apply();
 							w3CodeColor();
 						}
@@ -60,14 +65,16 @@ app.controller(
 		Page.ToggleAutoRefresh =
 			function ToggleAutoRefresh()
 			{
-				if ( Page.auto_refresh_timer )
+				if ( Page.Diagnostics.auto_refresh_timer )
 				{
-					clearInterval( Page.auto_refresh_timer );
-					Page.auto_refresh_timer = null;
+					clearInterval( Page.Diagnostics.auto_refresh_timer );
+					Page.Diagnostics.auto_refresh_timer = null;
 				}
 				else
 				{
-					Page.auto_refresh_timer = window.setInterval( Page.RefreshDiagnostics, Page.auto_refresh_interval );
+					Page.Diagnostics.auto_refresh_timer = window.setInterval(
+						Page.RefreshDiagnostics,
+						Page.Diagnostics.auto_refresh_interval );
 				}
 				return;
 			};
@@ -77,8 +84,24 @@ app.controller(
 		Page.AutoRefreshEnabled =
 			function AutoRefreshEnabled()
 			{
-				return !!Page.auto_refresh_timer;
+				return !!Page.Diagnostics.auto_refresh_timer;
 			};
+
+
+		//---------------------------------------------------------------------
+		// Initialize Controller
+
+		WebSocket.ServerManagement.ListTasks(
+			function ( error, response )
+			{
+				if ( error ) { alert( error ); }
+				else
+				{
+					Page.Tasks = response.result;
+					$scope.$apply();
+				}
+			}
+		);
 
 
 		//---------------------------------------------------------------------

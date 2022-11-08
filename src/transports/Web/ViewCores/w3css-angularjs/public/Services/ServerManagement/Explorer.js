@@ -3,7 +3,7 @@
 
 app.controller(
 	'Explorer_Controller',
-	function ( $scope, $http, $window, $location, $cookies )
+	function ( $scope )
 	{
 
 
@@ -144,7 +144,10 @@ app.controller(
 					text = JSON.stringify( Page.Invoke.response, null, '    ' );
 				}
 				Page.Elements.InvokeResponse.innerHTML = text;
-				w3CodeColor();
+				if ( text.length <= ( 8 * 1024 ) )
+				{
+					w3CodeColor();
+				}
 				return;
 			};
 
