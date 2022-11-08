@@ -148,7 +148,7 @@
 			"args": [
 				"-u",
 				"bdd",
-				"tests/130*.js",
+				"tests/special/130*.js",
 				"--timeout",
 				"0",
 				"--slow",

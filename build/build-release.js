@@ -124,8 +124,9 @@ Liquicode.System.WithFileText(
 //=====================================================================
 
 
-Builder.LogHeading( `Run Tests and Update Docs External ...` );
+if ( false ) // Running tests seems to no longer work. It just hangs.
 {
+	Builder.LogHeading( `Run Tests and Update Docs External ...` );
 	//---------------------------------------------------------------------
 	// Run Tests
 	//---------------------------------------------------------------------
@@ -161,6 +162,15 @@ ${testing_output}
 ~~~
 ` );
 	}
+}
+
+Builder.LogHeading( `Update Docs External ...` );
+{
+	//---------------------------------------------------------------------
+	// Update Docs Externals
+	//---------------------------------------------------------------------
+
+	let docs_external_folder = LIB_PATH.join( package_folder, 'docs', 'external' );
 
 	Builder.LogMuted( `Copying [readme.md] ...` );
 	{

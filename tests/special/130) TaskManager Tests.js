@@ -2,7 +2,7 @@
 
 const LIB_ASSERT = require( 'assert' );
 
-const SRC_TEST_SERVER = require( './test-routines/TestServer.js' );
+const SRC_TEST_SERVER = require( '../test-routines/TestServer.js' );
 let Server = null;
 
 //---------------------------------------------------------------------
