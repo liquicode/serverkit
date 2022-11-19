@@ -257,6 +257,14 @@ Dependencies
 *(wip)*
 
 
+Related Projects
+---------------------------------------------------------------------
+
+- [JSKit](https://docs.jskit.dev/):
+	Takes a more structured approach to server development and defines a large hierarchy of classes.
+	@liquicode/serverkit uses more abstractions and conventions to provide functionality.
+
+
 Notices
 ---------------------------------------------------------------------
 

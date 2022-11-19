@@ -41,6 +41,42 @@ exports.ClientSupport_GenerateViewCore =
 				CTX.Server.Log.trace( `Web.ClientSupport.ViewCore generated [${CTX.Transport.Settings.ClientSupport.view_core}] (${file_count} files) into [${CTX.Transport.Settings.ClientSupport.view_folder}].` );
 			}
 
+			// Copy any Service Web files.
+			{
+				// let server_public_path = LIB_PATH.join( view_core_path, 'public' );
+				// let server_views_path = LIB_PATH.join( view_core_path, 'views' );
+
+				CTX.Server.VisitViewsSync(
+					function process_view( Service, Origin )
+					{
+						if ( !Service.Settings.enabled ) { return; }
+						if ( !Origin ) { return; }
+
+						let src_web_path = CTX.Server.ResolveApplicationPath( LIB_PATH.join( 'Services', Service.Definition.name, 'web' ) );
+						if ( !LIB_FS.existsSync( src_web_path ) ) { return; }
+
+						let src_web_public_path = LIB_PATH.join( src_web_path, 'public' );
+						let src_web_views_path = LIB_PATH.join( src_web_path, 'views' );
+						if ( LIB_FS.existsSync( src_web_public_path ) ) 
+						{
+							let dest_path = LIB_PATH.join( CTX.Transport.Settings.ClientSupport.public_folder, 'Services', Service.Definition.name );
+							dest_path = CTX.Server.ResolveApplicationPath( dest_path );
+							let file_count = CTX.Server.Utility.copy_folder_recurse( src_web_public_path, dest_path, overwrite_files );
+							CTX.Server.Log.trace( `Web.ClientSupport.ViewCore copied ${file_count} files from the service [${Service.Definition.name}] to the web/public folder.` );
+						}
+						if ( LIB_FS.existsSync( src_web_views_path ) ) 
+						{
+							let dest_path = LIB_PATH.join( CTX.Transport.Settings.ClientSupport.view_folder, 'Services', Service.Definition.name );
+							dest_path = CTX.Server.ResolveApplicationPath( dest_path );
+							let file_count = CTX.Server.Utility.copy_folder_recurse( src_web_views_path, dest_path, overwrite_files );
+							CTX.Server.Log.trace( `Web.ClientSupport.ViewCore copied ${file_count} files from the service [${Service.Definition.name}] to the web/views folder.` );
+						}
+
+						return;
+					}
+				);
+			}
+
 			//---------------------------------------------------------------------
 			CTX.Server.Log.trace( `Web.ClientSupport.ViewCore has initialized.` );
 			return;

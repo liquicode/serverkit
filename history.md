@@ -4,8 +4,9 @@
 v0.0.36
 ------------------------------------------
 
-- Throttled code coloring in `Services/ServerManagament/Explorer.js` to <= 8KB.
+- Throttled code coloring of call results in `Services/ServerManagament/Explorer.js` to <= 8KB.
 - Enhanced TaskManager.
+- Services can now contribute files to the ViewCore. Folders and files located at `{App}/Services/{ServiceName}/web/public` and `{App}/Services/{ServiceName}/web/public` will be copied.
 
 
 v0.0.35, 2022-11-04

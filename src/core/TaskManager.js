@@ -13,6 +13,12 @@ exports.NewTaskManager =
 
 			ScheduledTasks: {},
 
+			Task:
+				function ( TaskName )
+				{
+					return this.ScheduledTasks[ TaskName ];
+				},
+
 			AddTask:
 				function ( TaskName, Options, InvokeFunction )
 				{
@@ -35,7 +41,6 @@ exports.NewTaskManager =
 					this.ScheduledTasks[ TaskName ] = {
 						name: TaskName,
 						options: JSON.parse( JSON.stringify( Options ) ),
-						handler: null,
 						enabled: false,
 						task: null,
 						last_start: null,
@@ -90,7 +95,8 @@ exports.NewTaskManager =
 								return;
 							},
 					};
-					return this.ScheduledTasks[ TaskName ];
+
+					return this.Task( TaskName );
 				},
 
 
