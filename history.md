@@ -1,12 +1,19 @@
 # Version History
 
 
+v0.0.39
+------------------------------------------
+
+- Changed visibility of `ServerManagement.Explorer` view. Now requires `admin` or `super`.
+
+
 v0.0.38
 ------------------------------------------
 
 - Added configuration settings in `WebTransport`.
 	- `ClientSupport.view_core_show_signup`
 	- `ClientSupport.view_core_show_login`
+	- `ClientSupport.view_core_easy_admin_login`
 
 
 v0.0.37

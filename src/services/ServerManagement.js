@@ -118,6 +118,7 @@ exports.Construct =
 				title: 'Server Explorer',
 				description: 'Service info and function testing.',
 				requires_login: true,
+				allowed_roles: [ 'admin', 'super' ],
 			} );
 
 
