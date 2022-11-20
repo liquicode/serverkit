@@ -2,6 +2,15 @@ extends ../../index.pug
 
 block content
 
+
+	-var default_user = ''
+	-var default_password = ''
+
+	if( locals.Server.Settings.Transports.Web.ClientSupport.view_core_easy_admin_login )
+		- default_user = 'admin@server';
+		- default_password = 'password';
+
+
 	.w3-container.w3-blue-grey.w3-xlarge= Login
 
 	.w3-container
@@ -25,7 +34,7 @@ block content
 									type="email"
 									id="UserEmail"
 									name="UserEmail"
-									value="admin@server"
+									value=default_user
 								)
 
 						tr 
@@ -35,7 +44,7 @@ block content
 									type="password"
 									id="Password"
 									name="Password"
-									value="password"
+									value=default_password
 								)
 
 						tr 

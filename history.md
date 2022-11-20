@@ -1,12 +1,26 @@
 # Version History
 
 
+v0.0.38
+------------------------------------------
+
+- Added configuration settings in `WebTransport`.
+	- `ClientSupport.view_core_show_signup`
+	- `ClientSupport.view_core_show_login`
+
+
+v0.0.37
+------------------------------------------
+
+- Services can now contribute files to the ViewCore.
+	Folders and files located at `{App}/Services/{ServiceName}/web/public` and `{App}/Services/{ServiceName}/web/public` will be copied.
+
+
 v0.0.36
 ------------------------------------------
 
 - Throttled code coloring of call results in `Services/ServerManagament/Explorer.js` to <= 8KB.
 - Enhanced TaskManager.
-- Services can now contribute files to the ViewCore. Folders and files located at `{App}/Services/{ServiceName}/web/public` and `{App}/Services/{ServiceName}/web/public` will be copied.
 
 
 v0.0.35, 2022-11-04

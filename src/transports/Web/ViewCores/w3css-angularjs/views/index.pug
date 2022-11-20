@@ -139,7 +139,9 @@ body
 			else
 
 				//- User is not logged in, show Signup and Login links.
-				a.w3-bar-item.w3-button.w3-mobile( href=server_signup_url ) Sign Up
-				a.w3-bar-item.w3-button.w3-mobile( href=server_login_url ) Log In
+				if( locals.Server.Settings.Transports.Web.ClientSupport.view_core_show_signup )
+					a.w3-bar-item.w3-button.w3-mobile( href=server_signup_url ) Sign Up
+				if( locals.Server.Settings.Transports.Web.ClientSupport.view_core_show_login )
+					a.w3-bar-item.w3-button.w3-mobile( href=server_login_url ) Log In
 
 		block content

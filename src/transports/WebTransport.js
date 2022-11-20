@@ -116,9 +116,12 @@ exports.Construct =
 					// Views
 					view_engine: 'pug',							// Any Express compatible templating engine (e.g. pug, jade, etc.)
 					view_folder: '~web-views',					// Application folder of the view files.
-					home_view: 'home',						// Name of default home view ('/').
+					home_view: 'home',							// Name of default home view ('/').
 					view_core: 'w3css-angularjs',				// Generate core ui elements (into public_folder).
 					view_core_overwrite: false,					// Overwrite existing files when copying the view core.
+					view_core_show_signup: true,				// Allow users to signup and create an account.
+					view_core_show_login: true,				// Allow users to login with their account.
+					view_core_easy_admin_login: true,			// Login form is prefilled with default admin credentials.
 
 					// Views: {
 					// 	root_view: 'home',						// Name of default home view ('/').
@@ -310,7 +313,7 @@ exports.Construct =
 					{
 						if ( !Service.Settings.enabled ) { return; }
 						if ( !Origin ) { return; }
-						if ( !Origin ) { return; }
+
 						if ( Origin.requires_login )
 						{
 							if ( User.user_role === 'anon' ) { return; }
@@ -322,10 +325,14 @@ exports.Construct =
 								return;
 							}
 						}
-						// if ( !Origin.requires_login
-						// 	|| Origin.allowed_roles.includes( '*' )
-						// 	|| Origin.allowed_roles.includes( User.user_role )
-						// )
+
+						// Check to allow User Signup and Login.
+						if ( Service.Definition.name === 'Authentication' )
+						{
+							if ( ( Origin.name === 'Signup' ) && !transport.Settings.ClientSupport.view_core_show_signup ) { return; }
+							if ( ( Origin.name === 'Login' ) && !transport.Settings.ClientSupport.view_core_show_login ) { return; }
+						}
+
 						{
 							// Get the number of required parameters.
 							let required_fields = 0;
@@ -352,6 +359,7 @@ exports.Construct =
 								url: Service.Definition.name + '/' + Origin.name,
 								required_fields: required_fields,
 							} );
+
 						}
 						return;
 					}
