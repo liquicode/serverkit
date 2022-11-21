@@ -2,7 +2,7 @@
 
 ![logo](media/template-lib-banner-large.png)
 
-# lib-server-kit <small>(v0.0.40)</small>
+# lib-server-kit <small>(v0.0.41)</small>
 
 <hr>
 
