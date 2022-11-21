@@ -30,7 +30,8 @@ app.controller(
 		Page.UserCanDo =
 			function UserCanDo( FunctionName )
 			{
-				let origin = Page.Origins[ FunctionName ];
+				// let origin = Page.Origins[ FunctionName ];
+				let origin = window.SERVER_DATA.ServiceOrigins[ FunctionName ];
 				if ( origin )
 				{
 					if ( !origin.requires_login ) { return true; }
@@ -44,7 +45,7 @@ app.controller(
 		Page.ShowCreateButton =
 			function ShowCreateButton()
 			{
-				return Page.UserCanDo( 'CreateOne' );
+				return Page.UserCanDo( 'StorageCreateOne' );
 			};
 
 
@@ -52,7 +53,7 @@ app.controller(
 		Page.ShowDeleteButton =
 			function ShowDeleteButton()
 			{
-				return Page.UserCanDo( 'DeleteOne' );
+				return Page.UserCanDo( 'StorageDeleteOne' );
 			};
 
 

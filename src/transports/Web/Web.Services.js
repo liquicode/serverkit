@@ -263,6 +263,8 @@ exports.MountServices =
 								User: request.user,
 								UserViews: CTX.Transport.GetUserViews( request.user, true ),
 								Service: Service.Definition,
+								ServiceOrigins: Service.Origins,
+								ServiceViews: Service.Views,
 								Origin: origin,
 								Parameters: parameter_map,
 							} );
