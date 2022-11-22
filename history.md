@@ -4,6 +4,13 @@
 v0.0.42
 ------------------------------------------
 
+- Fixed an issue in the `_websocket-client-api.js` file when using `WebSocket.use_http_server = 'web'`.
+	The client side of socket.io was not initializing properly and was unable to make a connection to the server.
+
+
+v0.0.42
+------------------------------------------
+
 - Fixed bug in `Server.InstallAutoShutdown()`.
 - Added a `web` option to configuration setting `WebSocket.use_http_server`.
 	Use the `web` option when the `Web` transport is running and you want o piggy-back on the existing http/s server.

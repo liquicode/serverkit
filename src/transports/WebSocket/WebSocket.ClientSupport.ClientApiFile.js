@@ -28,6 +28,18 @@ exports.Generate =
 		let client_log_errors_disabler = '// ';
 		if ( Transport.Settings.ClientSupport.client_log_errors ) { client_log_errors_disabler = ''; }
 
+		let socket_io_initializer = '';
+		switch ( Transport.Settings.use_http_server )
+		{
+			case 'web':
+				socket_io_initializer = 'io()';
+				break;
+			case 'internal':
+			case 'node':
+				socket_io_initializer = `io( "${Transport.ServerAddress()}", { path: "${Transport.ServerPath()}" } )`;
+				break;
+		}
+
 		code += `'use strict';
 //---------------------------------------------------------------------
 // WebSocket Api Client File for: ${server_name}
@@ -113,9 +125,7 @@ function send_socket_message( RouteName, Fields, Callback )
 };
 
 WebSocket._Session = {
-	socket: io( "${Transport.ServerAddress()}", {
-		path: "${Transport.ServerPath()}",
-	} ),
+	socket: ${socket_io_initializer},
 	session_token: get_session_token(),
 };
 
