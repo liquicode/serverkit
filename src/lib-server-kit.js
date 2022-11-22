@@ -776,7 +776,7 @@ exports.NewServer =
 			// Register the module Defaults.
 			server.Defaults[ ModuleType ][ server_module.Definition.name ] = server_module.Defaults;
 			// Return.
-			return;
+			return server_module;
 		};
 
 
@@ -851,8 +851,17 @@ exports.NewServer =
 			let filenames = LIB_FS.readdirSync( path );
 			for ( let index = 0; index < filenames.length; index++ )
 			{
-				load_module( 'Transports', path, filenames[ index ] );
+				let module = load_module( 'Transports', path, filenames[ index ] );
+				if ( !module ) { continue; }
+				module.load_order = 100 + index;
 			}
+		}
+
+		// Ensure a specific load order.
+		{
+			server.Transports.Text.load_order = 1;
+			server.Transports.Web.load_order = 2;
+			server.Transports.WebSocket.load_order = 3;
 		}
 
 
@@ -966,6 +975,8 @@ exports.NewServer =
 				server.Log.InitializeModule();
 				// server.Log.trace( `Server initialized module [Log].` );
 
+				server.Log.info( `Serverkit v${server.version} is starting ...` );
+
 				// Report config initialization.
 				if ( ServerOptions.defaults_filename )
 				{
@@ -1004,6 +1015,25 @@ exports.NewServer =
 					}
 				}
 
+				// Initialize Transports
+				let all_verbs = [];
+				{
+					let module_keys = Object.keys( server.Transports );
+					module_keys.sort( ( A, B ) => { return ( server.Transports[ A ].load_order - server.Transports[ B ].load_order ); } );
+					for ( let module_index = 0; module_index < module_keys.length; module_index++ )
+					{
+						let module_key = module_keys[ module_index ];
+						let server_module = server.Transports[ module_key ];
+						if ( server_module.Settings.enabled )
+						{
+							await server_module.InitializeModule();
+							server.ValidateModule( server_module );
+							all_verbs.push( ...server_module.Definition.verbs );
+							server.Log.trace( `Server initialized transport [${module_key}].` );
+						}
+					}
+				}
+
 				// Initialize Services
 				{
 					let module_keys = Object.keys( server.Services );
@@ -1020,24 +1050,6 @@ exports.NewServer =
 							// {
 							// }
 							server.Log.trace( `Server initialized service [${module_key}].` );
-						}
-					}
-				}
-
-				// Initialize Transports
-				let all_verbs = [];
-				{
-					let module_keys = Object.keys( server.Transports );
-					for ( let module_index = 0; module_index < module_keys.length; module_index++ )
-					{
-						let module_key = module_keys[ module_index ];
-						let server_module = server.Transports[ module_key ];
-						if ( server_module.Settings.enabled )
-						{
-							await server_module.InitializeModule();
-							server.ValidateModule( server_module );
-							all_verbs.push( ...server_module.Definition.verbs );
-							server.Log.trace( `Server initialized transport [${module_key}].` );
 						}
 					}
 				}
@@ -1079,6 +1091,21 @@ exports.NewServer =
 			async function Startup()
 			{
 
+				// Startup Transports
+				{
+					let module_keys = Object.keys( server.Transports );
+					module_keys.sort( ( A, B ) => { return ( server.Transports[ A ].load_order - server.Transports[ B ].load_order ); } );
+					for ( let index = 0; index < module_keys.length; index++ )
+					{
+						let module_key = module_keys[ index ];
+						if ( server.Transports[ module_key ].Settings.enabled )
+						{
+							server.Log.debug( `Server is starting transport [${module_key}].` );
+							await server.Transports[ module_key ].StartupModule();
+						}
+					}
+				}
+
 				// Startup Services
 				{
 					let module_keys = Object.keys( server.Services );
@@ -1089,20 +1116,6 @@ exports.NewServer =
 						{
 							server.Log.debug( `Server is starting service [${module_key}].` );
 							await server.Services[ module_key ].StartupModule();
-						}
-					}
-				}
-
-				// Startup Transports
-				{
-					let module_keys = Object.keys( server.Transports );
-					for ( let index = 0; index < module_keys.length; index++ )
-					{
-						let module_key = module_keys[ index ];
-						if ( server.Transports[ module_key ].Settings.enabled )
-						{
-							server.Log.debug( `Server is starting transport [${module_key}].` );
-							await server.Transports[ module_key ].StartupModule();
 						}
 					}
 				}
@@ -1134,20 +1147,6 @@ exports.NewServer =
 					server.TaskManager.Shutdown();
 				}
 
-				// Shutdown Transports
-				{
-					let module_keys = Object.keys( server.Transports );
-					for ( let index = 0; index < module_keys.length; index++ )
-					{
-						let module_key = module_keys[ index ];
-						if ( server.Transports[ module_key ].Settings.enabled )
-						{
-							server.Log.debug( `Server is stopping transport [${module_key}].` );
-							await server.Transports[ module_key ].ShutdownModule();
-						}
-					}
-				}
-
 				// Shutdown Services
 				{
 					let module_keys = Object.keys( server.Services );
@@ -1158,6 +1157,22 @@ exports.NewServer =
 						{
 							server.Log.debug( `Server is stopping service [${module_key}].` );
 							await server.Services[ module_key ].ShutdownModule();
+						}
+					}
+				}
+
+				// Shutdown Transports
+				{
+					let module_keys = Object.keys( server.Transports );
+					module_keys.sort( ( A, B ) => { return ( server.Transports[ A ].load_order - server.Transports[ B ].load_order ); } );
+					// for ( let index = 0; index < module_keys.length; index++ )
+					for ( let index = ( module_keys.length - 1 ); index >= 0; index-- )
+					{
+						let module_key = module_keys[ index ];
+						if ( server.Transports[ module_key ].Settings.enabled )
+						{
+							server.Log.debug( `Server is stopping transport [${module_key}].` );
+							await server.Transports[ module_key ].ShutdownModule();
 						}
 					}
 				}
@@ -1202,7 +1217,7 @@ exports.NewServer =
 
 				process.on( 'SIGHUP', () => graceful_shutdown( 128 + 1 ) );
 				process.on( 'SIGINT', () => graceful_shutdown( 128 + 2 ) );
-				process.on( 'SIGTERM', () => graceful_shutdownexit( 128 + 15 ) );
+				process.on( 'SIGTERM', () => graceful_shutdown( 128 + 15 ) );
 				return;
 			};
 

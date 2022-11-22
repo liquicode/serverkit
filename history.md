@@ -1,6 +1,15 @@
 # Version History
 
 
+v0.0.42
+------------------------------------------
+
+- Fixed bug in `Server.InstallAutoShutdown()`.
+- Added a `web` option to configuration setting `WebSocket.use_http_server`.
+	Use the `web` option when the `Web` transport is running and you want o piggy-back on the existing http/s server.
+	This is useful when running behind a proxy and/or where you have a single port being forwarded.
+
+
 v0.0.41
 ------------------------------------------
 

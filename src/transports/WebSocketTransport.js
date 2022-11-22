@@ -31,7 +31,7 @@ exports.Construct =
 				enabled: false,
 				server_url_path: '/socket.io/',
 				trace_connections: false,
-				use_http_server: 'internal',	// One of: 'internal' or 'node'
+				use_http_server: 'internal',	// One of: 'internal', 'node', or 'web'
 				server_timeout: 120000,
 				// server_timeout: 5000,
 				ServerAddress: {
@@ -73,18 +73,29 @@ exports.Construct =
 		transport.ServerAddress =
 			function ServerAddress()
 			{
-				let address = transport.Settings.ServerAddress.address;
-				if ( transport.Settings.ServerAddress.public_address )
+				let url = '';
+				switch ( transport.Settings.use_http_server )
 				{
-					address = transport.Settings.ServerAddress.public_address;
+					case 'internal':
+					case 'node':
+						let address = transport.Settings.ServerAddress.address;
+						if ( transport.Settings.ServerAddress.public_address )
+						{
+							address = transport.Settings.ServerAddress.public_address;
+						}
+						if ( address === '0.0.0.0' )
+						{
+							address = 'localhost';
+						}
+						url = transport.Settings.ServerAddress.protocol
+							+ '://' + address
+							+ ':' + transport.Settings.ServerAddress.port;
+						break;
+
+					case 'web':
+						url = Server.Transports.Web.ServerAddress();
+						break;
 				}
-				if ( address === '0.0.0.0' )
-				{
-					address = 'localhost';
-				}
-				let url = transport.Settings.ServerAddress.protocol
-					+ '://' + address
-					+ ':' + transport.Settings.ServerAddress.port;
 				return url;
 			};
 
@@ -348,18 +359,18 @@ exports.Construct =
 				transport.SocketServer = LIB_SOCKET_IO( transport.HttpServer, socket_server_options );
 				Server.Log.debug( `WebSocket.SocketServer is listening at [${transport.ServerAddress()}].` );
 			}
-			// else if ( transport.Settings.use_http_server === 'web' )
-			// {
-			// 	// Start Socket Server, Connected to Express
-			// 	transport.SocketServer = LIB_SOCKET_IO( Server.Transports.Web.HttpServer, socket_server_options );
-			// 	Server.Log.debug( `WebSocket.SocketServer is listening at [${transport.ServerAddress()}]` );
-			// }
+			else if ( transport.Settings.use_http_server === 'web' )
+			{
+				// Start Socket Server, Connected to Express
+				transport.SocketServer = LIB_SOCKET_IO( Server.Transports.Web.HttpServer, socket_server_options );
+				Server.Log.debug( `WebSocket.SocketServer is listening at [${transport.ServerAddress()}]` );
+			}
 			else
 			{
 				throw new Error( Server.Utility.invalid_parameter_value_message(
 					'WebSocket.HttpServer.protocol',
 					transport.Settings.use_http_server,
-					`Must be either 'internal' or 'node'.` ) );
+					`Must be either 'internal', 'node', or 'web'.` ) );
 			}
 
 			Server.Log.trace( `WebSocket.SocketServer has initialized.` );
