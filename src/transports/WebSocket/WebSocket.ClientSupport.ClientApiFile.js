@@ -60,9 +60,9 @@ function get_session_token()
 //---------------------------------------------------------------------
 function set_session_token( SessionToken )
 {
-	const d = new Date();
+	var d = new Date();
 	d.setTime(d.getTime() + (exdays*24*60*60*1000));
-	let expires = "expires="+ d.toUTCString();
+	var  expires = "expires="+ d.toUTCString();
 	document.cookie = "${server_name}=" + SessionToken + ";" + expires + ";path=/";
 	return;
 }
@@ -73,7 +73,7 @@ function send_socket_message( RouteName, Fields, Callback )
 {
 	${client_log_service_calls_disabler}console.log( "WebSocket Invoking [" + RouteName + "] -->> ", Fields );
 
-	let payload = {
+	var payload = {
 		id: uuidv4(),
 		session_token: WebSocket._Session.session_token,
 		route_name: RouteName,

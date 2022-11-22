@@ -111,7 +111,7 @@ exports.Construct =
 					client_log_errors: true,							// console.error any errors.
 
 					// Generated open api file.
-					open_api_file: '~web-public/_open-api.js',	// Generate Swagger definitions file (in Application folder).
+					open_api_file: '~web-public/_open-api.json',	// Generate Swagger definitions file (in Application folder).
 
 					// Views
 					view_engine: 'pug',							// Any Express compatible templating engine (e.g. pug, jade, etc.)

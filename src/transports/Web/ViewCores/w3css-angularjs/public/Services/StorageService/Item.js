@@ -73,7 +73,7 @@ app.controller(
 			function ItemSharingUrl()
 			{
 				if ( Page.Item === null ) { return ''; }
-				let url = `/${Page.Service.name}/Share?ItemID=${Page.ItemID}`;
+				var url = '/' + Page.Service.name + '/Share?ItemID=' + Page.ItemID;
 				return url;
 			};
 
@@ -84,9 +84,9 @@ app.controller(
 			{
 				if ( WebOrigins )
 				{
-					let StorageCreateOne = WebOrigins[ Page.Service.name ].http_get_StorageCreateOne;
+					var StorageCreateOne = WebOrigins[ Page.Service.name ].http_get_StorageCreateOne;
 					StorageCreateOne( Page.Item,
-						( Error, ApiResult ) =>
+						function ( Error, ApiResult )
 						{
 							if ( Error )
 							{
@@ -95,12 +95,12 @@ app.controller(
 							}
 							if ( ApiResult.error )
 							{
-								alert( `Error during StorageCreateOne: ${ApiResult.error}` );
+								alert( 'Error during StorageCreateOne: ' + ApiResult.error );
 								return;
 							}
 							if ( !ApiResult.result )
 							{
-								alert( `StorageCreateOne did not return anything!` );
+								alert( 'StorageCreateOne did not return anything!' );
 								return;
 							}
 							Page.Item = ApiResult.result;
@@ -122,9 +122,9 @@ app.controller(
 			{
 				if ( WebOrigins && Page.ItemID )
 				{
-					let StorageFindOne = WebOrigins[ Page.Service.name ].http_get_StorageFindOne;
+					var StorageFindOne = WebOrigins[ Page.Service.name ].http_get_StorageFindOne;
 					StorageFindOne( Page.ItemID,
-						( Error, ApiResult ) =>
+						function ( Error, ApiResult )
 						{
 							if ( Error )
 							{
@@ -133,12 +133,12 @@ app.controller(
 							}
 							if ( ApiResult.error )
 							{
-								alert( `Error during StorageFindOne: ${ApiResult.error}` );
+								alert( 'Error during StorageFindOne: ' + ApiResult.error );
 								return;
 							}
 							if ( !ApiResult.result )
 							{
-								alert( `StorageFindOne did not return anything!` );
+								alert( 'StorageFindOne did not return anything!' );
 								return;
 							}
 							Page.Item = ApiResult.result;
@@ -148,11 +148,11 @@ app.controller(
 				else if ( Page.Socket && Page.ItemID )
 				{
 					Page.Socket[ Page.Service.name ].FindOne( Page.ItemID,
-						( api_result ) =>
+						function ( api_result )
 						{
 							if ( api_result.error )
 							{
-								alert( `Error during FindOne: ${api_result.error}` );
+								alert( 'Error during FindOne: ' + api_result.error );
 								return;
 							}
 							Page.Item = api_result.result;
@@ -173,9 +173,9 @@ app.controller(
 			{
 				if ( WebOrigins && Page.ItemID )
 				{
-					let StorageWriteOne = WebOrigins[ Page.Service.name ].http_get_StorageWriteOne;
+					var StorageWriteOne = WebOrigins[ Page.Service.name ].http_get_StorageWriteOne;
 					StorageWriteOne( Page.ItemID, Page.Item,
-						( Error, ApiResult ) =>
+						function ( Error, ApiResult )
 						{
 							if ( Error )
 							{
@@ -184,12 +184,12 @@ app.controller(
 							}
 							if ( ApiResult.error )
 							{
-								alert( `Error during StorageWriteOne: ${ApiResult.error}` );
+								alert( 'Error during StorageWriteOne: ' + ApiResult.error );
 								return;
 							}
 							if ( !ApiResult.result )
 							{
-								alert( `StorageWriteOne did not update anything!` );
+								alert( 'StorageWriteOne did not update anything!' );
 								return;
 							}
 						} );
@@ -204,9 +204,9 @@ app.controller(
 			{
 				if ( WebOrigins && Page.ItemID )
 				{
-					let StorageDeleteOne = WebOrigins[ Page.Service.name ].http_get_StorageDeleteOne;
+					var StorageDeleteOne = WebOrigins[ Page.Service.name ].http_get_StorageDeleteOne;
 					StorageDeleteOne( Page.ItemID,
-						( Error, ApiResult ) =>
+						function ( Error, ApiResult )
 						{
 							if ( Error )
 							{
@@ -215,12 +215,12 @@ app.controller(
 							}
 							if ( ApiResult.error )
 							{
-								alert( `Error during StorageDeleteOne: ${ApiResult.error}` );
+								alert( 'Error during StorageDeleteOne: ' + ApiResult.error );
 								return;
 							}
 							if ( !ApiResult.result )
 							{
-								alert( `StorageDeleteOne did not delete anything!` );
+								alert( 'StorageDeleteOne did not delete anything!' );
 								return;
 							}
 							Page.PageOp = 'Read';

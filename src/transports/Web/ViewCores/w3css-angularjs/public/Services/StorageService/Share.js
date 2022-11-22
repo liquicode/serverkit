@@ -51,9 +51,9 @@ app.controller(
 			{
 				if ( WebOrigins && Page.ItemID )
 				{
-					let StorageFindOne = WebOrigins[ Page.Definition.name ].http_get_StorageFindOne;
+					var StorageFindOne = WebOrigins[ Page.Definition.name ].http_get_StorageFindOne;
 					StorageFindOne( Page.ItemID,
-						( Error, ApiResult ) =>
+						function ( Error, ApiResult )
 						{
 							if ( Error )
 							{
@@ -62,12 +62,12 @@ app.controller(
 							}
 							if ( ApiResult.error )
 							{
-								alert( `Error during StorageFindOne: ${ApiResult.error}` );
+								alert( 'Error during StorageFindOne: ' + ApiResult.error );
 								return;
 							}
 							if ( !ApiResult.result )
 							{
-								alert( `StorageFindOne did not return anything!` );
+								alert( 'StorageFindOne did not return anything!' );
 								return;
 							}
 							Page.Item = ApiResult.result;
@@ -77,11 +77,11 @@ app.controller(
 				else if ( Page.Socket && Page.ItemID )
 				{
 					Page.Socket[ Page.Definition.name ].FindOne( Page.ItemID,
-						( api_result ) =>
+						function ( api_result )
 						{
 							if ( api_result.error )
 							{
-								alert( `Error during FindOne: ${api_result.error}` );
+								alert( 'Error during FindOne: ' + api_result.error );
 								return;
 							}
 							Page.Item = api_result.result;

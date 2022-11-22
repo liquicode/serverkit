@@ -34,7 +34,7 @@ app.controller(
 
 
 		//---------------------------------------------------------------------
-		let visbility_map = {};
+		var visbility_map = {};
 
 
 		//---------------------------------------------------------------------
@@ -67,9 +67,9 @@ app.controller(
 				Page.Invoke.parameters = InvokeParameters;
 				// Initialize the Invoke values.
 				Page.Invoke.values = {};
-				for ( let index = 0; index < InvokeParameters.length; index++ )
+				for ( var index = 0; index < InvokeParameters.length; index++ )
 				{
-					let parameter = InvokeParameters[ index ];
+					var parameter = InvokeParameters[ index ];
 					Page.Invoke.values[ parameter.name ] = null;
 				}
 				Page.Invoke.response = null;
@@ -138,7 +138,7 @@ app.controller(
 		Page.SetInvokeResponse =
 			function SetInvokeResponse()
 			{
-				let text = '';
+				var text = '';
 				if ( Page.Invoke.response )
 				{
 					text = JSON.stringify( Page.Invoke.response, null, '    ' );
@@ -158,11 +158,12 @@ app.controller(
 			{
 
 				// Get the parameter values.
-				let values = [];
-				for ( let index = 0; index < Page.Invoke.parameters.length; index++ )
+				var values_array = [];
+				var values_map = {};
+				for ( var index = 0; index < Page.Invoke.parameters.length; index++ )
 				{
-					let parameter = Page.Invoke.parameters[ index ];
-					let value = Page.Invoke.values[ parameter.name ];
+					var parameter = Page.Invoke.parameters[ index ];
+					var value = Page.Invoke.values[ parameter.name ];
 					if ( parameter.schema && parameter.schema.type )
 					{
 						if ( typeof value === 'string' )
@@ -177,7 +178,8 @@ app.controller(
 							}
 						}
 					}
-					values.push( value );
+					values_array.push( value );
+					values_map[ parameter.name ] = value;
 				}
 
 				// Invoke the function.
@@ -189,22 +191,43 @@ app.controller(
 							socket_api_callback( 'Login is required to perform socket calls.' );
 							return;
 						}
-						Page.Socket[ Page.Invoke.service_name ][ Page.Invoke.origin_name ]( ...values, socket_api_callback );
+						send_socket_message(
+							Page.Invoke.service_name + '.' + Page.Invoke.origin_name,
+							values_map,
+							socket_api_callback );
 						break;
 					case 'Http-Get':
-						WebOrigins[ Page.Invoke.service_name ][ 'http_get_' + Page.Invoke.origin_name ]( ...values, express_api_callback );
+						send_web_message(
+							'get',
+							'/' + Page.Invoke.service_name + '/' + Page.Invoke.origin_name,
+							values_map,
+							express_api_callback );
 						break;
 					case 'Http-Put':
-						WebOrigins[ Page.Invoke.service_name ][ 'http_put_' + Page.Invoke.origin_name ]( ...values, express_api_callback );
+						send_web_message(
+							'put',
+							'/' + Page.Invoke.service_name + '/' + Page.Invoke.origin_name,
+							values_map,
+							express_api_callback );
 						break;
 					case 'Http-Post':
-						WebOrigins[ Page.Invoke.service_name ][ 'http_post_' + Page.Invoke.origin_name ]( ...values, express_api_callback );
+						send_web_message(
+							'post',
+							'/' + Page.Invoke.service_name + '/' + Page.Invoke.origin_name,
+							values_map,
+							express_api_callback );
 						break;
 					case 'Http-Delete':
-						WebOrigins[ Page.Invoke.service_name ][ 'http_delete_' + Page.Invoke.origin_name ]( ...values, express_api_callback );
+						send_web_message(
+							'delete',
+							'/' + Page.Invoke.service_name + '/' + Page.Invoke.origin_name,
+							values_map,
+							express_api_callback );
 						break;
 					case 'Http-Visit':
-						let url = WebViews[ Page.Invoke.service_name ][ 'http_get_' + Page.Invoke.origin_name ]( ...values );
+						var url = make_page_url(
+							'/' + Page.Invoke.service_name + '/' + Page.Invoke.origin_name,
+							values_map );
 						window.open( url );
 						break;
 				}

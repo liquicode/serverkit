@@ -97,7 +97,7 @@ function handle_message_error( ErrorMessage, Callback )
 //---------------------------------------------------------------------
 function make_page_url( url, params_object )
 {
-	let search_params = new URLSearchParams( params_object );
+	var search_params = new URLSearchParams( params_object );
 	url += '?' + search_params.toString();
 	return url;
 }
@@ -253,7 +253,7 @@ function client_style_ajax()
 			error:
 				function ( jqXHR, textStatus, errorThrown )
 				{
-					let message = '';
+					var message = '';
 					if ( textStatus ) { message += '[status=' + textStatus + ']'; }
 					if ( errorThrown ) { message += ' [error=' + errorThrown + ']'; }
 					message = 'Error [' + Method + '] on [' + Address + '] <-- ' + message;
@@ -269,8 +269,8 @@ function client_style_ajax()
 function client_style_fetch()
 {
 	return `
-	let url = '';
-	let options = { method: Method };
+	var url = '';
+	var options = { method: Method };
 	if ( [ 'get', 'head' ].includes( Method ) )
 	{
 		url = make_page_url( Address, Payload );
@@ -278,7 +278,7 @@ function client_style_fetch()
 	else
 	{
 		url = Address;
-		let form_data = new FormData();
+		var form_data = new FormData();
 		Object.keys( Payload ).forEach( key => form_data.append( key, Payload[ key ] ) );
 		options.body = form_data;
 	}

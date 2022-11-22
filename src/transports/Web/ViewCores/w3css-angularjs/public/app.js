@@ -1,5 +1,5 @@
 'use strict';
-
+/*global angular*/
 
 var app = angular.module(
 	'Application_Module',
@@ -10,7 +10,7 @@ var app = angular.module(
 		// 'ngResource',
 		// 'ngSanitize',
 		// 'ngTouch',
-	],
+	]
 	// function ( $locationProvider )
 	// {
 	// 	$locationProvider.html5Mode(

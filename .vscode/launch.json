@@ -558,16 +558,6 @@
 			"program": "${workspaceFolder}/build/101-build-summary.js",
 		},
 		{
-			"name": "102 Build Docker",
-			"type": "node",
-			"request": "launch",
-			"skipFiles": [
-				"<node_internals>/**"
-			],
-			"cwd": "${workspaceFolder}",
-			"program": "${workspaceFolder}/build/102-build-docker.js",
-		},
-		{
 			"name": "Build - Release",
 			"type": "node",
 			"request": "launch",

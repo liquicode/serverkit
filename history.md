@@ -1,6 +1,12 @@
 # Version History
 
 
+v0.0.41
+------------------------------------------
+
+- Bug fixing in ViewCore `w3css-angularjs`. Make code ES5 compatible.
+
+
 v0.0.40
 ------------------------------------------
 
@@ -126,6 +132,7 @@ TODO for v0.1.0
 	- TaskScheduler: During initialize, only load the tasks and do not start them. Start and Stop tasks with `StartServer` and `StopServer`.
 	- TaskScheduler: Have a `run_once` option for tasks.
 	- Log: Add `Log.Console.MaxMessageLength` configuration setting.
+	- Replace the `better-sqlite3` npm library. Maybe use `ne-db`.
 
 
 - Services

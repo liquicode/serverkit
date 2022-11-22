@@ -30,8 +30,8 @@ app.controller(
 		Page.UserCanDo =
 			function UserCanDo( FunctionName )
 			{
-				// let origin = Page.Origins[ FunctionName ];
-				let origin = window.SERVER_DATA.ServiceOrigins[ FunctionName ];
+				// var origin = Page.Origins[ FunctionName ];
+				var origin = window.SERVER_DATA.ServiceOrigins[ FunctionName ];
 				if ( origin )
 				{
 					if ( !origin.requires_login ) { return true; }
@@ -63,7 +63,7 @@ app.controller(
 			{
 				if ( WebOrigins )
 				{
-					let StorageFindMany = WebOrigins[ Page.Service.name ].http_get_StorageFindMany;
+					var StorageFindMany = WebOrigins[ Page.Service.name ].http_get_StorageFindMany;
 					StorageFindMany( Page.Criteria,
 						function ( Error, ApiResult )
 						{
@@ -90,7 +90,7 @@ app.controller(
 			function ItemCreateUrl()
 			{
 				// return `/${Page.Service.name}/Item?PageOp=Create`;
-				let url = WebViews[ Page.Service.name ].http_get_Item( '', 'Create' );
+				var url = WebViews[ Page.Service.name ].http_get_Item( '', 'Create' );
 				return url;
 			};
 
@@ -100,7 +100,7 @@ app.controller(
 			function ItemViewUrl( object )
 			{
 				// return `/${Page.Service.name}/Item?ItemID=${object.__.id}&PageOp=Read`;
-				let url = WebViews[ Page.Service.name ].http_get_Item( object.__.id, 'Read' );
+				var url = WebViews[ Page.Service.name ].http_get_Item( object.__.id, 'Read' );
 				return url;
 			};
 
@@ -110,7 +110,7 @@ app.controller(
 			function ItemEditUrl( object )
 			{
 				// return `/${Page.Service.name}/Item?ItemID=${object.__.id}&PageOp=Update`;
-				let url = WebViews[ Page.Service.name ].http_get_Item( object.__.id, 'Update' );
+				var url = WebViews[ Page.Service.name ].http_get_Item( object.__.id, 'Update' );
 				return url;
 			};
 
@@ -120,7 +120,7 @@ app.controller(
 			function ItemDeleteUrl( object )
 			{
 				// return `/${Page.Service.name}/Item?ItemID=${object.__.id}&PageOp=Delete`;
-				let url = WebViews[ Page.Service.name ].http_get_Item( object.__.id, 'Delete' );
+				var url = WebViews[ Page.Service.name ].http_get_Item( object.__.id, 'Delete' );
 				return url;
 			};
 

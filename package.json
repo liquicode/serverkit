@@ -79,11 +79,9 @@
 	},
 	"devDependencies": {
 		"@vivaxy/here": "3.x",
+		"eslint": "^8.28.0",
 		"mocha": "9.x",
-		"pug-cli": "0.x",
-		"webpack": "5.x",
-		"webpack-cli": "4.x",
-		"webpack-node-externals": "3.x"
+		"pug-cli": "0.x"
 	},
 	"bin": {
 		"serverkit": "src/serverkit.js"
