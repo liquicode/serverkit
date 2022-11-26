@@ -11,7 +11,7 @@ let application_name = 'TestServer';
 let application_path = LIB_PATH.resolve( __dirname, '..', '~temp' );
 
 exports.CreateTestServer =
-	async function CreateTestServer( Settings )
+	async function CreateTestServer( Settings, EnableLogs = false )
 	{
 		if ( Settings === undefined ) { Settings = {}; }
 
@@ -21,7 +21,7 @@ exports.CreateTestServer =
 			{
 				Modules: {
 					Log: {
-						Console: { enabled: false },
+						Console: { enabled: EnableLogs },
 						// Console: { enabled: true, ShellColorTheme: 'ShellDark' },
 					}
 				}
@@ -38,19 +38,44 @@ exports.CreateTestServer =
 		}
 
 		// Create the server.
-		let server = LIB_SERVER_KIT.NewServer( application_name, application_path, {
-			defaults_filename: 'defaults.json',
-			settings_filename: 'settings.json',
-			services_path: LIB_PATH.resolve( __dirname, 'test-services' ),
-			// services_path: 'test-services',
-			Settings: Settings,
-		} );
+		let server = null;
+		try
+		{
+			server = LIB_SERVER_KIT.NewServer( application_name, application_path, {
+				defaults_filename: 'defaults.json',
+				settings_filename: 'settings.json',
+				services_path: LIB_PATH.resolve( __dirname, 'test-services' ),
+				// services_path: 'test-services',
+				Settings: Settings,
+			} );
+		}
+		catch ( error ) 
+		{
+			console.error( `Error creating the test server: ${error.message}` );
+			return null;
+		}
 
 		// Initialize the server.
-		await server.Initialize();
+		try
+		{
+			await server.Initialize();
+		}
+		catch ( error ) 
+		{
+			console.error( `Error initializing the test server: ${error.message}` );
+			return null;
+		}
 
 		// Startup the server.
-		await server.Startup();
+		try
+		{
+			await server.Startup();
+		}
+		catch ( error ) 
+		{
+			console.error( `Error starting the test server: ${error.message}` );
+			return null;
+		}
 
 		// Return the server.
 		return server;

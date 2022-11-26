@@ -11,33 +11,45 @@ const LIB_BETTER_SQLITE3 = require( 'better-sqlite3' );
 
 
 //---------------------------------------------------------------------
-exports.NewProvider =
-	function NewProvider( Server, StorageService )
+exports.ConfigurationDefaults =
+	function ConfigurationDefaults()
 	{
-		let storage_config = StorageService.Settings.UserStorage.Sqlite3Provider;
+		let defaults = {
+			path: '~server-data',							// Path to the database file.
+			filename: 'ServiceName.sqlite3',				// Name of the database file.
+			table_name: 'ItemName',							// Name of the table for this service.
+		};
+		return defaults;
+	};
+
+
+//---------------------------------------------------------------------
+exports.NewProvider =
+	function NewProvider( Server, Settings )
+	{
 		let storage_provider = {};
 
 		// Open/Create the database.
-		let database_path = Server.ResolveApplicationPath( storage_config.path );
+		let database_path = Server.ResolveApplicationPath( Settings.path );
 		LIB_FS.mkdirSync( database_path, { recursive: true } );
-		let database_filename = LIB_PATH.join( database_path, storage_config.filename );
+		let database_filename = LIB_PATH.join( database_path, Settings.filename );
 		let database_options = {};
 		let database = LIB_BETTER_SQLITE3( database_filename, database_options );
 
 		// Create the table.
 		let create_table_sql =
-			`CREATE TABLE IF NOT EXISTS ${storage_config.table_name} ( `
+			`CREATE TABLE IF NOT EXISTS ${Settings.table_name} ( `
 			+ '_id TEXT PRIMARY KEY, '
 			+ 'data TEXT )';
 		+ ')';
 		let create_table_info = database.exec( create_table_sql );
 
 		// Prepare sql statements.
-		let cmd_insert = database.prepare( `INSERT INTO ${storage_config.table_name} VALUES ( @_id, @data )` );
-		let cmd_select_all = database.prepare( `SELECT * FROM ${storage_config.table_name}` );
-		let cmd_select_by_id = database.prepare( `SELECT * FROM ${storage_config.table_name} WHERE (_id = @_id)` );
-		let cmd_update_by_id = database.prepare( `UPDATE ${storage_config.table_name} SET data = @data WHERE (_id = @_id)` );
-		let cmd_delete_by_id = database.prepare( `DELETE FROM ${storage_config.table_name} WHERE (_id = @_id)` );
+		let cmd_insert = database.prepare( `INSERT INTO ${Settings.table_name} VALUES ( @_id, @data )` );
+		let cmd_select_all = database.prepare( `SELECT * FROM ${Settings.table_name}` );
+		let cmd_select_by_id = database.prepare( `SELECT * FROM ${Settings.table_name} WHERE (_id = @_id)` );
+		let cmd_update_by_id = database.prepare( `UPDATE ${Settings.table_name} SET data = @data WHERE (_id = @_id)` );
+		let cmd_delete_by_id = database.prepare( `DELETE FROM ${Settings.table_name} WHERE (_id = @_id)` );
 
 
 		//---------------------------------------------------------------------

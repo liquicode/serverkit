@@ -1,7 +1,16 @@
 # Version History
 
 
-v0.0.42
+v0.0.44
+------------------------------------------
+
+- Added storage provider `NedbProvider`.
+- Cleaned up storage provider code.
+- Added the `Server.NewStorage( ProviderName, ProviderSettings )` and `Server.NewUserStorage( UserStorageSettings )` functions.
+- Added defensive code in server initialize, startup, and shutdown.
+
+
+v0.0.43
 ------------------------------------------
 
 - Fixed an issue in the `_websocket-client-api.js` file when using `WebSocket.use_http_server = 'web'`.
@@ -147,6 +156,7 @@ TODO for v0.1.0
 	- Add `Log.Console.max_line_length` configuration setting to limit the length of log output lines.
 	- TaskScheduler: During initialize, only load the tasks and do not start them. Start and Stop tasks with `StartServer` and `StopServer`.
 	- TaskScheduler: Have a `run_once` option for tasks.
+	- TaskScheduler: Support running tasks in a new thread.
 	- Log: Add `Log.Console.MaxMessageLength` configuration setting.
 	- Replace the `better-sqlite3` npm library. Maybe use `ne-db`.
 

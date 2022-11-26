@@ -1,16 +1,38 @@
 "use strict";
 
 
+const LIB_FS = require( 'fs' );
+const LIB_PATH = require( 'path' );
 const LIB_UUID = require( 'uuid' );
 
-const LIB_MEMORY_PROVIDER = require( './MemoryProvider.js' );
-const LIB_FILE_PROVIDER = require( './FileProvider.js' );
-const LIB_SQLITE3_PROVIDER = require( './Sqlite3Provider.js' );
-const LIB_MONGO_PROVIDER = require( './MongoProvider.js' );
+const SRC_STORAGE = require( './Storage.js' );
 
 
+//---------------------------------------------------------------------
+exports.ConfigurationDefaults =
+	function ConfigurationDefaults()
+	{
+		let defaults = {
+			storage_info_member: '__',			// Name of the info field used in objects (e.g. thing.__.id = '...').
+			throw_permission_errors: false,		// Throw errors when user fails to have read or write access to an object.
+			storage_provider: 'MemoryProvider', // One of the registered storage providers.
+		};
+
+		let provider_defaults = SRC_STORAGE.GetProviderDefaults();
+		let provider_keys = Object.keys( provider_defaults );
+		for ( let index = 0; index < provider_keys.length; index++ )
+		{
+			let provider_key = provider_keys[ index ];
+			defaults[ provider_key ] = JSON.parse( JSON.stringify( provider_defaults[ provider_key ] ) );
+		}
+
+		return defaults;
+	};
+
+
+//---------------------------------------------------------------------
 exports.NewUserStorage =
-	function NewUserStorage( Server, StorageService )
+	function NewUserStorage( Server, Settings )
 	{
 		let user_storage = {};
 
@@ -19,32 +41,11 @@ exports.NewUserStorage =
 		// Storage Provider
 		//=====================================================================
 
+		if ( !Settings.storage_provider ) { throw new Error( `Cannot create UserStorage because no storage provider was specified.` ); }
+		if ( !Settings[ Settings.storage_provider ] ) { throw new Error( `Cannot create UserStorage because no provider configuration was available for [${Settings.storage_provider}].` ); }
 
 		// Get the storage provider.
-		// user_storage.Provider = null;
-		// switch ( StorageService.Settings.UserStorage.storage_provider )
-		// {
-		// 	case 'MemoryProvider':
-		// 		user_storage.Provider = require( './MemoryProvider' ).NewProvider( Server, StorageService );
-		// 		break;
-		// 	case 'FileProvider':
-		// 		user_storage.Provider = require( './FileProvider' ).NewProvider( Server, StorageService );
-		// 		break;
-		// 	case 'Sqlite3Provider':
-		// 		user_storage.Provider = require( './Sqlite3Provider' ).NewProvider( Server, StorageService );
-		// 		break;
-		// 	case 'MongoProvider':
-		// 		user_storage.Provider = require( './MongoProvider' ).NewProvider( Server, StorageService );
-		// 		break;
-		// 	default:
-		// 		throw new Error( `Unknown storage provider "${StorageService.Settings.UserStorage.storage_provider}".` );
-		// }
-		user_storage.Provider = require( `./${StorageService.Settings.UserStorage.storage_provider}` ).NewProvider( Server, StorageService );
-
-
-		// Configuration shortcuts.
-		let storage_info_member = StorageService.Settings.UserStorage.storage_info_member;
-		let throw_permission_errors = StorageService.Settings.UserStorage.throw_permission_errors;
+		user_storage.Provider = require( `./${Settings.storage_provider}` ).NewProvider( Server, Settings[ Settings.storage_provider ] );
 
 
 		//=====================================================================
@@ -88,12 +89,12 @@ exports.NewUserStorage =
 		function _ValidateStorageObject( StorageObject )
 		{
 			if ( !Server.Utility.has_value( StorageObject ) ) { throw MISSING_PARAMETER_ERROR( 'StorageObject' ); }
-			if ( !Server.Utility.has_value( StorageObject[ storage_info_member ] ) ) { throw MISSING_PARAMETER_ERROR( 'StorageObject[ info_member ]' ); }
-			if ( !Server.Utility.has_value( StorageObject[ storage_info_member ].id ) ) { throw MISSING_PARAMETER_ERROR( 'StorageObject[ info_member ].id' ); }
-			if ( !Server.Utility.has_value( StorageObject[ storage_info_member ].owner_id ) ) { throw MISSING_PARAMETER_ERROR( 'StorageObject[ info_member ].owner_id' ); }
-			if ( StorageObject[ storage_info_member ].readers === undefined ) { throw MISSING_PARAMETER_ERROR( 'StorageObject[ info_member ].readers' ); }
-			if ( StorageObject[ storage_info_member ].writers === undefined ) { throw MISSING_PARAMETER_ERROR( 'StorageObject[ info_member ].writers' ); }
-			if ( StorageObject[ storage_info_member ].public === undefined ) { throw MISSING_PARAMETER_ERROR( 'StorageObject[ info_member ].public' ); }
+			if ( !Server.Utility.has_value( StorageObject[ Settings.storage_info_member ] ) ) { throw MISSING_PARAMETER_ERROR( 'StorageObject[ info_member ]' ); }
+			if ( !Server.Utility.has_value( StorageObject[ Settings.storage_info_member ].id ) ) { throw MISSING_PARAMETER_ERROR( 'StorageObject[ info_member ].id' ); }
+			if ( !Server.Utility.has_value( StorageObject[ Settings.storage_info_member ].owner_id ) ) { throw MISSING_PARAMETER_ERROR( 'StorageObject[ info_member ].owner_id' ); }
+			if ( StorageObject[ Settings.storage_info_member ].readers === undefined ) { throw MISSING_PARAMETER_ERROR( 'StorageObject[ info_member ].readers' ); }
+			if ( StorageObject[ Settings.storage_info_member ].writers === undefined ) { throw MISSING_PARAMETER_ERROR( 'StorageObject[ info_member ].writers' ); }
+			if ( StorageObject[ Settings.storage_info_member ].public === undefined ) { throw MISSING_PARAMETER_ERROR( 'StorageObject[ info_member ].public' ); }
 			return;
 		}
 
@@ -127,8 +128,8 @@ exports.NewUserStorage =
 
 				// Create a new user object.
 				let user_object = Server.Liquicode.Object.Clone( Prototype );
-				delete user_object[ storage_info_member ];
-				user_object[ storage_info_member ] = {
+				delete user_object[ Settings.storage_info_member ];
+				user_object[ Settings.storage_info_member ] = {
 					id: LIB_UUID.v4(),
 					created_at: Server.Utility.zulu_timestamp(),
 					updated_at: Server.Utility.zulu_timestamp(),
@@ -148,7 +149,7 @@ exports.NewUserStorage =
 			function GetStorageData( StorageObject ) 
 			{
 				let user_data = Server.Liquicode.Object.Clone( StorageObject );
-				delete user_data[ storage_info_member ];
+				delete user_data[ Settings.storage_info_member ];
 				return user_data;
 			};
 
@@ -158,9 +159,9 @@ exports.NewUserStorage =
 			function GetStorageInfo( StorageObject ) 
 			{
 				let user_info = {};
-				if ( typeof StorageObject[ storage_info_member ] === 'object' ) 
+				if ( typeof StorageObject[ Settings.storage_info_member ] === 'object' ) 
 				{
-					user_info = Server.Liquicode.Object.Clone( StorageObject[ storage_info_member ] );
+					user_info = Server.Liquicode.Object.Clone( StorageObject[ Settings.storage_info_member ] );
 				}
 				return user_info;
 			};
@@ -174,7 +175,7 @@ exports.NewUserStorage =
 				_ValidateStorageObject( StorageObject );
 				if ( User.user_role === 'admin' ) { return true; }
 				if ( User.user_role === 'super' ) { return true; }
-				if ( User.user_id === StorageObject[ storage_info_member ].owner_id ) { return true; }
+				if ( User.user_id === StorageObject[ Settings.storage_info_member ].owner_id ) { return true; }
 				return false;
 			};
 
@@ -184,7 +185,7 @@ exports.NewUserStorage =
 			function UserCanWrite( User, StorageObject )
 			{
 				if ( user_storage.UserCanShare( User, StorageObject ) ) { return true; }
-				if ( StorageObject[ storage_info_member ].writers.includes( User.user_id ) ) { return true; }
+				if ( StorageObject[ Settings.storage_info_member ].writers.includes( User.user_id ) ) { return true; }
 				return false;
 			};
 
@@ -194,8 +195,8 @@ exports.NewUserStorage =
 			function UserCanRead( User, StorageObject )
 			{
 				if ( user_storage.UserCanWrite( User, StorageObject ) ) { return true; }
-				if ( StorageObject[ storage_info_member ].readers.includes( User.user_id ) ) { return true; }
-				if ( StorageObject[ storage_info_member ].public ) { return true; }
+				if ( StorageObject[ Settings.storage_info_member ].readers.includes( User.user_id ) ) { return true; }
+				if ( StorageObject[ Settings.storage_info_member ].public ) { return true; }
 				return false;
 			};
 
@@ -215,7 +216,7 @@ exports.NewUserStorage =
 			}
 			else if ( object_type === 'string' )
 			{
-				criteria[ storage_info_member ] = { id: ObjectOrID }; // Match a single, specific object.
+				criteria[ Settings.storage_info_member ] = { id: ObjectOrID }; // Match a single, specific object.
 			}
 			else if ( object_type === 'object' )
 			{
@@ -228,7 +229,7 @@ exports.NewUserStorage =
 					let user_info = user_storage.GetStorageInfo( ObjectOrID );
 					if ( Server.Utility.has_value( user_info.id ) )
 					{
-						criteria[ storage_info_member + '.id' ] = user_info.id; // Match a single, specific object by id.
+						criteria[ Settings.storage_info_member + '.id' ] = user_info.id; // Match a single, specific object by id.
 					}
 					else
 					{
@@ -256,25 +257,25 @@ exports.NewUserStorage =
 				{
 					// Return objects owned by this user.
 					let info_test = {};
-					info_test[ storage_info_member + '.owner_id' ] = User.user_id;
+					info_test[ Settings.storage_info_member + '.owner_id' ] = User.user_id;
 					criteria.$or.push( info_test );
 				}
 				{
 					// Return objects shared to this user.
 					let info_test = {};
-					info_test[ storage_info_member + '.readers' ] = { $in: [ User.user_id ] };
+					info_test[ Settings.storage_info_member + '.readers' ] = { $in: [ User.user_id ] };
 					criteria.$or.push( info_test );
 				}
 				{
 					// Return objects shared to this user.
 					let info_test = {};
-					info_test[ storage_info_member + '.writers' ] = { $in: [ User.user_id ] };
+					info_test[ Settings.storage_info_member + '.writers' ] = { $in: [ User.user_id ] };
 					criteria.$or.push( info_test );
 				}
 				{
 					// Return public objects.
 					let info_test = {};
-					info_test[ storage_info_member + '.public' ] = true;
+					info_test[ Settings.storage_info_member + '.public' ] = true;
 					criteria.$or.push( info_test );
 				}
 				// let owner_id_member = _info_member + '.owner_id';
@@ -408,15 +409,15 @@ exports.NewUserStorage =
 					let found_object = await user_storage.Provider.FindOne( criteria );
 					if ( !found_object ) 
 					{
-						if ( throw_permission_errors ) { throw READ_ACCESS_ERROR(); }
+						if ( Settings.throw_permission_errors ) { throw READ_ACCESS_ERROR(); }
 						else { return 0; }
 					}
 					if ( !user_storage.UserCanWrite( User, found_object ) ) 
 					{
-						if ( throw_permission_errors ) { throw WRITE_ACCESS_ERROR(); }
+						if ( Settings.throw_permission_errors ) { throw WRITE_ACCESS_ERROR(); }
 						else { return 0; }
 					}
-					found_object[ storage_info_member ].updated_at = Server.Utility.zulu_timestamp();
+					found_object[ Settings.storage_info_member ].updated_at = Server.Utility.zulu_timestamp();
 					found_object = Server.Liquicode.Object.Merge( found_object, DataObject );
 					return await user_storage.Provider.WriteOne( found_object );
 				}
@@ -444,12 +445,12 @@ exports.NewUserStorage =
 					let found_object = await user_storage.Provider.FindOne( criteria );
 					if ( !found_object ) 
 					{
-						if ( throw_permission_errors ) { throw READ_ACCESS_ERROR(); }
+						if ( Settings.throw_permission_errors ) { throw READ_ACCESS_ERROR(); }
 						else { return 0; }
 					}
 					if ( !user_storage.UserCanWrite( User, found_object ) ) 
 					{
-						if ( throw_permission_errors ) { throw WRITE_ACCESS_ERROR(); }
+						if ( Settings.throw_permission_errors ) { throw WRITE_ACCESS_ERROR(); }
 						else { return 0; }
 					}
 					return await user_storage.Provider.DeleteOne( _UserCriteria( User, found_object ) );
@@ -518,8 +519,8 @@ exports.NewUserStorage =
 						if ( user_storage.UserCanShare( User, found_object ) )
 						{
 							// Set the new owner.
-							found_object[ storage_info_member ].owner_id = OwnerID;
-							found_object[ storage_info_member ].updated_at = Server.Utility.zulu_timestamp();
+							found_object[ Settings.storage_info_member ].owner_id = OwnerID;
+							found_object[ Settings.storage_info_member ].updated_at = Server.Utility.zulu_timestamp();
 							// Update the object.
 							operation_count += await user_storage.Provider.WriteOne( found_object );
 						}
@@ -557,12 +558,12 @@ exports.NewUserStorage =
 						if ( user_storage.UserCanShare( User, found_object ) )
 						{
 							// Update the object.
-							found_object[ storage_info_member ].readers = Readers;
-							found_object[ storage_info_member ].writers = Writers;
-							found_object[ storage_info_member ].public = !!MakePublic;
+							found_object[ Settings.storage_info_member ].readers = Readers;
+							found_object[ Settings.storage_info_member ].writers = Writers;
+							found_object[ Settings.storage_info_member ].public = !!MakePublic;
 
 							// Write the object.
-							found_object[ storage_info_member ].updated_at = Server.Utility.zulu_timestamp();
+							found_object[ Settings.storage_info_member ].updated_at = Server.Utility.zulu_timestamp();
 							operation_count += await user_storage.Provider.WriteOne( found_object );
 						}
 					}
@@ -607,9 +608,9 @@ exports.NewUserStorage =
 								readers.forEach(
 									element =>
 									{
-										if ( !found_object[ storage_info_member ].readers.includes( element ) )
+										if ( !found_object[ Settings.storage_info_member ].readers.includes( element ) )
 										{
-											found_object[ storage_info_member ].readers.push( element );
+											found_object[ Settings.storage_info_member ].readers.push( element );
 											modified = true;
 										}
 									} );
@@ -623,18 +624,18 @@ exports.NewUserStorage =
 								writers.forEach(
 									element =>
 									{
-										if ( !found_object[ storage_info_member ].writers.includes( element ) )
+										if ( !found_object[ Settings.storage_info_member ].writers.includes( element ) )
 										{
-											found_object[ storage_info_member ].writers.push( element );
+											found_object[ Settings.storage_info_member ].writers.push( element );
 											modified = true;
 										}
 									} );
 							}
 							if ( Server.Utility.has_value( MakePublic ) && MakePublic )
 							{
-								if ( !found_object[ storage_info_member ].public )
+								if ( !found_object[ Settings.storage_info_member ].public )
 								{
-									found_object[ storage_info_member ].public = true;
+									found_object[ Settings.storage_info_member ].public = true;
 									modified = true;
 								}
 							}
@@ -642,7 +643,7 @@ exports.NewUserStorage =
 							// Write the object.
 							if ( modified )
 							{
-								found_object[ storage_info_member ].updated_at = Server.Utility.zulu_timestamp();
+								found_object[ Settings.storage_info_member ].updated_at = Server.Utility.zulu_timestamp();
 								operation_count += await user_storage.Provider.WriteOne( found_object );
 							}
 						}
@@ -688,10 +689,10 @@ exports.NewUserStorage =
 								not_readers.forEach(
 									element =>
 									{
-										let index = found_object[ storage_info_member ].readers.indexOf( element );
+										let index = found_object[ Settings.storage_info_member ].readers.indexOf( element );
 										if ( index >= 0 )
 										{
-											found_object[ storage_info_member ].readers.slice( index, 1 );
+											found_object[ Settings.storage_info_member ].readers.slice( index, 1 );
 											modified = true;
 										}
 									} );
@@ -705,19 +706,19 @@ exports.NewUserStorage =
 								not_writers.forEach(
 									element =>
 									{
-										let index = found_object[ storage_info_member ].writers.indexOf( element );
+										let index = found_object[ Settings.storage_info_member ].writers.indexOf( element );
 										if ( index >= 0 )
 										{
-											found_object[ storage_info_member ].writers.slice( index, 1 );
+											found_object[ Settings.storage_info_member ].writers.slice( index, 1 );
 											modified = true;
 										}
 									} );
 							}
 							if ( Server.Utility.has_value( MakeNotPublic ) && MakeNotPublic )
 							{
-								if ( found_object[ storage_info_member ].public )
+								if ( found_object[ Settings.storage_info_member ].public )
 								{
-									found_object[ storage_info_member ].public = false;
+									found_object[ Settings.storage_info_member ].public = false;
 									modified = true;
 								}
 							}
@@ -725,7 +726,7 @@ exports.NewUserStorage =
 							// Write the object.
 							if ( modified )
 							{
-								found_object[ storage_info_member ].updated_at = Server.Utility.zulu_timestamp();
+								found_object[ Settings.storage_info_member ].updated_at = Server.Utility.zulu_timestamp();
 								operation_count += await user_storage.Provider.WriteOne( found_object );
 							}
 						}

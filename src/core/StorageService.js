@@ -67,32 +67,36 @@ exports.NewStorageService =
 			// 	};
 
 			service.Defaults = Server.Liquicode.Object.Merge( {
-				UserStorage: {
-					// - User Storage Configuration -
-					storage_info_member: '__',			// Name of the info field used in objects (e.g. thing.__.id = '...').
-					throw_permission_errors: false,		// Throw errors when user fails to have read or write access to an object.
-					storage_provider: 'MemoryProvider',
-					// - Memory Provider Configuration -
-					MemoryProvider: {},
-					// - File Provider Configuration -
-					FileProvider: {
-						path: '~server-data/ServiceName',				// Path to the data files.
-						filename: 'ItemName',							// Name of the data files: {filename}.{id}.json
-						use_lock_file: false,							// If true, uses lock files to control updates.
-					},
-					// - Sqlite3 Provider Configuration -
-					Sqlite3Provider: {
-						path: '~server-data',							// Path to the database file.
-						filename: 'ServiceName.sqlite3',				// Name of the database file.
-						table_name: 'ItemName',							// Name of the table for this service.
-					},
-					// - MongoDB Provider Configuration -
-					MongoProvider: {
-						database_name: 'ServiceName',					// Name of the MongoDB database.
-						collection_name: 'ItemName',					// Name of the MongoDB collection.
-						connection_string: 'mongodb://<username>:<password>@<server-address>:27017',	// Connection string to the MongoDB server.
-					},
-				},
+				UserStorage: SRC_USER_STORAGE.ConfigurationDefaults()
+				// UserStorage: {
+				// 	// - User Storage Configuration -
+				// 	storage_info_member: '__',			// Name of the info field used in objects (e.g. thing.__.id = '...').
+				// 	throw_permission_errors: false,		// Throw errors when user fails to have read or write access to an object.
+				// 	storage_provider: 'MemoryProvider',
+				// 	// - Memory Provider Configuration -
+				// 	MemoryProvider: {},
+				// 	// - File Provider Configuration -
+				// 	FileProvider: {
+				// 		path: '~server-data/ServiceName',				// Path to the data files.
+				// 		filename: 'ItemName',							// Name of the data files: {filename}.{id}.json
+				// 		use_lock_file: false,							// If true, uses lock files to control updates.
+				// 	},
+				// 	NedbProvider: {
+				// 		filename: '~server-data/ServiceName/ItemName.nedb', 	// Name of the data file.
+				// 	},
+				// 	// - Sqlite3 Provider Configuration -
+				// 	Sqlite3Provider: {
+				// 		path: '~server-data',							// Path to the database file.
+				// 		filename: 'ServiceName.sqlite3',				// Name of the database file.
+				// 		table_name: 'ItemName',							// Name of the table for this service.
+				// 	},
+				// 	// - MongoDB Provider Configuration -
+				// 	MongoProvider: {
+				// 		database_name: 'ServiceName',					// Name of the MongoDB database.
+				// 		collection_name: 'ItemName',					// Name of the MongoDB collection.
+				// 		connection_string: 'mongodb://<username>:<password>@<server-address>:27017',	// Connection string to the MongoDB server.
+				// 	},
+				// },
 			}, service.Defaults );
 
 
@@ -600,7 +604,7 @@ exports.NewStorageService =
 			service.InitializeStorage =
 				async function InitializeStorage()
 				{
-					service.UserStorage = SRC_USER_STORAGE.NewUserStorage( Server, service );
+					service.UserStorage = SRC_USER_STORAGE.NewUserStorage( Server, service.Settings.UserStorage );
 					return;
 				};
 

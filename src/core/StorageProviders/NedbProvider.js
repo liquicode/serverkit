@@ -2,7 +2,7 @@
 
 
 //---------------------------------------------------------------------
-const LIB_MONGODB = require( 'mongodb' );
+const LIB_NEDB = require( 'nedb' );
 
 
 //---------------------------------------------------------------------
@@ -10,9 +10,7 @@ exports.ConfigurationDefaults =
 	function ConfigurationDefaults()
 	{
 		let defaults = {
-			database_name: 'ServiceName',					// Name of the MongoDB database.
-			collection_name: 'ItemName',					// Name of the MongoDB collection.
-			connection_string: 'mongodb://<username>:<password>@<server-address>:27017',	// Connection string to the MongoDB server.
+			filename: '~server-data/ServiceName/ItemName.nedb', 	// Name of the data file.
 		};
 		return defaults;
 	};
@@ -28,28 +26,12 @@ exports.NewProvider =
 		//---------------------------------------------------------------------
 		async function WithStorage( api_callback )
 		{
-			let database = null;
-			let client = null;
 			try
 			{
 
-				// Connect to the server.
-				client = await LIB_MONGODB.MongoClient.connect(
-					Settings.connection_string,
-					{
-						// keepAlive: 1,
-						keepAlive: true,
-						useUnifiedTopology: true,
-						useNewUrlParser: true,
-					}
-				);
-				if ( !client ) { throw new Error( `Unable to establish a connection to the mongodb database server.` ); }
-
-				// Get the database.
-				database = client.db( Settings.database_name );
-
 				// Get the collection.
-				let collection = database.collection( Settings.collection_name );
+				let collection_filename = Server.ResolveApplicationPath( Settings.filename );
+				let collection = new LIB_NEDB( { filename: collection_filename, autoload: true } );
 
 				// Do the stuff.
 				let result = await api_callback( collection );
@@ -62,11 +44,6 @@ exports.NewProvider =
 			}
 			finally
 			{
-				if ( client )
-				{
-					client.close();
-					// database.close();
-				}
 			}
 
 		};
@@ -132,8 +109,24 @@ exports.NewProvider =
 				return await WithStorage(
 					async function ( Collection )
 					{
-						let db_response = await Collection.countDocuments( Criteria );
-						return db_response;
+						return await new Promise(
+							async ( resolve, reject ) =>
+							{
+								try
+								{
+									Collection.count( Criteria,
+										function ( error, count ) 
+										{
+											if ( error ) { reject( error ); }
+											else { resolve( count ); }
+										} );
+								}
+								catch ( error )
+								{
+									reject( error );
+								}
+								return;
+							} );
 					} );
 			};
 
@@ -149,7 +142,24 @@ exports.NewProvider =
 				return await WithStorage(
 					async function ( Collection )
 					{
-						return await Collection.findOne( Criteria );
+						return await new Promise(
+							async ( resolve, reject ) =>
+							{
+								try
+								{
+									Collection.findOne( Criteria,
+										function ( error, document ) 
+										{
+											if ( error ) { reject( error ); }
+											else { resolve( document ); }
+										} );
+								}
+								catch ( error )
+								{
+									reject( error );
+								}
+								return;
+							} );
 					} );
 			};
 
@@ -165,10 +175,24 @@ exports.NewProvider =
 				return await WithStorage(
 					async function ( Collection )
 					{
-						let db_cursor = await Collection.find( Criteria );
-						if ( !db_cursor ) { throw new Error( `Unable to obtain a cursor on the collection.` ); }
-						let data_objects = await db_cursor.toArray();
-						return data_objects;
+						return await new Promise(
+							async ( resolve, reject ) =>
+							{
+								try
+								{
+									Collection.find( Criteria,
+										function ( error, documents ) 
+										{
+											if ( error ) { reject( error ); }
+											else { resolve( documents ); }
+										} );
+								}
+								catch ( error )
+								{
+									reject( error );
+								}
+								return;
+							} );
 					} );
 			};
 
@@ -184,12 +208,32 @@ exports.NewProvider =
 				return await WithStorage(
 					async function ( Collection )
 					{
-						// insertOne will modify DataObject by adding the _id field to it.
-						let db_response = await Collection.insertOne( DataObject );
-						if ( !db_response.acknowledged ) { throw new Error( `Database did not acknowledge insertion.` ); }
-						let new_data_object = Server.Liquicode.Object.Clone( DataObject );
-						new_data_object._id = DataObject._id; // Because clone creates a string version of the id.
-						return new_data_object;
+						return await new Promise(
+							async ( resolve, reject ) =>
+							{
+								try
+								{
+									Collection.insert( DataObject,
+										function ( error, document ) 
+										{
+											if ( error ) 
+											{
+												reject( error );
+											}
+											else 
+											{
+												// insert will modify DataObject by setting the _id field.
+												DataObject._id = document._id;
+												resolve( document );
+											}
+										} );
+								}
+								catch ( error )
+								{
+									reject( error );
+								}
+								return;
+							} );
 					} );
 			};
 
@@ -208,13 +252,31 @@ exports.NewProvider =
 						if ( !Server.Utility.has_value( Criteria ) )
 						{
 							// Criteria = { _id: DataObject._id };
-							Criteria = { _id: new LIB_MONGODB.ObjectID( DataObject._id ) };
+							Criteria = { _id: DataObject._id };
 						}
-						let data_object = Server.Liquicode.Object.Clone( DataObject );
-						delete data_object._id;
-						let db_response = await Collection.replaceOne( Criteria, data_object );
-						if ( !db_response.acknowledged ) { throw new Error( `Database did not acknowledge insertion.` ); }
-						return db_response.modifiedCount;
+						// let data_object = Server.Liquicode.Object.Clone( DataObject );
+						// delete data_object._id;
+						// let db_response = await Collection.replaceOne( Criteria, data_object );
+						// if ( !db_response.acknowledged ) { throw new Error( `Database did not acknowledge insertion.` ); }
+						// return db_response.modifiedCount;
+						return await new Promise(
+							async ( resolve, reject ) =>
+							{
+								try
+								{
+									Collection.update( Criteria, DataObject, { multi: false, upsert: false, returnUpdatedDocs: false },
+										function ( error, numAffected, affectedDocuments, upsert ) 
+										{
+											if ( error ) { reject( error ); }
+											else { resolve( numAffected ); }
+										} );
+								}
+								catch ( error )
+								{
+									reject( error );
+								}
+								return;
+							} );
 					} );
 			};
 
@@ -230,9 +292,27 @@ exports.NewProvider =
 				return await WithStorage(
 					async function ( Collection )
 					{
-						let db_response = await Collection.deleteOne( Criteria );
-						if ( !db_response.acknowledged ) { throw new Error( `Database did not acknowledge deletion.` ); }
-						return db_response.deletedCount;
+						// let db_response = await Collection.deleteOne( Criteria );
+						// if ( !db_response.acknowledged ) { throw new Error( `Database did not acknowledge deletion.` ); }
+						// return db_response.deletedCount;
+						return await new Promise(
+							async ( resolve, reject ) =>
+							{
+								try
+								{
+									Collection.remove( Criteria, { multi: false },
+										function ( error, numRemoved ) 
+										{
+											if ( error ) { reject( error ); }
+											else { resolve( numRemoved ); }
+										} );
+								}
+								catch ( error )
+								{
+									reject( error );
+								}
+								return;
+							} );
 					} );
 			};
 
@@ -248,9 +328,27 @@ exports.NewProvider =
 				return await WithStorage(
 					async function ( Collection )
 					{
-						let db_response = await Collection.deleteMany( Criteria );
-						if ( !db_response.acknowledged ) { throw new Error( `Database did not acknowledge deletion.` ); }
-						return db_response.deletedCount;
+						// let db_response = await Collection.deleteMany( Criteria );
+						// if ( !db_response.acknowledged ) { throw new Error( `Database did not acknowledge deletion.` ); }
+						// return db_response.deletedCount;
+						return await new Promise(
+							async ( resolve, reject ) =>
+							{
+								try
+								{
+									Collection.remove( Criteria, { multi: true },
+										function ( error, numRemoved ) 
+										{
+											if ( error ) { reject( error ); }
+											else { resolve( numRemoved ); }
+										} );
+								}
+								catch ( error )
+								{
+									reject( error );
+								}
+								return;
+							} );
 					} );
 			};
 

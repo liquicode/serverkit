@@ -23,7 +23,7 @@ exports.Construct =
 						{
 							let user = Server.Settings.DefaultUsers[ index ];
 							this.Users.push( JSON.parse( JSON.stringify( user ) ) );
-							Server.Log.debug( `Added user [${user.user_id}] to the credentials store.` );
+							Server.Log.debug( `Added default user [${user.user_id}] to the credentials store.` );
 						}
 					}
 					return;

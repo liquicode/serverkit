@@ -16,9 +16,9 @@ const SRC_APPLICATION_SERVICE = require( LIB_PATH.join( __dirname, 'core', 'Appl
 const SRC_STORAGE_SERVICE = require( LIB_PATH.join( __dirname, 'core', 'StorageService.js' ) );
 const SRC_TASK_MANAGER = require( LIB_PATH.join( __dirname, 'core', 'TaskManager.js' ) );
 
-const MODULES_PATH = LIB_PATH.join( __dirname, 'modules' );
-const SRC_UTILTIY_MODULE = require( LIB_PATH.join( MODULES_PATH, 'Utility.js' ) );
-const SRC_LOG_MODULE = require( LIB_PATH.join( MODULES_PATH, 'Log.js' ) );
+// const MODULES_PATH = LIB_PATH.join( __dirname, 'modules' );
+// const SRC_UTILTIY_MODULE = require( LIB_PATH.join( MODULES_PATH, 'Utility.js' ) );
+// const SRC_LOG_MODULE = require( LIB_PATH.join( MODULES_PATH, 'Log.js' ) );
 
 const PACKAGE_VERSION = require( LIB_PATH.resolve( __dirname, '..', 'package.json' ) ).version;
 
@@ -113,6 +113,24 @@ exports.NewServer =
 				function NewStorageService( Definition, Defaults )
 				{
 					return SRC_STORAGE_SERVICE.NewStorageService( server, Definition, Defaults );
+				};
+
+			server.NewStorage =
+				function NewStorage( ProviderName, ProviderSettings )
+				{
+					let filename = LIB_PATH( __dirname, 'core', 'StorageProviders', 'Storage.js' );
+					let factory = require( filename );
+					let storage = factory.NewProvider( server, ProviderName, ProviderSettings );
+					return storage;
+				};
+
+			server.NewUserStorage =
+				function NewUserStorage( UserStorageSettings )
+				{
+					let filename = LIB_PATH( __dirname, 'core', 'StorageProviders', 'UserStorage.js' );
+					let factory = require( filename );
+					let storage = factory.NewProvider( server, UserStorageSettings );
+					return storage;
 				};
 
 
@@ -584,14 +602,6 @@ exports.NewServer =
 					// Check for no login required.
 					if ( !Origin.requires_login ) { return true; }
 
-					// // Check for login required.
-					// if ( Origin.requires_login ) 
-					// {
-					// 	if ( !User ) { return false; }
-					// 	if ( !User.user_role ) { return false; }
-					// 	if ( User.user_role === 'anon' ) { return false; }
-					// }
-
 					// Check for allowed roles.
 					if ( !User.user_role ) { return false; }
 					if ( !Origin.allowed_roles ) { return false; }
@@ -970,10 +980,7 @@ exports.NewServer =
 			{
 
 				// Initialize the Log Module.
-				// server.Log.SetSettings( server.Settings.Log );
-				// server.Log.Settings = server.Settings.Log;
 				server.Log.InitializeModule();
-				// server.Log.trace( `Server initialized module [Log].` );
 
 				server.Log.info( `Serverkit v${server.version} is starting ...` );
 
@@ -1010,8 +1017,15 @@ exports.NewServer =
 					{
 						let module_key = module_keys[ module_index ];
 						let server_module = server.Modules[ module_key ];
-						await server_module.InitializeModule();
-						server.Log.trace( `Server initialized module [${module_key}].` );
+						try
+						{
+							await server_module.InitializeModule();
+							server.Log.trace( `Server initialized module [${module_key}].` );
+						}
+						catch ( error )
+						{
+							server.Log.error( `Error initializing module [${module_key}]: ${error.message}` );
+						}
 					}
 				}
 
@@ -1026,10 +1040,17 @@ exports.NewServer =
 						let server_module = server.Transports[ module_key ];
 						if ( server_module.Settings.enabled )
 						{
-							await server_module.InitializeModule();
-							server.ValidateModule( server_module );
-							all_verbs.push( ...server_module.Definition.verbs );
-							server.Log.trace( `Server initialized transport [${module_key}].` );
+							try
+							{
+								await server_module.InitializeModule();
+								server.ValidateModule( server_module );
+								all_verbs.push( ...server_module.Definition.verbs );
+								server.Log.trace( `Server initialized transport [${module_key}].` );
+							}
+							catch ( error )
+							{
+								server.Log.error( `Error initializing transport [${module_key}]: ${error.message}` );
+							}
 						}
 					}
 				}
@@ -1043,34 +1064,19 @@ exports.NewServer =
 						let server_module = server.Services[ module_key ];
 						if ( server_module.Settings.enabled )
 						{
-							await server_module.InitializeModule();
-							server.ValidateModule( server_module );
-							// let origin_keys = Object.keys( server_module.Origins );
-							// for ( let origin_index = 0; origin_index < origin_keys.length; origin_index++ )
-							// {
-							// }
-							server.Log.trace( `Server initialized service [${module_key}].` );
+							try
+							{
+								await server_module.InitializeModule();
+								server.ValidateModule( server_module );
+								server.Log.trace( `Server initialized service [${module_key}].` );
+							}
+							catch ( error )
+							{
+								server.Log.error( `Error initializing service [${module_key}]: ${error.message}` );
+							}
 						}
 					}
 				}
-
-				// // Expand role and verb wildcard for Origins.
-				// let all_roles = [ 'admin', 'super', 'user' ];
-				// await server.VisitOrigins(
-				// 	function ( Service, Origin )
-				// 	{
-				// 		if ( Origin )
-				// 		{
-				// 			if ( ( Origin.allowed_roles.length === 1 ) && ( Origin.allowed_roles[ 0 ] === '*' ) )
-				// 			{
-				// 				Origin.allowed_roles = LIQUICODEJS.Object.Clone( all_roles );
-				// 			}
-				// 			if ( ( Origin.verbs.length === 1 ) && ( Origin.verbs[ 0 ] === '*' ) )
-				// 			{
-				// 				Origin.verbs = LIQUICODEJS.Object.Clone( all_verbs );
-				// 			}
-				// 		}
-				// 	} );
 
 				// server.Log.info( `Server is initialized.` );
 				server.Log.info( `Server has initialized.` );
@@ -1100,8 +1106,15 @@ exports.NewServer =
 						let module_key = module_keys[ index ];
 						if ( server.Transports[ module_key ].Settings.enabled )
 						{
-							server.Log.debug( `Server is starting transport [${module_key}].` );
-							await server.Transports[ module_key ].StartupModule();
+							try
+							{
+								server.Log.debug( `Server is starting transport [${module_key}].` );
+								await server.Transports[ module_key ].StartupModule();
+							}
+							catch ( error )
+							{
+								server.Log.error( `Error starting transport [${module_key}]: ${error.message}` );
+							}
 						}
 					}
 				}
@@ -1114,8 +1127,15 @@ exports.NewServer =
 						let module_key = module_keys[ index ];
 						if ( server.Services[ module_key ].Settings.enabled )
 						{
-							server.Log.debug( `Server is starting service [${module_key}].` );
-							await server.Services[ module_key ].StartupModule();
+							try
+							{
+								server.Log.debug( `Server is starting service [${module_key}].` );
+								await server.Services[ module_key ].StartupModule();
+							}
+							catch ( error )
+							{
+								server.Log.error( `Error starting service [${module_key}]: ${error.message}` );
+							}
 						}
 					}
 				}
@@ -1155,8 +1175,15 @@ exports.NewServer =
 						let module_key = module_keys[ index ];
 						if ( server.Services[ module_key ].Settings.enabled )
 						{
-							server.Log.debug( `Server is stopping service [${module_key}].` );
-							await server.Services[ module_key ].ShutdownModule();
+							try
+							{
+								server.Log.debug( `Server is stopping service [${module_key}].` );
+								await server.Services[ module_key ].ShutdownModule();
+							}
+							catch ( error )
+							{
+								server.Log.error( `Error stopping service [${module_key}]: ${error.message}` );
+							}
 						}
 					}
 				}
@@ -1171,8 +1198,15 @@ exports.NewServer =
 						let module_key = module_keys[ index ];
 						if ( server.Transports[ module_key ].Settings.enabled )
 						{
-							server.Log.debug( `Server is stopping transport [${module_key}].` );
-							await server.Transports[ module_key ].ShutdownModule();
+							try
+							{
+								server.Log.debug( `Server is stopping transport [${module_key}].` );
+								await server.Transports[ module_key ].ShutdownModule();
+							}
+							catch ( error )
+							{
+								server.Log.error( `Error stopping transport [${module_key}]: ${error.message}` );
+							}
 						}
 					}
 				}

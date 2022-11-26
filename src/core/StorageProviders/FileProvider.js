@@ -20,17 +20,29 @@ const LOCK_OPTIONS = {
 	// retries: 1000,
 };
 
+
+//---------------------------------------------------------------------
+exports.ConfigurationDefaults =
+	function ConfigurationDefaults()
+	{
+		let defaults = {
+			path: '~server-data/ServiceName',				// Path to the data files.
+			filename: 'ItemName',							// Name of the data files: {filename}.{id}.json
+			use_lock_file: false,							// If true, uses lock files to control updates.
+		};
+		return defaults;
+	};
+
+
 //---------------------------------------------------------------------
 exports.NewProvider =
-	function NewProvider( Server, StorageService )
+	function NewProvider( Server, Settings )
 	{
-		let storage_config = StorageService.Settings.UserStorage.FileProvider;
-
 		// Storage Provider State.
 		let storage_provider = {};
-		let storage_path = Server.ResolveApplicationPath( storage_config.path );
+		let storage_path = Server.ResolveApplicationPath( Settings.path );
 		LIB_FS.mkdirSync( storage_path, { recursive: true } );
-		let storage_filename = storage_config.filename;
+		let storage_filename = Settings.filename;
 
 
 		//=====================================================================
@@ -46,7 +58,7 @@ exports.NewProvider =
 					let lock_release = null;
 					try
 					{
-						if ( storage_config.use_lock_file && LIB_FS.existsSync( Filename ) )
+						if ( Settings.use_lock_file && LIB_FS.existsSync( Filename ) )
 						{
 							lock_release = LIB_PROPER_LOCKFILE.lockSync( Filename );
 						}
@@ -79,7 +91,7 @@ exports.NewProvider =
 					let lock_release = null;
 					try
 					{
-						if ( storage_config.use_lock_file && LIB_FS.existsSync( Filename ) )
+						if ( Settings.use_lock_file && LIB_FS.existsSync( Filename ) )
 						{
 							lock_release = LIB_PROPER_LOCKFILE.lockSync( Filename );
 						}
@@ -113,7 +125,7 @@ exports.NewProvider =
 					let lock_release = null;
 					try
 					{
-						if ( storage_config.use_lock_file && LIB_FS.existsSync( Filename ) )
+						if ( Settings.use_lock_file && LIB_FS.existsSync( Filename ) )
 						{
 							lock_release = LIB_PROPER_LOCKFILE.lockSync( Filename );
 						}

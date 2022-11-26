@@ -8,8 +8,17 @@ const LIB_UUID = require( 'uuid' );
 
 
 //---------------------------------------------------------------------
+exports.ConfigurationDefaults =
+	function ConfigurationDefaults()
+	{
+		let defaults = {};
+		return defaults;
+	};
+
+
+//---------------------------------------------------------------------
 exports.NewProvider =
-	function NewProvider( Server, StorageService )
+	function NewProvider( Server, Settings )
 	{
 
 		// Storage Provider State.

@@ -79,7 +79,7 @@ exports.Construct =
 							let user = JSON.parse( JSON.stringify( Server.Settings.DefaultUsers[ index ] ) );
 							user.session_token = '';
 							let insert_info = this.Procedures.insert.run( user );
-							Server.Log.debug( `Added user [${user.user_id}] to the credentials store.` );
+							Server.Log.debug( `Added default user [${user.user_id}] to the credentials store.` );
 						}
 					}
 
