@@ -1,6 +1,6 @@
 {
 	"name": "@liquicode/serverkit",
-	"version": "0.0.45",
+	"version": "0.0.46",
 	"description": "A different kind of web framework.",
 	"homepage": "http://serverkit.net",
 	"license": "MIT",
