@@ -15,7 +15,6 @@ exports.ConfigurationDefaults =
 	function ConfigurationDefaults()
 	{
 		let defaults = {
-			path: '~server-data',							// Path to the database file.
 			filename: 'ServiceName.sqlite3',				// Name of the database file.
 			table_name: 'ItemName',							// Name of the table for this service.
 		};
@@ -25,12 +24,12 @@ exports.ConfigurationDefaults =
 
 //---------------------------------------------------------------------
 exports.NewProvider =
-	function NewProvider( Server, Settings )
+	function NewProvider( Server, Service, Settings )
 	{
 		let storage_provider = {};
 
 		// Open/Create the database.
-		let database_path = Server.ResolveApplicationPath( Settings.path );
+		let database_path = Server.ResolveDataPath( Service, Settings.path );
 		LIB_FS.mkdirSync( database_path, { recursive: true } );
 		let database_filename = LIB_PATH.join( database_path, Settings.filename );
 		let database_options = {};

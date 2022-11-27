@@ -10,7 +10,7 @@ exports.ConfigurationDefaults =
 	function ConfigurationDefaults()
 	{
 		let defaults = {
-			filename: '~server-data/ServiceName/ItemName.nedb', 	// Name of the data file.
+			filename: 'ItemName.nedb', 	// Name of the data file.
 		};
 		return defaults;
 	};
@@ -18,7 +18,7 @@ exports.ConfigurationDefaults =
 
 //---------------------------------------------------------------------
 exports.NewProvider =
-	function NewProvider( Server, Settings )
+	function NewProvider( Server, Service, Settings )
 	{
 		let storage_provider = {};
 
@@ -30,7 +30,7 @@ exports.NewProvider =
 			{
 
 				// Get the collection.
-				let collection_filename = Server.ResolveApplicationPath( Settings.filename );
+				let collection_filename = Server.ResolveDataPath( Service, Settings.filename );
 				let collection = new LIB_NEDB( { filename: collection_filename, autoload: true } );
 
 				// Do the stuff.

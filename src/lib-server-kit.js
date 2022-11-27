@@ -15,6 +15,7 @@ const SRC_SERVER_MODULE = require( LIB_PATH.join( __dirname, 'core', 'ServerModu
 const SRC_APPLICATION_SERVICE = require( LIB_PATH.join( __dirname, 'core', 'ApplicationService.js' ) );
 const SRC_STORAGE_SERVICE = require( LIB_PATH.join( __dirname, 'core', 'StorageService.js' ) );
 const SRC_TASK_MANAGER = require( LIB_PATH.join( __dirname, 'core', 'TaskManager.js' ) );
+const SRC_SOURCE_WATCHER = require( LIB_PATH.join( __dirname, 'core', 'SourceWatcher.js' ) );
 
 // const MODULES_PATH = LIB_PATH.join( __dirname, 'modules' );
 // const SRC_UTILTIY_MODULE = require( LIB_PATH.join( MODULES_PATH, 'Utility.js' ) );
@@ -61,6 +62,10 @@ exports.NewServer =
 					{ user_id: 'user@server', password: 'password', user_role: 'user', user_name: 'User' }
 				],
 				AnonymousUser: { user_id: 'anon@server', user_role: 'anon', user_name: 'Anonymous' },
+				Server: {
+					data_path: '~server-data',
+					source_watcher_ms: 0,
+				},
 				Services: {},
 				Transports: {},
 				Modules: {},
@@ -115,21 +120,39 @@ exports.NewServer =
 					return SRC_STORAGE_SERVICE.NewStorageService( server, Definition, Defaults );
 				};
 
-			server.NewStorage =
-				function NewStorage( ProviderName, ProviderSettings )
+			server.StorageDefaults =
+				function StorageDefaults()
 				{
-					let filename = LIB_PATH( __dirname, 'core', 'StorageProviders', 'Storage.js' );
+					let filename = LIB_PATH.join( __dirname, 'core', 'StorageProviders', 'Storage.js' );
 					let factory = require( filename );
-					let storage = factory.NewProvider( server, ProviderName, ProviderSettings );
+					let storage = factory.ConfigurationDefaults();
+					return storage;
+				};
+
+			server.NewStorage =
+				function NewStorage( Service, StorageSettings )
+				{
+					let filename = LIB_PATH.join( __dirname, 'core', 'StorageProviders', 'Storage.js' );
+					let factory = require( filename );
+					let storage = factory.NewStorage( server, Service, StorageSettings );
+					return storage;
+				};
+
+			server.UserStorageDefaults =
+				function UserStorageDefaults()
+				{
+					let filename = LIB_PATH.join( __dirname, 'core', 'StorageProviders', 'UserStorage.js' );
+					let factory = require( filename );
+					let storage = factory.ConfigurationDefaults();
 					return storage;
 				};
 
 			server.NewUserStorage =
-				function NewUserStorage( UserStorageSettings )
+				function NewUserStorage( Service, UserStorageSettings )
 				{
-					let filename = LIB_PATH( __dirname, 'core', 'StorageProviders', 'UserStorage.js' );
+					let filename = LIB_PATH.join( __dirname, 'core', 'StorageProviders', 'UserStorage.js' );
 					let factory = require( filename );
-					let storage = factory.NewProvider( server, UserStorageSettings );
+					let storage = factory.NewProvider( server, Service, UserStorageSettings );
 					return storage;
 				};
 
@@ -255,6 +278,22 @@ exports.NewServer =
 				function ResolveApplicationPath( Path )
 				{
 					return LIB_PATH.resolve( ApplicationPath, Path );
+				};
+
+
+			//---------------------------------------------------------------------
+			// ResolveDataPath
+			//---------------------------------------------------------------------
+			//	- Returns the full local file path for the server's data path.
+			//---------------------------------------------------------------------
+
+			server.ResolveDataPath =
+				function ResolveDataPath( Service, Path )
+				{
+					if ( !Path ) { Path = ''; }
+					let data_path = server.ResolveApplicationPath( server.Settings.Server.data_path );
+					data_path = LIB_PATH.join( data_path, Service.Definition.name );
+					return LIB_PATH.resolve( data_path, Path );
 				};
 
 
@@ -1005,7 +1044,12 @@ exports.NewServer =
 					server.Log.debug( `Runtime environment set to: ${process.env.NODE_ENV}` );
 				}
 
-				// Initialize Task Manager
+				// Initialize the Source Watcher
+				{
+					server.SourceWatcher = SRC_SOURCE_WATCHER.NewSourceWatcher( server );
+				}
+
+				// Initialize the Task Manager
 				{
 					server.TaskManager = SRC_TASK_MANAGER.NewTaskManager( server );
 				}
@@ -1140,7 +1184,12 @@ exports.NewServer =
 					}
 				}
 
-				// Startup Task Manager
+				// Startup the Source Watcher
+				{
+					server.SourceWatcher.Startup();
+				}
+
+				// Startup the Task Manager
 				{
 					server.TaskManager.Startup();
 				}
@@ -1162,7 +1211,12 @@ exports.NewServer =
 		server.Shutdown =
 			async function Shutdown()
 			{
-				// Shutdown Task Manager
+				// Shutdown the Source Watcher
+				{
+					server.SourceWatcher.Shutdown();
+				}
+
+				// Shutdown the Task Manager
 				{
 					server.TaskManager.Shutdown();
 				}

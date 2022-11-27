@@ -26,9 +26,9 @@ exports.ConfigurationDefaults =
 	function ConfigurationDefaults()
 	{
 		let defaults = {
-			path: '~server-data/ServiceName',				// Path to the data files.
-			filename: 'ItemName',							// Name of the data files: {filename}.{id}.json
-			use_lock_file: false,							// If true, uses lock files to control updates.
+			path: '',						// Path to the data files.
+			filename_base: 'ItemName',		// Name of the data files: {filename}.{id}.json
+			use_lock_file: false,			// If true, uses lock files to control updates.
 		};
 		return defaults;
 	};
@@ -36,13 +36,13 @@ exports.ConfigurationDefaults =
 
 //---------------------------------------------------------------------
 exports.NewProvider =
-	function NewProvider( Server, Settings )
+	function NewProvider( Server, Service, Settings )
 	{
 		// Storage Provider State.
 		let storage_provider = {};
-		let storage_path = Server.ResolveApplicationPath( Settings.path );
+		let storage_path = Server.ResolveDataPath( Service, Settings.path );
 		LIB_FS.mkdirSync( storage_path, { recursive: true } );
-		let storage_filename = Settings.filename;
+		let storage_filename_base = Settings.filename_base;
 
 
 		//=====================================================================
@@ -207,7 +207,7 @@ exports.NewProvider =
 						try
 						{
 							let object_count = 0;
-							let filename_pattern = `${storage_filename}.*.json`;
+							let filename_pattern = `${storage_filename_base}.*.json`;
 							await Server.Liquicode.System.AsyncVisitFiles( storage_path, filename_pattern, false,
 								async function ( Path, Filename )
 								{
@@ -250,7 +250,7 @@ exports.NewProvider =
 					{
 						try
 						{
-							let filename_pattern = `${storage_filename}.*.json`;
+							let filename_pattern = `${storage_filename_base}.*.json`;
 							let object = await Server.Liquicode.System.AsyncVisitFiles( storage_path, filename_pattern, false,
 								async function ( Path, Filename )
 								{
@@ -290,7 +290,7 @@ exports.NewProvider =
 						try
 						{
 							let found_objects = [];
-							let filename_pattern = `${storage_filename}.*.json`;
+							let filename_pattern = `${storage_filename_base}.*.json`;
 							await Server.Liquicode.System.AsyncVisitFiles( storage_path, filename_pattern, false,
 								async function ( Path, Filename )
 								{
@@ -338,7 +338,7 @@ exports.NewProvider =
 							// insert will modify DataObject by setting the _id field.
 							DataObject._id = LIB_UUID.v4();
 							let new_data_object = Server.Liquicode.Object.Clone( DataObject );
-							let object_filename = `${storage_filename}.${DataObject._id}.json`;
+							let object_filename = `${storage_filename_base}.${DataObject._id}.json`;
 							object_filename = LIB_PATH.join( storage_path, object_filename );
 							await _WriteObject( object_filename, new_data_object );
 							resolve( new_data_object );
@@ -374,7 +374,7 @@ exports.NewProvider =
 								Criteria = { _id: DataObject._id };
 							}
 
-							let filename_pattern = `${storage_filename}.*.json`;
+							let filename_pattern = `${storage_filename_base}.*.json`;
 							let data_object = await Server.Liquicode.System.AsyncVisitFiles( storage_path, filename_pattern, false,
 								async function ( Path, Filename )
 								{
@@ -421,7 +421,7 @@ exports.NewProvider =
 					{
 						try
 						{
-							let filename_pattern = `${storage_filename}.*.json`;
+							let filename_pattern = `${storage_filename_base}.*.json`;
 							let deleted_count = 0;
 							await Server.Liquicode.System.AsyncVisitFiles( storage_path, filename_pattern, false,
 								async function ( Path, Filename )
@@ -471,7 +471,7 @@ exports.NewProvider =
 					{
 						try
 						{
-							let filename_pattern = `${storage_filename}.*.json`;
+							let filename_pattern = `${storage_filename_base}.*.json`;
 							let deleted_count = 0;
 							await Server.Liquicode.System.AsyncVisitFiles( storage_path, filename_pattern, false,
 								async function ( Path, Filename )

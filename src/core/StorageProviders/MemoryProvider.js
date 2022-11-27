@@ -18,7 +18,7 @@ exports.ConfigurationDefaults =
 
 //---------------------------------------------------------------------
 exports.NewProvider =
-	function NewProvider( Server, Settings )
+	function NewProvider( Server, Service, Settings )
 	{
 
 		// Storage Provider State.

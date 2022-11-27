@@ -604,7 +604,7 @@ exports.NewStorageService =
 			service.InitializeStorage =
 				async function InitializeStorage()
 				{
-					service.UserStorage = SRC_USER_STORAGE.NewUserStorage( Server, service.Settings.UserStorage );
+					service.UserStorage = SRC_USER_STORAGE.NewUserStorage( Server, service, service.Settings.UserStorage );
 					return;
 				};
 

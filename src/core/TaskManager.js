@@ -147,6 +147,7 @@ exports.NewTaskManager =
 					{
 						this.EnableTask( task_keys[ index ], true );
 					}
+					Server.Log.trace( `Task Manager has started with ${task_keys.length} tasks.` );
 					return;
 				},
 
@@ -159,6 +160,7 @@ exports.NewTaskManager =
 					{
 						this.EnableTask( task_keys[ index ], false );
 					}
+					Server.Log.trace( `Task Manager has stopped.` );
 					return;
 				},
 

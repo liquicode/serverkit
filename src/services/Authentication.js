@@ -26,20 +26,11 @@ exports.Construct =
 					session_key: '*** A MAGICAL SECRET KEY !!! ***',	// 32 bytes of magic.
 					session_duration: '24h',
 				},
-				SessionStorage: {
-					storage_engine: 'Memory',
-					MemoryStorage: {
-						/* No Settings */
-					},
-					FileStorage: {
-						file_path: '~server-data/Authentication.user-session.json',
-					},
-					DatabaseStorage: {
-						file_path: '~server-data/Authentication.user-session.sqlite3',
-					},
-				},
+				SessionStorage: Server.StorageDefaults(),
 			}
 		);
+
+		service.SessionStorage = null;
 
 
 		//---------------------------------------------------------------------
@@ -192,25 +183,6 @@ exports.Construct =
 		//=====================================================================
 		//=====================================================================
 		//
-		//	Storage Functions
-		//
-		//=====================================================================
-		//=====================================================================
-
-
-
-		//---------------------------------------------------------------------
-		// let storage_settings = service.Settings.SessionStorage;
-		// service.SessionStorage = {
-		// 	initialize: function initialize() { console.error( `Authentication storage engine [${storage_settings.storage_engine}] is not implemented.` ); },
-		// 	find_user: function find_user( user_id, session_token ) { console.error( `Authentication storage engine [${storage_settings.storage_engine}] is not implemented.` ); },
-		// 	update_user: function update_user( updated_user ) { console.error( `Authentication storage engine [${storage_settings.storage_engine}] is not implemented.` ); },
-		// };
-
-
-		//=====================================================================
-		//=====================================================================
-		//
 		//	Service Functions
 		//
 		//=====================================================================
@@ -225,11 +197,11 @@ exports.Construct =
 			async function Signup( User, UserEmail, Password, UserName )
 			{
 				// Find user in authentication storage.
-				let storage_user = service.SessionStorage.find_user( UserEmail, null );
+				let storage_user = await service.SessionStorage.FindOne( { user_id: UserEmail } );
 				if ( storage_user ) { throw new Error( `This user already exists [${UserEmail}].` ); }
 
 				// Add user to authentication storage.
-				service.SessionStorage.update_user( {
+				await service.SessionStorage.CreateOne( {
 					user_id: UserEmail,
 					user_role: 'user',
 					password: Password,
@@ -256,7 +228,7 @@ exports.Construct =
 			async function Login( User, UserEmail, Password )
 			{
 				// Find user in authentication storage.
-				let authentication_user = service.SessionStorage.find_user( UserEmail, null );
+				let authentication_user = await service.SessionStorage.FindOne( { user_id: UserEmail } );
 				if ( !authentication_user ) { return false; }
 
 				// Authenticate the user.
@@ -389,30 +361,11 @@ exports.Construct =
 
 
 		service.InitializeModule =
-			function InitializeModule()
+			async function InitializeModule()
 			{
 				if ( service.Settings.Session.session_key.length < 32 )
 				{
 					console.error( `Authentication.Session.session_key must be at least 32 bytes long.` );
-				}
-
-				// Initialize storage.
-				switch ( service.Settings.SessionStorage.storage_engine.trim().toLowerCase() )
-				{
-					case 'memory':
-						// service.Storage = service.MemoryStorage;
-						service.SessionStorage = require( './Authentication/MemorySessionStore.js' ).Construct( Server );
-						break;
-					// case 'File':
-					// 	service.Storage = service.FileStorage;
-					// 	break;
-					case 'database':
-						// service.Storage = service.DatabaseStorage;
-						service.SessionStorage = require( './Authentication/Sqlite3SessionStore.js' ).Construct( Server );
-						break;
-					default:
-						// service.Storage = service.UnsupportedStorage;
-						break;
 				}
 				return;
 			};
@@ -427,12 +380,20 @@ exports.Construct =
 
 
 		service.StartupModule =
-			function StartupModule()
+			async function StartupModule()
 			{
-				if ( service.SessionStorage )
+				service.SessionStorage = Server.NewStorage( service, service.Settings.SessionStorage );
+
+				if ( await service.SessionStorage.Count() === 0 ) 
 				{
-					service.SessionStorage.initialize();
+					for ( let index = 0; index < Server.Settings.DefaultUsers.length; index++ )
+					{
+						let user = Server.Settings.DefaultUsers[ index ];
+						await service.SessionStorage.CreateOne( user );
+						Server.Log.debug( `Added default user [${user.user_id}] to the credentials store.` );
+					}
 				}
+
 				// Return.
 				return;
 			};
@@ -447,13 +408,10 @@ exports.Construct =
 
 
 		service.ShutdownModule =
-			function ShutdownModule()
+			async function ShutdownModule()
 			{
-				if ( service.SessionStorage )
-				{
-					service.SessionStorage.destroy();
-					service.SessionStorage = null;
-				}
+				service.SessionStorage = null;
+
 				// Return.
 				return;
 			};

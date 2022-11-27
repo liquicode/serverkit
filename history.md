@@ -1,6 +1,24 @@
 # Version History
 
 
+v0.0.45
+------------------------------------------
+
+- Added the `SourceWatcher` core module.
+- Added the `Server.source_watcher_ms` configuration setting.
+- Added the `Server.data_path` configuration setting.
+- Added the `Server.ResolveDataPath()` function.
+- Updated all services and default settings to use `Server.data_path`.
+- All service data (e.g. storages) are now stored under a `data_path/service_name` folder.
+	This primarily affects and simplifies storages and their configuration settings.
+- Enhanced the storage provider code and added four new functions:
+	- `Server.StorageDefaults()`
+	- `Server.NewStorage( Service, StorageSettings )`
+	- `Server.UserStorageDefaults()`
+	- `Server.NewUserStorage( Service, UserStorageSettings )`
+- Cleaned up the session storage code in the `Authnetication` service.
+
+
 v0.0.44
 ------------------------------------------
 

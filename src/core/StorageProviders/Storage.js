@@ -7,10 +7,12 @@ const LIB_UUID = require( 'uuid' );
 
 
 //---------------------------------------------------------------------
-exports.GetProviderDefaults =
-	function GetProviderDefaults()
+exports.ConfigurationDefaults =
+	function ConfigurationDefaults()
 	{
-		let defaults = {};
+		let defaults = {
+			storage_provider: 'MemoryProvider',
+		};
 
 		let files = LIB_FS.readdirSync( LIB_PATH.join( __dirname ) );
 		for ( let index = 0; index < files.length; index++ )
@@ -34,7 +36,7 @@ exports.GetProviderDefaults =
 
 //---------------------------------------------------------------------
 exports.NewStorage =
-	function NewStorage( Server, ProviderName, ProviderSettings )
+	function NewStorage( Server, Service, StorageSettings )
 	{
 		let storage = {};
 
@@ -42,11 +44,11 @@ exports.NewStorage =
 		// Storage Provider
 		//=====================================================================
 
-		if ( !ProviderName.endsWith( 'Provider' ) ) { throw new Error( `Invalid storage provider name [${ProviderName}].` ); }
-		let filename = LIB_PATH( __dirname, 'core', 'StorageProviders', ProviderName + '.js' );
-		if ( !LIB_FS.existsSync( filename ) ) { throw new Error( `Storage provider does not exist [${ProviderName}].` ); }
-		let factory = require( filename );
-		storage = factory.NewProvider( server, ProviderSettings );
+		if ( !StorageSettings.storage_provider ) { throw new Error( `Cannot create UserStorage because no storage provider was specified.` ); }
+		if ( !StorageSettings[ StorageSettings.storage_provider ] ) { throw new Error( `Cannot create UserStorage because no provider configuration was available for [${Settings.storage_provider}].` ); }
+
+		let factory = require( `./${StorageSettings.storage_provider}.js` );
+		storage = factory.NewProvider( Server, Service, StorageSettings[ StorageSettings.storage_provider ] );
 
 		//=====================================================================
 		// Return Storage
