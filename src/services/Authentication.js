@@ -16,18 +16,18 @@ exports.Construct =
 
 		// Create the storage service.
 		let service = Server.NewApplicationService(
-			{
+			{ // Definition
 				name: 'Authentication',
 				title: "Authentication",
 				description: "Manages user credentials and authenticates users for the server.",
 			},
-			{
+			{ // Defaults
 				Session: {
 					session_key: '*** A MAGICAL SECRET KEY !!! ***',	// 32 bytes of magic.
 					session_duration: '24h',
 				},
 				SessionStorage: Server.StorageDefaults(),
-			}
+			},
 		);
 
 		service.SessionStorage = null;

@@ -59,6 +59,32 @@ exports.Construct =
 
 
 		//---------------------------------------------------------------------
+		service.Origins.ReadConfiguration =
+			Server.NewOriginDefinition( {
+				name: 'ReadConfiguration',
+				description: "Return the server's runtime configuration.",
+				requires_login: true,
+				allowed_roles: [ 'admin', 'super' ],
+			},
+				async function ( User )
+				{ return service.ReadConfiguration( User ); },
+			);
+
+
+		//---------------------------------------------------------------------
+		service.Origins.WriteConfiguration =
+			Server.NewOriginDefinition( {
+				name: 'WriteConfiguration',
+				description: "Update the server's runtime configuration. (NOT IMPLEMENTED)",
+				requires_login: true,
+				allowed_roles: [ 'admin', 'super' ],
+			},
+				async function ( User, Configuration )
+				{ return service.WriteConfiguration( User, Configuration ); },
+			);
+
+
+		//---------------------------------------------------------------------
 		service.Origins.RestartServer =
 			Server.NewOriginDefinition( {
 				name: 'RestartServer',
@@ -179,6 +205,33 @@ exports.Construct =
 					} );
 				}
 				return tasks;
+			};
+
+
+		//---------------------------------------------------------------------
+		// ReadConfiguration: Return the server's runtime configuration.
+		//---------------------------------------------------------------------
+
+		service.ReadConfiguration =
+			async function ReadConfiguration( User )
+			{
+				Server.Log.info( `Server configuration is being read by (${User.user_id}).` );
+				// Return the runtime configuration.
+				return Server.Settings;
+			};
+
+
+		//---------------------------------------------------------------------
+		// WriteConfiguration: Return the server's runtime configuration.
+		//---------------------------------------------------------------------
+
+		service.WriteConfiguration =
+			async function WriteConfiguration( User, Configuration )
+			{
+				Server.Log.info( `Server configuration is being updated by (${User.user_id}).` );
+				// Update the runtime configuration.
+
+				return true;
 			};
 
 

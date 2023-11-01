@@ -68,18 +68,24 @@ exports.NewServer =
 				},
 				Services: {},
 				Transports: {},
-				Modules: {},
+				Modules: {
+					TaskManager: {},
+					SourceWatcher: {
+						check_interval_ms: 0,
+						warn_timeout_ms: 100,
+					},
+				},
 			}
 		);
+
+		server.Modules = {};
+		server.Services = {};
+		server.Transports = {};
 
 		// Remove some unused module functions.
 		delete server.InitializeModule;
 		delete server.StartupModule;
 		delete server.ShutdownModule;
-
-		server.Modules = {};
-		server.Services = {};
-		server.Transports = {};
 
 		server.version = PACKAGE_VERSION;
 		server.Liquicode = LIQUICODEJS;
@@ -277,7 +283,12 @@ exports.NewServer =
 			server.ResolveApplicationPath =
 				function ResolveApplicationPath( Path )
 				{
-					return LIB_PATH.resolve( ApplicationPath, Path );
+					let app_path = ApplicationPath;
+					if ( Path )
+					{
+						app_path = LIB_PATH.resolve( app_path, Path );
+					}
+					return app_path;
 				};
 
 
@@ -290,10 +301,16 @@ exports.NewServer =
 			server.ResolveDataPath =
 				function ResolveDataPath( Service, Path )
 				{
-					if ( !Path ) { Path = ''; }
 					let data_path = server.ResolveApplicationPath( server.Settings.Server.data_path );
-					data_path = LIB_PATH.join( data_path, Service.Definition.name );
-					return LIB_PATH.resolve( data_path, Path );
+					if ( Service )
+					{
+						data_path = LIB_PATH.join( data_path, Service.Definition.name );
+					}
+					if ( Path )
+					{
+						data_path = LIB_PATH.resolve( data_path, Path );
+					}
+					return data_path;
 				};
 
 

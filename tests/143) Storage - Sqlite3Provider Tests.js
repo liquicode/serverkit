@@ -52,8 +52,10 @@ describe( `143) Storage - Sqlite3Provider Tests`,
 				before(
 					async function ()
 					{
-						Server = await SRC_TEST_SERVER.CreateTestServer( SERVER_SETTINGS );
+						Server = await SRC_TEST_SERVER.CreateTestServer( SERVER_SETTINGS, false );
 						StorageService = Server.Services.TestService;
+						LIB_ASSERT.ok( StorageService, 'Failed to create StorageService.' );
+						LIB_ASSERT.ok( StorageService.UserStorage, 'Failed to create UserStorage.' );
 						return;
 					}
 				);

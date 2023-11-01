@@ -419,8 +419,6 @@ exports.NewStorageService =
 							example: { foo: 'bar' },
 						} ),
 					],
-					// view: 'storage/list',
-					// view: 'Services/StorageService/List',
 				} );
 
 
@@ -447,8 +445,6 @@ exports.NewStorageService =
 							example: 'Read',
 						} ),
 					],
-					// view: 'storage/item',
-					// view: 'Services/StorageService/Item',
 				} );
 
 
@@ -468,8 +464,6 @@ exports.NewStorageService =
 							required: true,
 						} ),
 					],
-					// view: 'storage/share',
-					// view: 'Services/StorageService/Share',
 				} );
 
 

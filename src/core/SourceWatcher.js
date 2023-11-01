@@ -19,9 +19,9 @@ exports.NewSourceWatcher =
 				function ()
 				{
 					if ( watcher.interval_handle ) { return; }
-					if ( !Server.Settings.Server.source_watcher_ms ) { return; }
+					if ( !Server.Settings.Modules.SourceWatcher.check_interval_ms ) { return; }
 					Server.Log.trace( `Source Watcher is starting.` );
-					watcher.interval_handle = setInterval( watcher.CheckWatch, Server.Settings.Server.source_watcher_ms );
+					watcher.interval_handle = setInterval( watcher.CheckWatch, Server.Settings.Modules.SourceWatcher.check_interval_ms );
 					watcher.is_running = true;
 					return;
 				},
@@ -42,6 +42,7 @@ exports.NewSourceWatcher =
 			RegisterSource:
 				function ( SourcePath )
 				{
+					if ( !watcher.interval_handle ) { throw new Error( `The SourceWatcher module has not been initialized.` ); }
 					let stats = LIB_FS.statSync( SourcePath );
 					if ( stats.isFile() )
 					{
@@ -85,9 +86,9 @@ exports.NewSourceWatcher =
 						if ( watcher.is_shutting_down ) { return; }
 					}
 					let t1 = new Date();
-					if ( ( t1 - t0 ) > 100 )
+					if ( ( t1 - t0 ) >= Server.Settings.Modules.SourceWatcher.warn_timeout_ms )
 					{
-						Server.Log.warn( `Source scan completed in ${t1 - t0} ms.` );
+						Server.Log.warn( `Source scan completed in ${t1 - t0} ms (>= ${Server.Settings.Modules.SourceWatcher.warn_timeout_ms}).` );
 					}
 					if ( server_restart && !watcher.is_shutting_down )
 					{

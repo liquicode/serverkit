@@ -313,6 +313,28 @@
 			"internalConsoleOptions": "openOnSessionStart",
 		},
 		{
+			"name": "Test: 210) ServerManagement Service Tests",
+			"type": "node",
+			"request": "launch",
+			"skipFiles": [
+				"<node_internals>/**"
+			],
+			"cwd": "${workspaceFolder}",
+			"program": "${workspaceFolder}/node_modules/mocha/bin/mocha",
+			"args": [
+				"-u",
+				"bdd",
+				"tests/210*.js",
+				"--timeout",
+				"0",
+				"--slow",
+				"10",
+				"--colors",
+			],
+			"outputCapture": "std",
+			"internalConsoleOptions": "openOnSessionStart",
+		},
+		{
 			"name": "Test: 230) ServerAccounts Service Tests",
 			"type": "node",
 			"request": "launch",
@@ -498,7 +520,7 @@
 			"skipFiles": [
 				"<node_internals>/**"
 			],
-			"cwd": "${workspaceFolder}",
+			"cwd": "${workspaceFolder}/~samples/AlbionDataServer",
 			"program": "${workspaceFolder}/~samples/AlbionDataServer/AlbionDataServer.js",
 			"args": [],
 			"outputCapture": "std",
@@ -511,7 +533,7 @@
 			"skipFiles": [
 				"<node_internals>/**"
 			],
-			"cwd": "${workspaceFolder}",
+			"cwd": "${workspaceFolder}/~samples/MathsServer",
 			"program": "${workspaceFolder}/~samples/MathsServer/MathsServer.js",
 			"args": [],
 			"outputCapture": "std",
@@ -560,8 +582,24 @@
 			"skipFiles": [
 				"<node_internals>/**"
 			],
-			"cwd": "${workspaceFolder}",
+			"cwd": "${workspaceFolder}/~samples/TestConfig",
 			"program": "${workspaceFolder}/~samples/TestConfig/TestConfig.js",
+			"args": [],
+			"outputCapture": "std",
+			"internalConsoleOptions": "openOnSessionStart",
+		},
+		{
+			"name": "------------------------------------------",
+		},
+		{
+			"name": "Scratch: JsonSchemaTest",
+			"type": "node",
+			"request": "launch",
+			"skipFiles": [
+				"<node_internals>/**"
+			],
+			"cwd": "${workspaceFolder}/~scratch/JsonSchemaTest",
+			"program": "${workspaceFolder}/~scratch/JsonSchemaTest/make-serverkit-defaults.js",
 			"args": [],
 			"outputCapture": "std",
 			"internalConsoleOptions": "openOnSessionStart",
@@ -600,7 +638,7 @@
 				"<node_internals>/**"
 			],
 			"cwd": "${workspaceFolder}/tests/~temp",
-			"program": "${workspaceFolder}/src/server-kit.js",
+			"program": "${workspaceFolder}/src/serverkit.js",
 			"args": [
 				"--name",
 				"TestServer",
@@ -616,7 +654,7 @@
 				"<node_internals>/**"
 			],
 			"cwd": "${workspaceFolder}/tests/~temp",
-			"program": "${workspaceFolder}/src/server-kit.js",
+			"program": "${workspaceFolder}/src/serverkit.js",
 			"args": [
 				"--name",
 				"TestServer",

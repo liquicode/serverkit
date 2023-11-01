@@ -18,6 +18,8 @@ app.controller(
 				auto_refresh_interval: 3000,
 			},
 
+			ConfigurationJson: '',
+
 			Tasks: null,
 
 		};
@@ -53,8 +55,8 @@ app.controller(
 						else
 						{
 							Page.Diagnostics.text = JSON.stringify( response.result, null, '    ' );
-							$scope.$apply();
-							w3CodeColor();
+							var element = document.getElementById( 'DiagnosticsJson' );
+							element.innerHTML = w3CodeColorize( Page.Diagnostics.text, 'js' );
 						}
 					}
 				);
@@ -85,6 +87,48 @@ app.controller(
 			function AutoRefreshEnabled()
 			{
 				return !!Page.Diagnostics.auto_refresh_timer;
+			};
+
+
+		//---------------------------------------------------------------------
+		Page.ReadConfiguration =
+			function ReadConfiguration()
+			{
+				WebSocket.ServerManagement.ReadConfiguration(
+					function ( error, response )
+					{
+						if ( error ) { alert( error ); }
+						else
+						{
+							Page.ConfigurationJson = JSON.stringify( response.result, null, '    ' );
+							var element = document.getElementById( 'ConfigurationJson' );
+							element.innerHTML = w3CodeColorize( Page.ConfigurationJson, 'js' );
+				}
+					}
+				);
+				return;
+			};
+
+
+		//---------------------------------------------------------------------
+		Page.WriteConfiguration =
+			function WriteConfiguration()
+			{
+				var configuration = JSON.parse( Page.ConfigurationJson );
+				WebSocket.ServerManagement.WriteConfiguration(
+					configuration,
+					function ( error, response )
+					{
+						if ( error ) { alert( error ); }
+						else
+						{
+							// Page.Diagnostics.text = JSON.stringify( response.result, null, '    ' );
+							// $scope.$apply();
+							// w3CodeColor();
+						}
+					}
+				);
+				return;
 			};
 
 

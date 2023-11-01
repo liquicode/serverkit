@@ -1,7 +1,17 @@
 # Version History
 
 
-v0.0.45
+v0.0.46
+------------------------------------------
+
+- Minor fixes to `Server.ResolveApplicationPath()` and `Server.ResolveDataPath()` functions.
+	They can now be called with no parameters to return the base path for each.
+- Fixed error during WebTransport initialization where Service web (public & view) files are deployed multiple times.
+- Administrative web ui now displays the runtime settings.
+- The npm library `better-sqlite3` is compiled against, and bound to, a specific version of node. Changing node versions requires doing an `npm rebuild`.
+
+
+v0.0.45, 2022-11-27
 ------------------------------------------
 
 - Added the `SourceWatcher` core module.
@@ -19,7 +29,7 @@ v0.0.45
 - Cleaned up the session storage code in the `Authnetication` service.
 
 
-v0.0.44
+v0.0.44, 2022-11-26
 ------------------------------------------
 
 - Added storage provider `NedbProvider`.
@@ -28,14 +38,14 @@ v0.0.44
 - Added defensive code in server initialize, startup, and shutdown.
 
 
-v0.0.43
+v0.0.43, 2022-11-22
 ------------------------------------------
 
 - Fixed an issue in the `_websocket-client-api.js` file when using `WebSocket.use_http_server = 'web'`.
 	The client side of socket.io was not initializing properly and was unable to make a connection to the server.
 
 
-v0.0.42
+v0.0.42, 2022-11-22
 ------------------------------------------
 
 - Fixed bug in `Server.InstallAutoShutdown()`.
@@ -44,25 +54,25 @@ v0.0.42
 	This is useful when running behind a proxy and/or where you have a single port being forwarded.
 
 
-v0.0.41
+v0.0.41, 2022-11-21
 ------------------------------------------
 
 - Bug fixing in ViewCore `w3css-angularjs`. Make code ES5 compatible.
 
 
-v0.0.40
+v0.0.40, 2022-11-21
 ------------------------------------------
 
 - Bug fixing in ViewCore `w3css-angularjs`.
 
 
-v0.0.39
+v0.0.39, 2022-11-20
 ------------------------------------------
 
 - Changed visibility of `ServerManagement.Explorer` view. Now requires `admin` or `super`.
 
 
-v0.0.38
+v0.0.38, 2022-11-20
 ------------------------------------------
 
 - Added configuration settings in `WebTransport`.
@@ -71,14 +81,14 @@ v0.0.38
 	- `ClientSupport.view_core_easy_admin_login`
 
 
-v0.0.37
+v0.0.37, 2022-11-19
 ------------------------------------------
 
 - Services can now contribute files to the ViewCore.
 	Folders and files located at `{App}/Services/{ServiceName}/web/public` and `{App}/Services/{ServiceName}/web/public` will be copied.
 
 
-v0.0.36
+v0.0.36, 2022-11-08
 ------------------------------------------
 
 - Throttled code coloring of call results in `Services/ServerManagament/Explorer.js` to <= 8KB.
@@ -109,7 +119,7 @@ v0.0.34, 2022-11-03
 - Added "Directory of Pages" to the home view.
 
 
-v0.0.33
+v0.0.33, 2022-11-02
 ------------------------------------------
 
 - Reworked the `Service.Views` mechanism.
@@ -122,19 +132,19 @@ v0.0.33
 - Cleaned up the `w3css-angularjs` ViewCore implementation.
 
 
-v0.0.32
+v0.0.32, 2022-11-01
 ------------------------------------------
 
 - Added `WebTransport.GetUserViews()` function.
 
 
-v0.0.31
+v0.0.31, 2022-10-30
 ------------------------------------------
 
 - Added `Server.TaskManager` object.
 
 
-v0.0.30
+v0.0.30, 2022-10-29
 ------------------------------------------
 
 - Fixed inconsistent usage of client callback between `WebTransport` and `WebSocketTransport`.

@@ -6,7 +6,10 @@ const LIB_PATH = require( 'path' );
 
 const LIQUICODEJS = require( '@liquicode/liquicodejs' );
 
-const LIB_SERVER_KIT = require( LIB_PATH.resolve( __dirname, '..', '..', 'src', 'lib-server-kit.js' ) );
+const library_path = LIB_PATH.resolve( __dirname, '..', '..', 'src' );
+/** @typedef {import("../../src/serverkit") ServerKit } */
+/** @type {ServerKit} */
+const LIB_SERVER_KIT = require( LIB_PATH.join( library_path, 'lib-server-kit.js' ) );
 let application_name = 'TestServer';
 let application_path = LIB_PATH.resolve( __dirname, '..', '~temp' );
 
@@ -38,6 +41,9 @@ exports.CreateTestServer =
 		}
 
 		// Create the server.
+		/**
+		 * @type {Server}
+		 */
 		let server = null;
 		try
 		{

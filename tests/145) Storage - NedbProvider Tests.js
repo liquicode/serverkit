@@ -75,6 +75,8 @@ describe( `145) Storage - NedbProvider Tests`,
 					{
 						Server = await SRC_TEST_SERVER.CreateTestServer( SERVER_SETTINGS );
 						StorageService = Server.Services.TestService;
+						LIB_ASSERT.ok( StorageService, 'Failed to create StorageService.' );
+						LIB_ASSERT.ok( StorageService.UserStorage, 'Failed to create UserStorage.' );
 						return;
 					}
 				);
