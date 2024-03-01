@@ -6,8 +6,6 @@ const LIB_FS = require( 'fs' );
 const LIB_PATH = require( 'path' );
 
 //---------------------------------------------------------------------
-require( 'babel-polyfill' );
-const LIB_JSON_CRITERIA = require( 'json-criteria' );
 const LIB_UUID = require( 'uuid' );
 
 // const LIB_LOCKFILE = require( 'lockfile' );
@@ -215,7 +213,7 @@ exports.NewProvider =
 									{
 										let filename = LIB_PATH.join( Path, Filename );
 										let object = await _ReadObject( filename );
-										if ( LIB_JSON_CRITERIA.test( object, Criteria ) )
+										if ( Server.Utility.json_test( object, Criteria ) )
 										{
 											object_count++;
 										}
@@ -258,7 +256,7 @@ exports.NewProvider =
 									{
 										let object_filename = LIB_PATH.join( Path, Filename );
 										let object = await _ReadObject( object_filename );
-										if ( LIB_JSON_CRITERIA.test( object, Criteria ) )
+										if ( Server.Utility.json_test( object, Criteria ) )
 										{
 											return object;
 										}
@@ -298,7 +296,7 @@ exports.NewProvider =
 									let object = await _ReadObject( object_filename );
 									if ( Server.Utility.has_value( Criteria ) )
 									{
-										if ( LIB_JSON_CRITERIA.test( object, Criteria ) )
+										if ( Server.Utility.json_test( object, Criteria ) )
 										{
 											// Found Object
 											found_objects.push( object );
@@ -380,7 +378,7 @@ exports.NewProvider =
 								{
 									let object_filename = LIB_PATH.join( Path, Filename );
 									let object = await _ReadObject( object_filename );
-									if ( LIB_JSON_CRITERIA.test( object, Criteria ) )
+									if ( Server.Utility.json_test( object, Criteria ) )
 									{
 										// Found Object
 										object = Server.Liquicode.Object.Merge( object, DataObject );
@@ -430,7 +428,7 @@ exports.NewProvider =
 									if ( Server.Utility.has_value( Criteria ) )
 									{
 										let object = await _ReadObject( object_filename );
-										if ( LIB_JSON_CRITERIA.test( object, Criteria ) )
+										if ( Server.Utility.json_test( object, Criteria ) )
 										{
 											// Delete Specific Object
 											await _DeleteObject( object_filename );
@@ -480,7 +478,7 @@ exports.NewProvider =
 									if ( Server.Utility.has_value( Criteria ) )
 									{
 										let object = await _ReadObject( object_filename );
-										if ( LIB_JSON_CRITERIA.test( object, Criteria ) )
+										if ( Server.Utility.json_test( object, Criteria ) )
 										{
 											// Delete Specific Object
 											await _DeleteObject( object_filename );

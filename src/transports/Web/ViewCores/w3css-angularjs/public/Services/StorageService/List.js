@@ -36,6 +36,7 @@ app.controller(
 				{
 					if ( !origin.requires_login ) { return true; }
 					if ( origin.allowed_roles.includes( Page.User.user_role ) ) { return true; }
+					if ( origin.allowed_roles.includes( '*' ) ) { return true; }
 				}
 				return false;
 			};

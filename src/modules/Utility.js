@@ -15,7 +15,13 @@ const LIB_FS = require( 'fs' );
 const LIB_PATH = require( 'path' );
 const LIB_HTTP = require( 'http' );
 const LIB_HTTPS = require( 'https' );
+
 const LIB_JSON = require( '@liquicode/lib-json' );
+const LIB_TEXT = require( './Utility/Text' );
+const LIB_JSONX = require( './Utility/Jsonx' );
+
+require( 'babel-polyfill' );
+const LIB_JSON_CRITERIA = require( 'json-criteria' );
 const LIB_AXIOS = require( 'axios' );
 
 const SRC_SERVER_MODULE = require( LIB_PATH.resolve( __dirname, '..', 'core', 'ServerModule.js' ) );
@@ -43,6 +49,7 @@ exports.Construct =
 		server_module.write_json_file = write_json_file;
 		server_module.json_parse = json_parse;
 		server_module.json_stringify = json_stringify;
+		server_module.json_test = json_test;
 
 		server_module.replace_all = replace_all;
 
@@ -75,7 +82,7 @@ exports.Construct =
 		server_module.copy_folder_recurse = copy_folder_recurse;
 		server_module.delete_folder_recurse = delete_folder_recurse;
 		server_module.count_files_recurse = count_files_recurse;
-		
+
 		return server_module;
 	};
 
@@ -233,6 +240,15 @@ function json_stringify( JsonValue, PrettyPrint = 0 )
 		text = LIB_JSON.Tablify( JsonValue );
 	}
 	return text;
+};
+
+
+//---------------------------------------------------------------------
+// let jsonx = LIB_JSONX();
+function json_test( Data, Query )
+{
+	return LIB_JSON_CRITERIA.test( Data, Query );
+	// return jsonx.Evaluate( Query, Data );
 };
 
 

@@ -46,7 +46,7 @@
 		"authentication"
 	],
 	"engines": {
-		"node": ">=12.22.3"
+		"node": "14.17.3"
 	},
 	"dependencies": {
 		"@liquicode/lib-json": "0.x",

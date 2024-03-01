@@ -2,8 +2,6 @@
 
 
 //---------------------------------------------------------------------
-require( 'babel-polyfill' );
-const LIB_JSON_CRITERIA = require( 'json-criteria' );
 const LIB_UUID = require( 'uuid' );
 
 
@@ -94,7 +92,7 @@ exports.NewProvider =
 								for ( let object_index = 0; object_index < storage_objects.length; object_index++ )
 								{
 									let test_object = storage_objects[ object_index ];
-									if ( LIB_JSON_CRITERIA.test( test_object, Criteria ) )
+									if ( Server.Utility.json_test( test_object, Criteria ) )
 									{
 										object_count++;
 									}
@@ -134,7 +132,7 @@ exports.NewProvider =
 								for ( let object_index = 0; object_index < storage_objects.length; object_index++ )
 								{
 									let test_object = storage_objects[ object_index ];
-									if ( LIB_JSON_CRITERIA.test( test_object, Criteria ) )
+									if ( Server.Utility.json_test( test_object, Criteria ) )
 									{
 										object = Server.Liquicode.Object.Clone( test_object );
 										break;
@@ -180,7 +178,7 @@ exports.NewProvider =
 								{
 									found_objects.push( Server.Liquicode.Object.Clone( test_object ) );
 								}
-								else if ( LIB_JSON_CRITERIA.test( test_object, Criteria ) )
+								else if ( Server.Utility.json_test( test_object, Criteria ) )
 								{
 									found_objects.push( Server.Liquicode.Object.Clone( test_object ) );
 								}
@@ -249,7 +247,7 @@ exports.NewProvider =
 							for ( let object_index = 0; object_index < storage_objects.length; object_index++ )
 							{
 								let test_object = storage_objects[ object_index ];
-								if ( LIB_JSON_CRITERIA.test( test_object, Criteria ) )
+								if ( Server.Utility.json_test( test_object, Criteria ) )
 								{
 									storage_objects[ object_index ] = Server.Liquicode.Object.Merge( test_object, DataObject );
 									storage_dirty = true;
@@ -295,7 +293,7 @@ exports.NewProvider =
 								for ( let object_index = 0; object_index < storage_objects.length; object_index++ )
 								{
 									let test_object = storage_objects[ object_index ];
-									if ( LIB_JSON_CRITERIA.test( test_object, Criteria ) )
+									if ( Server.Utility.json_test( test_object, Criteria ) )
 									{
 										storage_objects.splice( object_index, 1 );
 										deleted_count++;
@@ -342,7 +340,7 @@ exports.NewProvider =
 								for ( let object_index = storage_objects.length - 1; object_index >= 0; object_index-- )
 								{
 									let test_object = storage_objects[ object_index ];
-									if ( LIB_JSON_CRITERIA.test( test_object, Criteria ) )
+									if ( Server.Utility.json_test( test_object, Criteria ) )
 									{
 										storage_objects.splice( object_index, 1 );
 										deleted_count++;

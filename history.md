@@ -1,14 +1,17 @@
 # Version History
 
 
-v0.0.46
+v0.0.46, 2024-03-01
 ------------------------------------------
 
+- pinned `package.json` engine to node v14.17.3.
+- recompiled `better-sqlite3@7.6.2 ` for node `v14.17.3`.
 - Minor fixes to `Server.ResolveApplicationPath()` and `Server.ResolveDataPath()` functions.
 	They can now be called with no parameters to return the base path for each.
 - Fixed error during WebTransport initialization where Service web (public & view) files are deployed multiple times.
-- Administrative web ui now displays the runtime settings.
-- The npm library `better-sqlite3` is compiled against, and bound to, a specific version of node. Changing node versions requires doing an `npm rebuild`.
+- Administrative web ui now displays the runtime settings. This is currently limited to read-only.
+- The npm library `better-sqlite3` is compiled against, and bound to, a specific version of node. Changing node versions requires doing an `npm rebuild`. This library needs to be replaced.
+- Fixed issue with `allowed_roles` in `src\transports\Web\ViewCores\w3css-angularjs\public\Services\StorageService\List.js`
 
 
 v0.0.45, 2022-11-27

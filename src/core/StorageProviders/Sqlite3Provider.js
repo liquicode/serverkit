@@ -4,8 +4,6 @@
 //---------------------------------------------------------------------
 const LIB_FS = require( 'fs' );
 const LIB_PATH = require( 'path' );
-require( 'babel-polyfill' );
-const LIB_JSON_CRITERIA = require( 'json-criteria' );
 const LIB_UUID = require( 'uuid' );
 const LIB_BETTER_SQLITE3 = require( 'better-sqlite3' );
 
@@ -33,7 +31,16 @@ exports.NewProvider =
 		LIB_FS.mkdirSync( database_path, { recursive: true } );
 		let database_filename = LIB_PATH.join( database_path, Settings.filename );
 		let database_options = {};
-		let database = LIB_BETTER_SQLITE3( database_filename, database_options );
+		// let database = LIB_BETTER_SQLITE3( database_filename, database_options );
+		let database = null;
+		try
+		{
+			database = LIB_BETTER_SQLITE3( database_filename, database_options );
+		}
+		catch ( error )
+		{
+			console.error( error.message );
+		}
 
 		// Create the table.
 		let create_table_sql =
@@ -75,7 +82,7 @@ exports.NewProvider =
 					object._id = row._id;
 					if ( Server.Utility.has_value( Criteria ) )
 					{
-						if ( LIB_JSON_CRITERIA.test( object, Criteria ) )
+						if ( Server.Utility.json_test( object, Criteria ) )
 						{
 							found_objects.push( object );
 							if ( GetFirst ) { break; }

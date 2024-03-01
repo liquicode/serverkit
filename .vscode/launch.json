@@ -27,7 +27,7 @@
 			"internalConsoleOptions": "openOnSessionStart",
 		},
 		{
-			"name": "Test: 010) json-criteria Tests",
+			"name": "Test: 01*) Text Tests",
 			"type": "node",
 			"request": "launch",
 			"skipFiles": [
@@ -38,7 +38,29 @@
 			"args": [
 				"-u",
 				"bdd",
-				"tests/010*.js",
+				"tests/01*.js",
+				"--timeout",
+				"0",
+				"--slow",
+				"10",
+				"--colors",
+			],
+			"outputCapture": "std",
+			"internalConsoleOptions": "openOnSessionStart",
+		},
+		{
+			"name": "Test: 02*) Json Tests",
+			"type": "node",
+			"request": "launch",
+			"skipFiles": [
+				"<node_internals>/**"
+			],
+			"cwd": "${workspaceFolder}",
+			"program": "${workspaceFolder}/node_modules/mocha/bin/mocha",
+			"args": [
+				"-u",
+				"bdd",
+				"tests/02*.js",
 				"--timeout",
 				"0",
 				"--slow",
@@ -522,6 +544,19 @@
 			],
 			"cwd": "${workspaceFolder}/~samples/AlbionDataServer",
 			"program": "${workspaceFolder}/~samples/AlbionDataServer/AlbionDataServer.js",
+			"args": [],
+			"outputCapture": "std",
+			"internalConsoleOptions": "openOnSessionStart",
+		},
+		{
+			"name": "Sample: Scrapesheet Server",
+			"type": "node",
+			"request": "launch",
+			"skipFiles": [
+				"<node_internals>/**"
+			],
+			"cwd": "${workspaceFolder}/~samples/Scrapesheet",
+			"program": "${workspaceFolder}/~samples/Scrapesheet/Scrapesheet.js",
 			"args": [],
 			"outputCapture": "std",
 			"internalConsoleOptions": "openOnSessionStart",
